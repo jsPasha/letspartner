@@ -1,0 +1,19 @@
+<header>
+	<div class="container flx jcsb">
+		<a href="/<%- locale  %>/">Logotype</a>
+
+		<a href="/<%- locale  %>/posts">List</a>
+
+		<%- include('lang_selector'); %>
+
+		<% if (isGuest) { %>
+			<a href="/<%- locale  %>/login">Login</a>
+		<% } else { %>
+			<div>
+				<a href="/<%- locale  %>/profile"><%- user.email %></a>
+				<a href="/api/logout" class="btn btn-default btn-sm">Logout</a>
+			</div>
+		<% } %>
+
+	</div>
+</header>

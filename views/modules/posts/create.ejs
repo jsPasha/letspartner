@@ -1,0 +1,24 @@
+<div class="container">
+	<h1>Create post</h1>
+	<form action="/api/posts/create" method="POST">
+		<div class="form-group">
+			<label for="head">Head</label>
+			<input type="text" name="head">
+		</div>	
+		<div class="form-group">
+			<label for="content">Content</label>
+			<input type="text" name="content">
+		</div>
+		<p>Type</p>
+		
+		<% for (let key in postTypes) { %>
+			<div class="form-group form-radio">
+				<input id="type<%- key %>" type="radio" name="type" value="<%- key %>" />
+				<label for="type<%- key %>"><%- postTypes[key] %></label>
+			</div>
+		<% } %>
+
+		<input type="submit" value="Create">
+	</form>
+</div>
+

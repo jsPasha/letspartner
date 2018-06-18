@@ -1,0 +1,98 @@
+header, footer
+	background-color: rgba(0,0,0,.2)
+	padding: 20px 15px
+
+body
+	font-family: 'Roboto', sans-serif
+	font-size: 16px
+	padding: 0
+	margin: 0
+.container
+	max-width: 1170px
+	width: 100%
+	margin: 0 auto
+.flx
+	display: flex
+.jcsb
+	justify-content: space-between
+.soc_buttons
+	img
+		width: 40px
+.form-group
+	margin: 10px 0
+	label
+		display: block
+	input
+		padding-left: 10px
+		height: 30px
+.form-radio
+	label, input
+		display: inline-block
+		vertical-align: middle
+		cursor: pointer
+.list_item_wrap
+	background-color: rgba(0,0,0,.05)
+	padding: 15px
+	margin: 15px 0
+.list_item
+	background-color: #fff
+	padding: 15px
+	margin: 15px 0
+	p
+		margin-bottom: 0
+	h3
+		margin-top: 0
+	.info
+		margin-bottom: 15px
+	.type
+		margin-bottom: 15px
+		display: inline-block
+		padding: 4px 10px
+		background-color: green
+		color: #fff
+		font-size: 12px
+		border-radius: 4px
+.pagination
+	text-align: center
+	font-size: 0
+	li
+		display: inline-block
+		a
+			padding: 5px 10px
+			display: block
+			text-decoration: none
+			background-color: transparent
+			border: 1px solid blue
+			color: blue
+			font-size: 14px
+			margin: 0 2px
+		&.active
+			a
+				background-color: blue
+				color: #fff
+		&:first-child, &:last-child
+			a
+				background-color: green
+				border: 1px solid green
+				color: #fff
+			&.disabled
+				opacity: 0.4
+footer
+	margin-top: 20px !important
+.lang_selector
+	list-style-type: none
+	padding: 0
+	margin: 0
+	li
+		display: inline-block
+		margin: 0 3px
+		&.active
+			a
+				color: red
+				background-color: #fff
+		a
+			text-decoration: none
+			color: #000
+			display: block
+			padding: 2px
+			border-radius: 4px
