@@ -13,7 +13,7 @@ module.exports = templatePath => {
     const { postTypes } = require("../../data/data");
     const { user, url, locale } = req;
     res.render(templatePath, {
-      isGuest: !req.isAuthenticated(),
+      isGuest: false,
       content: "../modules/posts/create",
       postTypes,
       user,
@@ -46,7 +46,6 @@ module.exports = templatePath => {
             content: "../modules/posts/list",
             current: page,
             pages: Math.ceil(count / perPage),
-            user: req.user,
             postTypes,
             user,
             url,
@@ -57,4 +56,5 @@ module.exports = templatePath => {
   });
 
   return router;
+  
 };

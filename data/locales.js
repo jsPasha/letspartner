@@ -1,1 +1,2 @@
-module.exports = ["en", "ru", "ua"];
+// DEFAULT - first
+module.exports = ["ru", "en", "ua"];

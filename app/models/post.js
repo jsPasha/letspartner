@@ -1,5 +1,5 @@
 // load the things we need
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 // define the schema for our user model

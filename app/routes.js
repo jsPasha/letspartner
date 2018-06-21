@@ -22,8 +22,10 @@ module.exports = function(app, passport) {
   let postsRouter = require("./routes/posts")(templatePath);
   let profileRouter = require("./routes/profile")(templatePath);
   let apiRoutes = require("./routes/api")(passport);
+  let adminRoutes = require("./routes/admin")(templatePath);
+  let newsRoutes = require("./routes/news")(templatePath);
   
-  app.use("/", setLocale, [router, authRouter, postsRouter, profileRouter]);
+  app.use("/", setLocale, [router, authRouter, postsRouter, profileRouter, newsRoutes]);
   app.use("/api", apiRoutes);
 
   locales.forEach(lang => {
@@ -31,7 +33,9 @@ module.exports = function(app, passport) {
       router,
       authRouter,
       postsRouter,
-      profileRouter
+      profileRouter,
+      adminRoutes,
+      newsRoutes
     ]);
   });
 };

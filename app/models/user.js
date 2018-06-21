@@ -1,6 +1,6 @@
 // load the things we need
-const mongoose = require('mongoose');
-const bcrypt   = require('bcrypt-nodejs');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt-nodejs");
 const { Schema } = mongoose;
 
 // define the schema for our user model
@@ -9,18 +9,19 @@ const userSchema = new Schema({
   googleId: String,
   email: String,
   password: String,
-  name: String
+  name: String,
+  role: { type: String, default: "user" }
 });
 
 // methods ======================
 // generating a hash
 userSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
 // checking if password is valid
 userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.password);
+  return bcrypt.compareSync(password, this.password);
 };
 
 // create the model for users and expose it to our app

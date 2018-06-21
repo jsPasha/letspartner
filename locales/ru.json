@@ -1,4 +1,21 @@
 {
 	"Hello": "Привет",
-	"Profile": "Личный кабинет"
+	"Profile": "Личный кабинет",
+	"Admin": "Администрирование",
+	"News": "News",
+	"News_admin": "News_admin",
+	"Add_news": "Add_news",
+	"News_create": "News_create",
+	"Name": "Name",
+	"Description": "Description",
+	"create": "create",
+	"News_update": "News_update",
+	"update": "update",
+	"Select_news_main_image": "Select_news_main_image",
+	"Select_news_thumb_image": "Select_news_thumb_image",
+	"News_main_image": "News_main_image",
+	"News_thumb_image": "News_thumb_image",
+	"upload_new_image": "upload_new_image",
+	"delete_image": "delete_image",
+	"Thumb_main_image": "Thumb_main_image"
 }

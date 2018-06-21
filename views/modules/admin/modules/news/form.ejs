@@ -1,0 +1,53 @@
+<div class="container">
+
+	<h1><%- __(`News_${action}`) %></h1>
+
+	<%- include('../../menu'); %>
+
+	<div>
+
+		<form method="POST" class="<%-action%>_form" action="/api/news/<%- action %><%- action === 'update' ? `/${newsItem.id}` : '' %>">
+
+			<% locales.forEach((lang, i) => { %>
+				<div class="form-group">
+					<label for="name_<%-lang%>"><%- __("Name") %> <%-lang%></label>
+					<textarea maxlength="200" <%= i === 0 ? 'required' : '' %> id="name_<%-lang%>" name="name[<%-lang%>]" rows="2"><%- action === 'update' ? newsItem.name[lang] : '' %></textarea>
+				</div>
+			<% }); %>
+
+			<% locales.forEach((lang, i) => { %>
+				<div class="form-group">
+					<label for="description_<%-lang%>"><%- __("Description") %> <%-lang%></label>
+					<textarea class="ckeditor_item" maxlength="200" id="description_<%-lang%>" name="description[<%-lang%>]" rows="6"><%- action === 'update' ? newsItem.description[lang] : '' %></textarea>
+				</div>
+			<% }); %>
+			
+			<div class="form-group form-group-image-pick">
+				<label><%- __("News_main_image") %></label>
+				<div class="image_pick_area<%- (action === 'update' && newsItem.images.mainNewsImage) ? ' active' : '' %>">
+					<input class="image_pick" type="file" accept="image/">
+					<%-(action === 'update' && newsItem.images.mainNewsImage) ? `<img src="/uploads${newsItem.images.mainNewsImage}">` : ''%>
+					<input type="hidden" class="hidden_image_url" value="<%-(action === 'update' && newsItem.images.mainNewsImage) ? newsItem.images.mainNewsImage : ''%>" name="images[mainNewsImage]" />
+					<a class="upload_new_image" data-del-url="<%-action === 'update' ? newsItem.images.mainNewsImage : ''%>" href="#"><%- __("upload_new_image") %></a>
+					<a class="delete_image" data-url="<%-action === 'update' ? newsItem.images.mainNewsImage : ''%>" href="#"><%- __("delete_image") %></a>				
+				</div>
+			</div>
+
+			<div class="form-group form-group-image-pick">
+				<label><%- __("Thumb_main_image") %></label>
+				<div class="image_pick_area<%- (action === 'update' && newsItem.images.thumbNewsImage) ? ' active' : '' %>">
+					<input class="image_pick" type="file" accept="image/">
+					<%-(action === 'update' && newsItem.images.thumbNewsImage) ? `<img src="/uploads${newsItem.images.thumbNewsImage}">` : ''%>
+					<input type="hidden" class="hidden_image_url" value="<%-(action === 'update' && newsItem.images.thumbNewsImage) ? newsItem.images.thumbNewsImage : ''%>" name="images[thumbNewsImage]" />
+					<a class="upload_new_image" data-del-url="<%-action === 'update' ? newsItem.images.thumbNewsImage : ''%>" href="#"><%- __("upload_new_image") %></a>
+					<a class="delete_image" data-url="<%-action === 'update' ? newsItem.images.thumbNewsImage : ''%>" href="#"><%- __("delete_image") %></a>				
+				</div>
+			</div>
+
+			<input type="submit" value="<%- __(action) %>">
+
+		</form>
+
+	</div>
+
+</div>

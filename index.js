@@ -4,6 +4,8 @@ const port = process.env.PORT || 5000;
 const mongoose = require("mongoose");
 const passport = require("passport");
 const flash = require("connect-flash");
+const fileUpload = require('express-fileupload');
+
 const locales = require('./data/locales');
 
 const morgan = require("morgan");
@@ -18,6 +20,8 @@ const i18n = require("i18n");
 
 var app = express();
 
+app.use(fileUpload());
+
 mongoose.connect(
   configDB.url,
   () => console.log("MongoDB: connect successful")
@@ -25,12 +29,13 @@ mongoose.connect(
 
 require("./app/models/user");
 require("./app/models/post");
+require("./app/models/news");
 
 app.use(express.static(__dirname + "/public"));
 
-locales.forEach((lang) => {
-  app.use(`/${lang}`, express.static(__dirname + "/public"));
-});
+// locales.forEach((lang) => {
+//   app.use(`/${lang}`, express.static(__dirname + "/public"));
+// });
 
 i18n.configure({
   locales,

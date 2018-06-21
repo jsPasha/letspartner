@@ -1,3 +1,13 @@
 {
-	"Profile": "Profile"
+	"Profile": "Profile",
+	"Admin": "Admin",
+	"News": "News",
+	"News_admin": "News_admin",
+	"Add_news": "Add_news",
+	"News_update": "News_update",
+	"Name": "Name",
+	"Description": "Description",
+	"update": "update",
+	"News_create": "News_create",
+	"create": "create"
 }

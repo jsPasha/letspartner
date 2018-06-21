@@ -1,4 +1,16 @@
 {
 	"Hello": "Hello",
-	"Profile": "This is profile page"
+	"Profile": "This is profile page",
+	"Admin": "Admin",
+	"News_admin": "News_admin",
+	"News": "News",
+	"Add_admin": "Add_admin",
+	"Add_news": "Add_news",
+	"Name": "Name",
+	"News_create": "News_create",
+	"Description": "Description",
+	"Submit": "Submit",
+	"create": "create",
+	"News_update": "News_update",
+	"update": "update"
 }

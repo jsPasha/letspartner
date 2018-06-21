@@ -3,12 +3,16 @@
 		<a href="/<%- locale  %>/">Logotype</a>
 
 		<a href="/<%- locale  %>/posts">List</a>
-
+		<a href="/<%- locale  %>/news">news</a>
+		
 		<%- include('lang_selector'); %>
 
 		<% if (isGuest) { %>
 			<a href="/<%- locale  %>/login">Login</a>
 		<% } else { %>
+			<% if (user && user.role === 'admin') { %>
+				<a href="/<%- locale  %>/admin"><%- __('Admin') %></a>
+			<% } %>
 			<div>
 				<a href="/<%- locale  %>/profile"><%- user.email %></a>
 				<a href="/api/logout" class="btn btn-default btn-sm">Logout</a>

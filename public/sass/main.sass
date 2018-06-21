@@ -1,3 +1,7 @@
+@import '../../node_modules/cropper/dist/cropper'
+@import '../../node_modules/magnific-popup/dist/magnific-popup'
+@import '../../node_modules/materialize-css/dist/css/materialize'
+
 header, footer
 	background-color: rgba(0,0,0,.2)
 	padding: 20px 15px
@@ -96,3 +100,82 @@ footer
 			display: block
 			padding: 2px
 			border-radius: 4px
+.admin_menu, .admin_menu ul
+	padding: 0
+	margin: 0
+	list-style-type: none
+.admin_menu
+	margin: 40px 0
+	display: inline-block
+	.submenu
+		&:hover
+			ul
+				display: block
+	p
+		margin: 0
+		padding: 10px
+		background-color: lightblue
+		text-transform: uppercase
+		cursor: pointer
+		font-weight: 700
+	ul
+		background-color: lightblue
+		padding-bottom: 10px
+		display: none
+		li
+			padding: 5px 15px
+.create_form, .update_form
+	.form-group
+		margin: 20px 0
+	textarea
+		width: 100%
+		resize: none
+		padding: 10px
+		box-sizing: border-box
+		font-family: 'roboto'
+.control
+	a
+		margin-left: 10px
+	img
+		height: 25px
+.admin_news_list
+	background-color: #fff
+	padding: 0
+	p
+		margin: 0
+	.item
+		margin: 10px 0
+		background-color: lightblue
+		display: flex
+		justify-content: space-between
+		padding: 10px
+		align-items: center
+#cropperPopup
+	width: 100%
+	max-height: 80vh
+	height: auto
+	margin: 0 auto
+	position: relative
+	box-sizing: border-box
+	background-color: #fff
+#fixed_preloader
+	position: fixed
+	left: 0
+	top: 0
+	background-color: rgba(255,255,255,.7)
+	display: flex
+	align-items: center
+	justify-content: center
+	z-index: 9999
+	width: 100%
+	height: 100%
+.image_pick_area
+	a
+		display: none
+	&.active
+		a
+			display: inline
+.image_pick_area
+	img
+		width: 290px
+		display: block
