@@ -67,7 +67,12 @@ const initCropper = () => {
 };
 
 $("body").on("click", ".save_cropped", () => {
-  previousImages.push(previousImage);
+  if (previousImage && previousImage.indexOf("/temp/") !== -1) {
+    previousImages.push(previousImage);
+  } else {
+    deleteImage(previousImage);
+  }
+  previousImage = null;
   getImage();
 });
 
@@ -135,7 +140,7 @@ $(".delete_image").click(function(e) {
   $this.siblings(".hidden_image_url").val("");
   $this.siblings("img").remove();
 
-  if ($this.closest("form").hasClass("update_form")) {
+  if ($this.closest("form").hasClass("update_form") && url.indexOf("/temp/") === -1) {
     previousImages.push(url);
   } else {
     deleteImage(url);

@@ -9,5 +9,9 @@
 	"Description": "Description",
 	"update": "update",
 	"News_create": "News_create",
-	"create": "create"
+	"create": "create",
+	"News_main_image": "News_main_image",
+	"upload_new_image": "upload_new_image",
+	"delete_image": "delete_image",
+	"Thumb_main_image": "Thumb_main_image"
 }

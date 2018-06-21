@@ -27,9 +27,10 @@ const removeTempPath = (req, res, next) => {
 
 const deletePrevious = (req, res, next) => {
   let files = req.body.fileForDelete;
+  console.log(files);
   if (files)
     files.forEach(el => {
-      fs.unlink(`public/uploads${files}`, err => {
+      fs.unlink(`public/uploads${el}`, err => {
         if (err) console.log(err);
       });
     });
@@ -48,15 +49,15 @@ const deleteAll = (req, res, next) => {
 
   News.findById(_id, (err, news) => {
     let images = news.images;
-    for (let key in images) {
-      if (typeof images[key] === "string")
-        fs.unlink(`public/uploads${images[key]}`, err => {
-          if (err) console.log(err);
-        });
-    }
+    if (images)
+      for (let key in images) {
+        if (typeof images[key] === "string" && images[key] !== '')
+          fs.unlink(`public/uploads${images[key]}`, err => {
+            if (err) console.log(err);
+          });
+      }
+    next();
   });
-
-  next();
 };
 
 module.exports = { removeTempPath, deletePrevious, deleteAll };
