@@ -1,6 +1,10 @@
 @import '../../node_modules/cropper/dist/cropper'
 @import '../../node_modules/magnific-popup/dist/magnific-popup'
-@import '../../node_modules/materialize-css/dist/css/materialize'
+
+
+textarea
+	height: auto
+	min-height: 100px
 
 header, footer
 	background-color: rgba(0,0,0,.2)
@@ -121,10 +125,10 @@ footer
 	ul
 		background-color: lightblue
 		padding-bottom: 10px
-		display: none
+		// display: none
 		li
 			padding: 5px 15px
-.create_form, .update_form
+.create_form, .update_form, .settings_form
 	.form-group
 		margin: 20px 0
 	textarea
@@ -134,8 +138,15 @@ footer
 		box-sizing: border-box
 		font-family: 'roboto'
 .control
+	display: flex
+	align-items: center
+	label
+		padding-right: 10px
+		cursor: pointer
 	a
 		margin-left: 10px
+		display: block
+		font-size: 0
 	img
 		height: 25px
 .admin_news_list
@@ -179,3 +190,16 @@ footer
 	img
 		width: 290px
 		display: block
+.page_news_list
+	.item
+		display: inline-block
+		width: 33.333333%
+		padding: 0 15px
+		box-sizing: border-box
+		margin-bottom: 40px
+		text-align: center
+		img
+			width: 100%
+.item_flex
+	display: flex
+	flex-wrap: wrap

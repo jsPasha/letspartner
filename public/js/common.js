@@ -1,6 +1,7 @@
 import $ from "jquery";
 import imageCropper from "./components/imageCropper";
 import initCkeditors from "./components/ckeditor";
+import publish from "./methods/publish";
 
 initCkeditors();
 
@@ -10,4 +11,10 @@ $(".confirm").click(function(e) {
 
 $(".image_pick").change(function() {
   imageCropper(this);
+});
+
+$(".publish_checkbox").click(function() {
+  let { model, id } = this.dataset;
+  let value = this.checked;
+  publish({ model, id, value });
 });

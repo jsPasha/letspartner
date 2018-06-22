@@ -4,9 +4,9 @@ const port = process.env.PORT || 5000;
 const mongoose = require("mongoose");
 const passport = require("passport");
 const flash = require("connect-flash");
-const fileUpload = require('express-fileupload');
+const fileUpload = require("express-fileupload");
 
-const locales = require('./data/locales');
+const locales = require("./data/locales");
 
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
@@ -30,6 +30,7 @@ mongoose.connect(
 require("./app/models/user");
 require("./app/models/post");
 require("./app/models/news");
+require("./app/models/page");
 
 app.use(express.static(__dirname + "/public"));
 
@@ -40,7 +41,7 @@ app.use(express.static(__dirname + "/public"));
 i18n.configure({
   locales,
   directory: __dirname + "/locales",
-  cookie: 'localization'
+  cookie: "localization"
 });
 
 app.use(morgan("dev"));

@@ -1,6 +1,6 @@
-// load the things we need
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+
 const locales = require("../../data/locales");
 
 let nameModel = {},
@@ -15,17 +15,23 @@ locales.forEach((el, i) => {
 });
 
 // define the schema for our user model
-const newsSchema = new Schema({
-  alias: String,
-  name: nameModel,
-  description: descriptionModel,
-  createdAt: { type: String, default: new Date().getTime() },
-  published: { type: Boolean, default: 1 },
-  images: {
-    thumbNewsImage: String,
-    mainNewsImage: String
-  }  
+const pageSchema = new Schema({
+  news: {
+    name: nameModel,
+    description: descriptionModel,
+    image: String
+  },
+  startups: {
+    name: nameModel,
+    description: descriptionModel,
+    image: String
+  },
+  corporate: {
+    name: nameModel,
+    description: descriptionModel,
+    image: String
+  }
 });
 
 // create the model for users and expose it to our app
-mongoose.model("news", newsSchema);
+mongoose.model("pages", pageSchema);

@@ -4,8 +4,11 @@ const router = express.Router();
 
 const mongoose = require("mongoose");
 const News = mongoose.model("news");
+const Page = mongoose.model("pages");
 
-const setNewsObject = require("../helpers/news");
+const settings = require("../../data/settings.js");
+
+const { generateList } = require("../helpers/list");
 
 module.exports = templatePath => {
   router.get("/admin", [isLoggedIn, isAdmin], (req, res) => {
@@ -49,39 +52,70 @@ module.exports = templatePath => {
   });
 
   router.get("/admin/news", [isLoggedIn, isAdmin], (req, res) => {
-    generateList(templatePath, req, res, "../modules/admin/modules/news/index");
-  });
-
-  router.get("/admin/news/:page", [isLoggedIn, isAdmin], (req, res) =>
-    generateList(templatePath, req, res, "../modules/admin/modules/news/index")
-  );
-
-  return router;
-};
-
-let generateList = (templatePath, req, res, content) => {
-  let perPage = 20;
-  let page = req.params.page || 1;
-  News.find()
-    .sort({ createdAt: -1 })
-    .skip(perPage * page - perPage)
-    .limit(perPage)
-    .exec(async function(err, news) {
-      let newsObject = await setNewsObject(news);
-
-      News.count().exec(function(err, count) {
-        if (err) return next(err);
-        const { user, url, locale } = req;
+    const perPage = settings.news.adminList;
+    const page = req.params.page || 1;
+    const { user, url, locale } = req;
+    generateList({
+      model: News,
+      page,
+      perPage,
+      locale
+    })
+      .then(({ objects, count }) => {
+        console.log(count);
         res.render(templatePath, {
           isGuest: !req.isAuthenticated(),
-          news: newsObject,
-          content,
+          news: objects,
+          content: "../modules/admin/modules/news/index",
           current: page,
           pages: Math.ceil(count / perPage),
           user,
           url,
           locale
         });
+      })
+      .catch(err => res.send("error: /admin/news/:page" + err));
+  });
+
+  router.get("/admin/news/:page", [isLoggedIn, isAdmin], (req, res) => {
+    const perPage = settings.news.adminList;
+    const page = req.params.page || 1;
+    const { user, url, locale } = req;
+    generateList({
+      model: News,
+      page,
+      perPage,
+      locale
+    })
+      .then(({ objects, count }) => {
+        res.render(templatePath, {
+          isGuest: !req.isAuthenticated(),
+          news: objects,
+          content: "../modules/admin/modules/news/index",
+          current: page,
+          pages: Math.ceil(count / perPage),
+          user,
+          url,
+          locale
+        });
+      })
+      .catch(err => res.send("error: /admin/news/:page" + err));
+  });
+
+  router.get('/admin/page-settings/news', [isLoggedIn, isAdmin], (req, res) => {
+    const { user, url, locale } = req;
+    Page.find().exec((err, pages) => {
+      res.render(templatePath, {
+        isGuest: !req.isAuthenticated(),
+        page: pages[0].news,
+        content: "../modules/admin/modules/news/settings",
+        user,
+        url,
+        locale
       });
     });
+    
+  });
+
+  return router;
 };

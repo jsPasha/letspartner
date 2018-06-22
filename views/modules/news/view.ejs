@@ -1,0 +1,7 @@
+<div class="container">
+	<h1><% if (user && user.role === 'admin') { %>
+		<a style="display:block;margin-top: 20px" href="/<%- locale  %>/admin/news/update/<%- news.id  %>"><img height="30" src="/img/pencil.svg" alt=""></a>
+	<% } %><%-news.name[locale] || news.name[locales[0]]%></h1>
+	<p><%-news.description[locale] || news.description[locales[0]]%></p>
+	<%-news.images.mainNewsImage ? `<img src="/uploads${news.images.mainNewsImage}" />` : ''%>
+</div>

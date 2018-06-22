@@ -1,5 +1,11 @@
 const { isLoggedIn, isAdmin } = require("../helpers/routes");
-const { removeTempPath, deletePrevious, deleteAll } = require("../helpers/files");
+const {
+  removeTempPath,
+  deletePrevious,
+  deleteAll
+} = require("../helpers/files");
+const { generateAlias } = require("../helpers/alias");
+
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
@@ -8,6 +14,7 @@ const uniqid = require("uniqid");
 const mongoose = require("mongoose");
 const Posts = mongoose.model("posts");
 const News = mongoose.model("news");
+const Page = mongoose.model("pages");
 
 module.exports = passport => {
   router.post(
@@ -63,10 +70,10 @@ module.exports = passport => {
 
   router.post(
     "/news/create",
-    [isLoggedIn, isAdmin, removeTempPath],
+    [isLoggedIn, isAdmin, removeTempPath, generateAlias],
     (req, res, next) => {
-      let { name, description, images } = req.body;
-      let news = new News({ name, description, images });
+      let { name, description, images, alias } = req.body;
+      let news = new News({ name, description, images, alias });
       news.save(err => {
         if (err) return res.send(err);
         res.redirect(`/${req.locale}/admin/news/`);
@@ -87,13 +94,17 @@ module.exports = passport => {
     }
   );
 
-  router.get("/news/delete/:id", [isLoggedIn, isAdmin, deleteAll], (req, res, next) => {
-    let _id = req.params.id;
-    News.deleteOne({ _id }, err => {
-      if (err) return res.status(400).send({ err });
-      res.redirect(`/${req.locale}/admin/news/`);
-    });
-  });
+  router.get(
+    "/news/delete/:id",
+    [isLoggedIn, isAdmin, deleteAll],
+    (req, res, next) => {
+      let _id = req.params.id;
+      News.deleteOne({ _id }, err => {
+        if (err) return res.status(400).send({ err });
+        res.redirect(`/${req.locale}/admin/news/`);
+      });
+    }
+  );
 
   router.post(
     "/upload/cropped-image",
@@ -108,11 +119,54 @@ module.exports = passport => {
     }
   );
 
-  router.post("/file/delete/", [isLoggedIn, isAdmin], (req, res, err) => {
+  router.post("/file/delete/", [isLoggedIn, isAdmin], (req, res) => {
     fs.unlink(`public/uploads${req.body.url}`, err => {
       if (err) return res.status(400).send({ err });
       res.send("ok");
     });
+  });
+
+  router.post("/publish/", [isLoggedIn, isAdmin], (req, res) => {
+    let { model, id, value } = req.body;
+    let Model = null;
+    switch (model) {
+      case "news":
+        Model = News;
+        break;
+      default:
+        break;
+    }
+    Model.update({ _id: id }, { $set: { published: value } }, err => {
+      if (err) return res.send(err);
+      res.send("publish - ok!");
+    });
+  });
+
+  router.get("/create-pages/", [isLoggedIn, isAdmin], (req, res) => {
+    Page.find()
+      .count()
+      .exec((err, el) => {
+        if (el) return res.status(200).send("already created");
+        let page = new Page({
+          news: {
+            name: {
+              ru: '',
+              en: '',
+              ua: ''
+            },
+            description: {
+              ru: '',
+              en: '',
+              ua: ''
+            }, 
+            image: ''
+          }
+        });
+        page.save((err, el) => {
+          if (err) return res.send("error:" + err);
+          res.send("ok");
+        });
+      });
   });
 
   return router;

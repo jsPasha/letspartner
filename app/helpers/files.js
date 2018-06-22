@@ -27,7 +27,6 @@ const removeTempPath = (req, res, next) => {
 
 const deletePrevious = (req, res, next) => {
   let files = req.body.fileForDelete;
-  console.log(files);
   if (files)
     files.forEach(el => {
       fs.unlink(`public/uploads${el}`, err => {

@@ -1,20 +1,30 @@
-<div class="list_item_wrap admin_news_list">
-        <% for (var i = 0; i < news.length; i++) { %>
-			<div class="item">
-				<p><%- news[i].name[locale] || news[i].name[locales[0]] %></p>
-				<div class="control">
-					<a href="/<%-locale%>/admin/news/update/<%- news[i].id %>"><img src="/img/pencil.svg" alt=""></a>
-					<a class="confirm" href="/api/news/delete/<%- news[i].id %>"><img src="/img/delete.svg" alt=""></a>
-				</div>
-			</div>
-        <% } %>
+<div class="list_item_wrap admin_news_list">      
+ 
+            <% for (var i = 0; i < news.length; i++) { %>
+                <div class="item">
+                    <div>
+                        <p><a href="/<%-locale%>/news/page/<%-news[i].createdAt%>/<%-news[i].alias%>"><%- news[i].name[locale] || news[i].name[locales[0]] %></a></p>
+                        <p><%-news[i].moment%></p>
+                    </div>
+                    <div class="control">
+                        <p>
+                            <label>
+                                <input type="checkbox" class="publish_checkbox" data-model="news" data-id="<%-news[i].id%>" <%- news[i].published ? 'checked=""' : '' %>>
+                                <span><%-__('Publish')%></span>
+                            </label>
+                        </p>
+                        <a href="/<%-locale%>/admin/news/update/<%- news[i].id %>"><img src="/img/pencil.svg" alt=""></a>
+                        <a class="confirm" href="/api/news/delete/<%- news[i].id %>"><img src="/img/delete.svg" alt=""></a>
+                    </div>
+                </div>
+            <% } %>        
 
         <% if (pages > 1) { %>
         <ul class="pagination text-center">
             <% if (current == 1) { %>
                 <li class="disabled"><a>First</a></li>
             <% } else { %>
-                <li><a href="/news/1">First</a></li>
+                <li><a href="/<%-locale%>/admin/news/1">First</a></li>
             <% } %>
             
             <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
