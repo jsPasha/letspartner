@@ -38,6 +38,10 @@ body
 		display: inline-block
 		vertical-align: middle
 		cursor: pointer
+ul, li
+	padding: 0
+	margin: 0
+	list-style-type: none
 .list_item_wrap
 	background-color: rgba(0,0,0,.05)
 	padding: 15px
@@ -203,3 +207,41 @@ footer
 .item_flex
 	display: flex
 	flex-wrap: wrap
+.images_box
+	font-size: 0
+	border: 2px solid #000
+	background-color: rgba(0,0,0,.1)
+	.gallery_image
+		display: inline-block
+		text-align: center
+		vertical-align: top
+		margin: 15px
+		.image
+			width: 250px
+			height: 150px
+			background-position: 50% 50%
+			background-size: 100px
+			background-repeat: no-repeat
+			&:not(.loading)
+				background-size: cover
+		a
+			font-size: 16px
+			margin: 0 5px
+.contructor_wrap
+	display: flex
+.constructor_menu
+	min-width: 270px
+	box-sizing: border-box
+	padding-right: 30px
+	button
+		background-color: green
+		color: #fff
+		border: 0
+		height: 40px
+		width: 100%
+		cursor: pointer
+.constructor_body
+	flex-grow: 1
+.constructor_item
+	.form-group
+		margin-top: 0

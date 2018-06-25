@@ -5,24 +5,36 @@ const _ = require("lodash");
 
 const removeTempPath = (req, res, next) => {
   let files = req.body.images;
-  for (let key in files) {
-    let path = files[key];
-    if (path && typeof path === "string" && path.split("/")[1] === "temp") {
-      let oldPath = `public/uploads${path}`;
-      let pathArr = path.split("/");
-      pathArr.splice(1, 1);
-      let newPath = pathArr.join("/");
-      files[key] = newPath;
-      newPath = `public/uploads${newPath}`;
-      replaceContents(newPath, oldPath, err => {
-        if (err) console.log(err);
-        fs.unlink(oldPath, err => {
-          if (err) console.log(err);
-        });
+  for (let key in files) remove(files, key);
+
+  req.body.floatContent.forEach(el => {
+    if (el.contentType === "gallery") {
+      let gallery = el.gallery;
+      gallery.forEach((el, index) => {
+        remove(gallery, index);
       });
     }
-  }
+  });
+
   next();
+};
+
+const remove = (images, key) => {
+  let path = images[key];
+  if (path && typeof path === "string" && path.split("/")[1] === "temp") {
+    let oldPath = `public/uploads${path}`;
+    let pathArr = path.split("/");
+    pathArr.splice(1, 1);
+    let newPath = pathArr.join("/");
+    images[key] = newPath;
+    newPath = `public/uploads${newPath}`;
+    replaceContents(newPath, oldPath, err => {
+      if (err) console.log(err);
+      fs.unlink(oldPath, err => {
+        if (err) console.log(err);
+      });
+    });
+  }
 };
 
 const deletePrevious = (req, res, next) => {
@@ -50,11 +62,21 @@ const deleteAll = (req, res, next) => {
     let images = news.images;
     if (images)
       for (let key in images) {
-        if (typeof images[key] === "string" && images[key] !== '')
+        if (typeof images[key] === "string" && images[key] !== "")
           fs.unlink(`public/uploads${images[key]}`, err => {
             if (err) console.log(err);
           });
       }
+    news.floatContent.forEach(el => {
+      if (el.contentType === "gallery") {
+        let gallery = el.gallery;
+        gallery.forEach((el, index) => {
+          fs.unlink(`public/uploads${gallery[index]}`, err => {
+            if (err) console.log(err);
+          });
+        });
+      }
+    });
     next();
   });
 };

@@ -72,8 +72,8 @@ module.exports = passport => {
     "/news/create",
     [isLoggedIn, isAdmin, removeTempPath, generateAlias],
     (req, res, next) => {
-      let { name, description, images, alias } = req.body;
-      let news = new News({ name, description, images, alias });
+      let { name, description, images, alias, floatContent } = req.body;
+      let news = new News({ name, description, images, alias, floatContent });
       news.save(err => {
         if (err) return res.send(err);
         res.redirect(`/${req.locale}/admin/news/`);
@@ -85,9 +85,9 @@ module.exports = passport => {
     "/news/update/:id",
     [isLoggedIn, isAdmin, removeTempPath, deletePrevious],
     (req, res, next) => {
-      let { name, description, images } = req.body;
+      let { name, description, images, floatContent } = req.body;
       let _id = req.params.id;
-      News.update({ _id }, { $set: { name, description, images } }, err => {
+      News.update({ _id }, { $set: { name, description, images, floatContent } }, err => {
         if (err) return res.send(err);
         res.redirect(`/${req.locale}/admin/news/`);
       });
@@ -142,6 +142,19 @@ module.exports = passport => {
     });
   });
 
+  router.post(
+    "/api/admin/page-settings/news",
+    [isLoggedIn, isAdmin, removeTempPath, deletePrevious],
+    (req, res, next) => {
+      let { name, description, images } = req.body;
+      let _id = req.params.id;
+      Page.update({ _id }, { $set: { name, description, images } }, err => {
+        if (err) return res.send(err);
+        res.redirect(`/${req.locale}/admin/news/`);
+      });
+    }
+  );
+
   router.get("/create-pages/", [isLoggedIn, isAdmin], (req, res) => {
     Page.find()
       .count()
@@ -150,16 +163,16 @@ module.exports = passport => {
         let page = new Page({
           news: {
             name: {
-              ru: '',
-              en: '',
-              ua: ''
+              ru: "",
+              en: "",
+              ua: ""
             },
             description: {
-              ru: '',
-              en: '',
-              ua: ''
-            }, 
-            image: ''
+              ru: "",
+              en: "",
+              ua: ""
+            },
+            image: ""
           }
         });
         page.save((err, el) => {
@@ -167,6 +180,23 @@ module.exports = passport => {
           res.send("ok");
         });
       });
+  });
+
+  router.post("/upload/constructor_image", (req, res) => {
+    const fileName = `/temp/${uniqid()}.png`;
+    const filePath = `/uploads${fileName}`;
+    const index = req.body.index;
+    const delUrl = req.body.url;
+
+    if (delUrl)
+      fs.unlink(`public/uploads${delUrl}`, err => {
+        if (err) console.log(err);
+      });
+
+    fs.writeFile(`public${filePath}`, req.files.image.data, err => {
+      if (err) return res.status(400).send({ err });
+      res.send({ fileName, index });
+    });
   });
 
   return router;

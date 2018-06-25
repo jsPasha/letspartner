@@ -1,0 +1,19 @@
+<div class="constructor_item">
+	<input type="hidden" name="floatContent[<%-index%>][contentType]" value="gallery" />
+	<div class="form-group form-group-image-pick">
+		<label>Gallery_image</label>
+		<input class="image_pick_multiple" data-id="<%-index%>" type="file" accept="image/" multiple>
+		<div class="images_box">
+			<% 
+				gallery.forEach((el, i) => { %>
+					<div class="gallery_image" data-id="<%-i%>" data-url="<%-el%>">
+						<div class="image" style="background-image: url(/uploads<%-el%>)"></div>
+						<input type="hidden" class="hidden_image_url" value="<%-el%>" name="floatContent[<%-index%>][gallery][]" />
+						<a class="update_image" data-url="" href="#">update_image</a>
+						<a class="delete_image" data-url="" href="#">delete_image</a>
+					</div>
+				<% });
+			%>
+		</div>
+	</div>
+</div>

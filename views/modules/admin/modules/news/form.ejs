@@ -43,6 +43,8 @@
 					<a class="delete_image" data-url="<%-action === 'update' ? newsItem.images.thumbNewsImage : ''%>" href="#"><%- __("delete_image") %></a>				
 				</div>
 			</div>
+			
+			<%- include('./constructor') %>
 
 			<input type="submit" value="<%- __(action) %>">
 

@@ -24,7 +24,15 @@ const newsSchema = new Schema({
   images: {
     thumbNewsImage: String,
     mainNewsImage: String
-  }  
+  },
+  floatContent: [
+    {
+      gallery: [String],
+      contentType: String,      
+      video: String,
+      text: String
+    }
+  ]
 });
 
 // create the model for users and expose it to our app
