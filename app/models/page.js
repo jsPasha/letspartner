@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
 const locales = require("../../data/locales");
@@ -7,31 +8,20 @@ let nameModel = {},
   descriptionModel = {};
 
 locales.forEach((el, i) => {
-  nameModel[el] = { type: String };
-  descriptionModel[el] = { type: String };
-
+  nameModel[el] = { type: String, default: `Hello, this is list page!` };
+  descriptionModel[el] = { type: String, default: `Hello, this is list page!` };
   // default name is required
   if (i === 0) nameModel[el].require = true;
 });
 
 // define the schema for our user model
 const pageSchema = new Schema({
-  news: {
+  type: String,
+  content: {
     name: nameModel,
     description: descriptionModel,
-    image: String
-  },
-  startups: {
-    name: nameModel,
-    description: descriptionModel,
-    image: String
-  },
-  corporate: {
-    name: nameModel,
-    description: descriptionModel,
-    image: String
+    image: { type: String, default: "" }
   }
 });
 
-// create the model for users and expose it to our app
 mongoose.model("pages", pageSchema);

@@ -6,7 +6,7 @@
 
 	<div>
 
-		<form method="POST" class="<%-action%>_form" action="/api/news/<%- action %><%- action === 'update' ? `/${newsItem.id}` : '' %>">
+		<form method="POST" class="<%-action%>_form" action="/action/news/<%- action %><%- action === 'update' ? `/${newsItem.id}` : '' %>">
 
 			<% locales.forEach((lang, i) => { %>
 				<div class="form-group">

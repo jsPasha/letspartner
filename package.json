@@ -9,7 +9,8 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "test": "jest",
-    "dev": "concurrently \"npm run start-nodemon\" \"npm run watch\" \"npm run start-gulp\""
+    "dev": "concurrently \"npm run start-nodemon\" \"npm run watch\" \"npm run start-gulp\"",
+    "gen-page": "node commands/generate-page.js --type"
   },
   "author": "",
   "license": "ISC",

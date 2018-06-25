@@ -1,7 +1,7 @@
 import $ from "jquery";
 
 const publish = ({ model, id, value }) => {
-  let url = "/api/publish/";
+  let url = "/action/publish/";
   $.ajax({
     type: "POST",
     url,

@@ -143,44 +143,21 @@ module.exports = passport => {
   });
 
   router.post(
-    "/api/admin/page-settings/news",
+    "/admin/page-settings/:type",
     [isLoggedIn, isAdmin, removeTempPath, deletePrevious],
-    (req, res, next) => {
-      let { name, description, images } = req.body;
-      let _id = req.params.id;
-      Page.update({ _id }, { $set: { name, description, images } }, err => {
-        if (err) return res.send(err);
-        res.redirect(`/${req.locale}/admin/news/`);
-      });
+    (req, res) => {
+      let { name, content, image } = req.body;
+      const { type } = req.params;     
+      Page.update(
+        { type },
+        { $set: { content: { name, content, image } } },
+        err => {
+          if (err) return res.send(err);
+          res.redirect(`/${req.locale}/admin/`);
+        }
+      );
     }
   );
-
-  router.get("/create-pages/", [isLoggedIn, isAdmin], (req, res) => {
-    Page.find()
-      .count()
-      .exec((err, el) => {
-        if (el) return res.status(200).send("already created");
-        let page = new Page({
-          news: {
-            name: {
-              ru: "",
-              en: "",
-              ua: ""
-            },
-            description: {
-              ru: "",
-              en: "",
-              ua: ""
-            },
-            image: ""
-          }
-        });
-        page.save((err, el) => {
-          if (err) return res.send("error:" + err);
-          res.send("ok");
-        });
-      });
-  });
 
   router.post("/upload/constructor_image", (req, res) => {
     const fileName = `/temp/${uniqid()}.png`;

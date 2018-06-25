@@ -10,56 +10,11 @@ const { generateList } = require("../helpers/list");
 
 module.exports = templatePath => {
   router.get("/news", (req, res) => {
-    const perPage = settings.news.pageList;
-    const page = req.params.page || 1;
-    const { user, url, locale } = req;
-    generateList({
-      model: News,
-      page,
-      perPage,
-      locale,
-      published: true
-    })
-      .then(({ objects, count }) => {
-        console.log(count);
-        res.render(templatePath, {
-          isGuest: !req.isAuthenticated(),
-          news: objects,
-          content: "../modules/news/index",
-          current: page,
-          pages: Math.ceil(count / perPage),
-          user,
-          url,
-          locale
-        });
-      })
-      .catch(err => res.send("error: /news" + err));
+    generateListPage(req, res, templatePath);
   });
 
   router.get("/news/:page", (req, res) => {
-    const perPage = settings.news.pageList;
-    const page = req.params.page || 1;
-    const { user, url, locale } = req;
-    generateList({
-      model: News,
-      page,
-      perPage,
-      locale,
-      published: true
-    })
-      .then(({ objects, count }) => {
-        res.render(templatePath, {
-          isGuest: !req.isAuthenticated(),
-          news: objects,
-          content: "../modules/news/index",
-          current: page,
-          pages: Math.ceil(count / perPage),
-          user,
-          url,
-          locale
-        });
-      })
-      .catch(err => res.send("error: /news" + err));
+    generateListPage(req, res, templatePath);
   });
 
   router.get("/news/page/:createdAt/:alias", (req, res, next) => {
@@ -80,4 +35,30 @@ module.exports = templatePath => {
   });
 
   return router;
+};
+
+const generateListPage = (req, res, templatePath) => {
+  const perPage = settings.news.pageList;
+  const page = req.params.page || 1;
+  const { user, url, locale } = req;
+  generateList({
+    model: News,
+    page,
+    perPage,
+    locale,
+    published: true
+  })
+    .then(({ objects, count }) => {
+      res.render(templatePath, {
+        isGuest: !req.isAuthenticated(),
+        news: objects,
+        content: "../modules/news/index",
+        current: page,
+        pages: Math.ceil(count / perPage),
+        user,
+        url,
+        locale
+      });
+    })
+    .catch(err => res.send("error: /news" + err));
 };

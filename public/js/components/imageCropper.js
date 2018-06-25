@@ -97,7 +97,7 @@ const getImage = () => {
       formData.append("croppedImage", blob);
       loader.hide();
       $.magnificPopup.close();
-      $.ajax("/api/upload/cropped-image", {
+      $.ajax("/action/upload/cropped-image", {
         method: "POST",
         data: formData,
         processData: false,
@@ -181,7 +181,7 @@ $(".upload_new_image").click(function(e) {
 
 /*Удалить ранее загруженную картинку*/
 const deleteImage = url => {
-  $.ajax("/api/file/delete/", {
+  $.ajax("/action/file/delete/", {
     method: "POST",
     data: {
       url
@@ -237,7 +237,7 @@ const uploadImage = (imageData, index, input) => {
   }
 
   $.ajax({
-    url: "/api/upload/constructor_image",
+    url: "/action/upload/constructor_image",
     data: fd,
     processData: false,
     contentType: false,

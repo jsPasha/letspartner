@@ -4,7 +4,9 @@ const News = mongoose.model("news");
 const _ = require("lodash");
 
 const removeTempPath = (req, res, next) => {
-  let files = req.body.images;
+
+  let files = req.body.images || { oneImage: req.body.image };
+
   for (let key in files) remove(files, key);
 
   req.body.floatContent.forEach(el => {

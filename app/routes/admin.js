@@ -102,20 +102,25 @@ module.exports = templatePath => {
       .catch(err => res.send("error: /admin/news/:page" + err));
   });
 
-  router.get('/admin/page-settings/news', [isLoggedIn, isAdmin], (req, res) => {
-    const { user, url, locale } = req;
-    Page.find().exec((err, pages) => {
-      res.render(templatePath, {
-        isGuest: !req.isAuthenticated(),
-        page: pages[0].news,
-        content: "../modules/admin/modules/news/settings",
-        user,
-        url,
-        locale
+  router.get(
+    "/admin/page-settings/:type",
+    [isLoggedIn, isAdmin],
+    (req, res) => {
+      const { user, url, locale } = req;
+      const { type } = req.params;
+      Page.findOne({ type }).exec((err, page) => {
+        res.render(templatePath, {
+          isGuest: !req.isAuthenticated(),
+          page: page.content,
+          type,
+          content: `../modules/admin/modules/${type}/settings`,
+          user,
+          url,
+          locale
+        });
       });
-    });
-    
-  });
+    }
+  );
 
   return router;
 };

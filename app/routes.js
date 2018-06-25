@@ -21,12 +21,12 @@ module.exports = function(app, passport) {
   let authRouter = require("./routes/auth")(passport, templatePath);
   let postsRouter = require("./routes/posts")(templatePath);
   let profileRouter = require("./routes/profile")(templatePath);
-  let apiRoutes = require("./routes/api")(passport);
+  let apiRoutes = require("./routes/action")(passport);
   let adminRoutes = require("./routes/admin")(templatePath);
   let newsRoutes = require("./routes/news")(templatePath);
   
   app.use("/", setLocale, [router, authRouter, postsRouter, profileRouter, newsRoutes]);
-  app.use("/api", apiRoutes);
+  app.use("/action", apiRoutes);
 
   locales.forEach(lang => {
     app.use(`/${lang}`, setLocale, [
