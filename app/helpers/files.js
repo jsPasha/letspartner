@@ -4,31 +4,32 @@ const News = mongoose.model("news");
 const _ = require("lodash");
 
 const removeTempPath = (req, res, next) => {
-
   let files = req.body.images || { oneImage: req.body.image };
 
-  for (let key in files) remove(files, key);
+  for (let key in files) remove(files, key, req);
 
-  req.body.floatContent.forEach(el => {
-    if (el.contentType === "gallery") {
-      let gallery = el.gallery;
-      gallery.forEach((el, index) => {
-        remove(gallery, index);
-      });
-    }
-  });
+  if (req.body.floatContent)
+    req.body.floatContent.forEach(el => {
+      if (el.contentType === "gallery") {
+        let gallery = el.gallery;
+        gallery.forEach((el, index) => {
+          remove(gallery, index);
+        });
+      }
+    });
 
   next();
 };
 
-const remove = (images, key) => {
+const remove = (images, key, req) => {
   let path = images[key];
   if (path && typeof path === "string" && path.split("/")[1] === "temp") {
     let oldPath = `public/uploads${path}`;
     let pathArr = path.split("/");
     pathArr.splice(1, 1);
     let newPath = pathArr.join("/");
-    images[key] = newPath;
+    if (key === "oneImage") req.body.image = newPath;
+    else images[key] = newPath;
     newPath = `public/uploads${newPath}`;
     replaceContents(newPath, oldPath, err => {
       if (err) console.log(err);

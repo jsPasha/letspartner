@@ -6,7 +6,7 @@
 
 	<div>
 
-		<form method="POST" class="settings_form" action="/api/admin/page-settings/news">
+		<form method="POST" class="settings_form" action="/action/admin/page-settings/news">
 
 			<% locales.forEach((lang, i) => { %>
 				<div class="form-group">
@@ -27,7 +27,7 @@
 				<div class="image_pick_area<%- (page.image) ? ' active' : '' %>">
 					<input class="image_pick" type="file" accept="image/">
 					<%-(page.image) ? `<img src="/uploads${page.image}">` : ''%>
-					<input type="hidden" class="hidden_image_url" value="<%-(page.image) ? page.image : ''%>" name="images[mainNewsImage]" />
+					<input type="hidden" class="hidden_image_url" value="<%-(page.image) ? page.image : ''%>" name="image" />
 					<a class="upload_new_image" data-del-url="<%- page.image %>" href="#"><%- __("upload_new_image") %></a>
 					<a class="delete_image" data-url="<%- page.image %>" href="#"><%- __("delete_image") %></a>				
 				</div>

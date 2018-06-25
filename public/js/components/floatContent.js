@@ -1,4 +1,5 @@
 import $ from "jquery";
+import sortable from "jquery-ui/ui/widgets/sortable";
 
 const constrBody = ".constructor_body";
 
@@ -11,7 +12,10 @@ $(".add_item").click(function() {
 	</div>`);
 });
 
-let galleryTemplate = (index) => {
+$(".images_box").sortable();
+// $(".images_box").disableSelection();
+
+let galleryTemplate = index => {
   return `<div class="form-group form-group-image-pick">
 	<label>Gallery_image</label>
 	<input class="image_pick_multiple" data-id="${index}" type="file" accept="image/" multiple>

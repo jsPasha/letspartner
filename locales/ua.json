@@ -13,5 +13,8 @@
 	"News_main_image": "News_main_image",
 	"upload_new_image": "upload_new_image",
 	"delete_image": "delete_image",
-	"Thumb_main_image": "Thumb_main_image"
+	"Thumb_main_image": "Thumb_main_image",
+	"News_page_settings": "News_page_settings",
+	"save": "save",
+	"Publish": "Publish"
 }
