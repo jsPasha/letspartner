@@ -28,19 +28,20 @@ module.exports = function(app, passport) {
 
   app.use("/", setLocale, [
     router,
-    userActivation,
+    // userActivation,
     authRouter,
     postsRouter,
     profileRouter,
     newsRoutes
   ]);
+
   app.use("/action", apiRoutes);
 
   locales.forEach(lang => {
     app.use(`/${lang}`, setLocale, [
       router,
       authRouter,
-      userActivation,
+      // userActivation,
       postsRouter,
       profileRouter,
       adminRoutes,
