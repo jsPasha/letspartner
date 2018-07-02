@@ -7,17 +7,19 @@ const removeTempPath = (req, res, next) => {
   let files = req.body.images || { oneImage: req.body.image };
 
   for (let key in files) remove(files, key, req);
-
   if (req.body.floatContent)
     req.body.floatContent.forEach(el => {
       if (el.contentType === "gallery") {
         let gallery = el.gallery;
-        gallery.forEach((el, index) => {
-          remove(gallery, index);
-        });
+        if (gallery)
+          gallery.forEach((el, index) => {
+            remove(gallery, index);
+          });
       }
     });
 
+  if (req.body.floatContent === null) req.body.floatContent = [];
+  
   next();
 };
 

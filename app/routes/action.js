@@ -4,7 +4,10 @@ const {
   deletePrevious,
   deleteAll
 } = require("../helpers/files");
+
 const { generateAlias } = require("../helpers/alias");
+const axios = require("axios");
+const nodemailer = require("nodemailer");
 
 const express = require("express");
 const router = express.Router();
@@ -86,11 +89,16 @@ module.exports = passport => {
     [isLoggedIn, isAdmin, removeTempPath, deletePrevious],
     (req, res, next) => {
       let { name, description, images, floatContent } = req.body;
+
       let _id = req.params.id;
-      News.update({ _id }, { $set: { name, description, images, floatContent } }, err => {
-        if (err) return res.send(err);
-        res.redirect(`/${req.locale}/admin/news/`);
-      });
+      News.update(
+        { _id },
+        { $set: { name, description, images, floatContent } },
+        err => {
+          if (err) return res.send(err);
+          res.redirect(`/${req.locale}/admin/news/`);
+        }
+      );
     }
   );
 
@@ -147,7 +155,7 @@ module.exports = passport => {
     [isLoggedIn, isAdmin, removeTempPath, deletePrevious],
     (req, res) => {
       let { name, content, image } = req.body;
-      const { type } = req.params;     
+      const { type } = req.params;
       Page.update(
         { type },
         { $set: { content: { name, content, image } } },
@@ -173,6 +181,62 @@ module.exports = passport => {
     fs.writeFile(`public${filePath}`, req.files.image.data, err => {
       if (err) return res.status(400).send({ err });
       res.send({ fileName, index });
+    });
+  });
+
+  router.get("/youtube-info", (req, res) => {
+    axios
+      .get(
+        `https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=${
+          req.query.id
+        }&key=AIzaSyCtRBHfdZXAd6heEAhKv01N9xmy0PELBJw`
+      )
+      .then(response => {
+        const { title, thumbnails } = response.data.items[0].snippet;
+        res.send({ title, thumbnails });
+      })
+      .catch(err => {
+        res.send(err);
+      });
+  });
+
+  router.get("/send-activation", (req, res, next) => {
+    nodemailer.createTestAccount((err, account) => {
+      // create reusable transporter object using the default SMTP transport
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+          user: "pkizeev@gmail.com", // generated ethereal user
+          pass: "p244w0rdp244w0rd" // generated ethereal password
+        },
+        tls: {
+          // do not fail on invalid certs
+          rejectUnauthorized: false
+        }
+      });
+
+      // setup email data with unicode symbols
+      let mailOptions = {
+        from: '"Fred Foo 👻" <foo@example.com>', // sender address
+        to: req.user.email, // list of receivers
+        subject: "Hello ✔", // Subject line
+        text: "Hello world?", // plain text body
+        html: "<b>Hello world?</b>" // html body
+      };
+
+      // send mail with defined transport object
+      transporter.sendMail(mailOptions, (error, info) => {
+
+        if (error) {
+          res.send("no-ok");
+          return console.log(error);
+        }
+
+        res.status(200).redirect(`/${res.locale}/activation-user`);
+
+      });
     });
   });
 

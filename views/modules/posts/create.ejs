@@ -13,7 +13,7 @@
 		
 		<% for (let key in postTypes) { %>
 			<div class="form-group form-radio">
-				<input id="type<%- key %>" type="radio" name="type" value="<%- key %>" />
+				<input id="type<%- key %>" type="radio" name="type" value="<%= key %>" />
 				<label for="type<%- key %>"><%- postTypes[key] %></label>
 			</div>
 		<% } %>

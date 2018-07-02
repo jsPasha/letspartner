@@ -31,12 +31,9 @@ require("./app/models/user");
 require("./app/models/post");
 require("./app/models/news");
 require("./app/models/page");
+require("./app/models/authHash");
 
 app.use(express.static(__dirname + "/public"));
-
-// locales.forEach((lang) => {
-//   app.use(`/${lang}`, express.static(__dirname + "/public"));
-// });
 
 i18n.configure({
   locales,

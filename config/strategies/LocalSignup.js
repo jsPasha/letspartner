@@ -1,6 +1,7 @@
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const User = mongoose.model("users");
+const AuthHash = mongoose.model("authHash");
 
 module.exports = passport =>
   passport.use(
@@ -31,9 +32,14 @@ module.exports = passport =>
             newUser.authType = "local";
             newUser.password = newUser.generateHash(password);
 
+            var hash = new AuthHash({ email });
+
             newUser.save(function(err) {
               if (err) throw err;
-              return done(null, newUser);
+              hash.save(function(err) {
+                if (err) throw err;
+                return done(null, newUser);
+              });
             });
           });
         });

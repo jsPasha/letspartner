@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const { setLocale } = require("./helpers/locale");
 const locales = require("../data/locales");
+const userActivation = require("./helpers/activation");
 
 module.exports = function(app, passport) {
   const templatePath = "layouts/main";
@@ -24,14 +25,22 @@ module.exports = function(app, passport) {
   let apiRoutes = require("./routes/action")(passport);
   let adminRoutes = require("./routes/admin")(templatePath);
   let newsRoutes = require("./routes/news")(templatePath);
-  
-  app.use("/", setLocale, [router, authRouter, postsRouter, profileRouter, newsRoutes]);
+
+  app.use("/", setLocale, [
+    router,
+    userActivation,
+    authRouter,
+    postsRouter,
+    profileRouter,
+    newsRoutes
+  ]);
   app.use("/action", apiRoutes);
 
   locales.forEach(lang => {
     app.use(`/${lang}`, setLocale, [
       router,
       authRouter,
+      userActivation,
       postsRouter,
       profileRouter,
       adminRoutes,

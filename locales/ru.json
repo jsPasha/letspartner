@@ -21,5 +21,9 @@
 	"Publish": "Publish",
 	"News_page_settings": "News_page_settings",
 	"save": "save",
-	"Gallery_image": "Gallery_image"
+	"Gallery_image": "Gallery_image",
+	"Gallery_name": "Gallery_name",
+	"Text": "Text",
+	"Video": "Video",
+	"Header": "Header"
 }

@@ -13,5 +13,12 @@
 	"create": "create",
 	"News_update": "News_update",
 	"update": "update",
-	"Publish": "Publish"
+	"Publish": "Publish",
+	"News_main_image": "News_main_image",
+	"upload_new_image": "upload_new_image",
+	"delete_image": "delete_image",
+	"Thumb_main_image": "Thumb_main_image",
+	"Text": "Text",
+	"Gallery_name": "Gallery_name",
+	"Gallery_image": "Gallery_image"
 }

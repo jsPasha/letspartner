@@ -1,5 +1,6 @@
 import $ from "jquery";
 import loader from "./loader";
+import updateConstructor from "../methods/updateConstructor";
 
 require("magnific-popup");
 require("cropper");
@@ -140,7 +141,7 @@ const insertCroppedImage = path => {
 $("body").on("click", ".delete_image", function(e) {
   e.preventDefault();
   let $this = $(this);
-  
+
   let url =
     $this.attr("data-url") || $this.closest(".gallery_image").attr("data-url");
 
@@ -153,7 +154,7 @@ $("body").on("click", ".delete_image", function(e) {
       .each(function() {
         $(this).attr("data-id", +$(this).attr("data-id") - 1);
       });
-    }
+  }
 
   if (
     $this.closest("form").hasClass("update_form") &&
@@ -168,7 +169,39 @@ $("body").on("click", ".delete_image", function(e) {
   $this.siblings(".hidden_image_url").val("");
   $this.siblings("img").remove();
   $this.parent(".gallery_image").remove();
-  
+});
+
+$("body").on("click", ".item_delete", function() {
+  // if (confirm("Удалить?")) {
+  let item = $(this).closest(".constructor_item");
+  let func;
+  switch ($(this).attr("data-type")) {
+    case "gallery":
+      func = () => {
+        item.find(".gallery_image").each(function() {
+          let url = $(this).attr("data-url");
+          if (url.indexOf("/temp/") === -1) {
+            previousImages.push(url);
+          } else {
+            deleteImage(url);
+          }
+        });
+      };
+      break;
+    case "text":
+      func = () =>
+        item.find(".ckeditor_item").each(function() {
+          this.editor.destroy();
+        });
+    default:
+      break;
+  }
+
+  if (func) func();
+
+  item.remove();
+
+  updateConstructor();
 });
 
 $(".upload_new_image").click(function(e) {
@@ -213,7 +246,7 @@ const multipleInit = input => {
 const uploadImage = (imageData, index, input) => {
   let fd = new FormData();
   let imagesBox;
-  let globalIndex = $(input).attr('data-id');
+  let globalIndex = $(input).attr("data-id");
   if (!galleryUpdating) {
     imagesBox = $(input).siblings(".images_box");
   } else {
@@ -230,7 +263,7 @@ const uploadImage = (imageData, index, input) => {
   if (!galleryUpdating) {
     imagesBox.append(`<div class="gallery_image" data-id="${index}" data-url="">
       <div class="image loading" style="background-image: url(/img/loader.svg)"></div>
-      <input type="hidden" class="hidden_image_url" value="" name="floatContent[${globalIndex}][gallery][]" />
+      <input type="hidden" class="hidden_image_url content_position_index" value="" name="floatContent[${globalIndex}][gallery][]" />
       <a class="update_image" data-url="" href="#">update_image</a>
       <a class="delete_image" data-url="" href="#">delete_image</a>
     </div>`);

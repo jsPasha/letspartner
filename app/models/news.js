@@ -3,22 +3,15 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const locales = require("../../data/locales");
 
-let nameModel = {},
-  descriptionModel = {};
+let langModel = {};
 
-locales.forEach((el, i) => {
-  nameModel[el] = { type: String };
-  descriptionModel[el] = { type: String };
-
-  // default name is required
-  if (i === 0) nameModel[el].require = true;
-});
+locales.forEach((el, i) => (langModel[el] = { type: String }));
 
 // define the schema for our user model
 const newsSchema = new Schema({
   alias: String,
-  name: nameModel,
-  description: descriptionModel,
+  name: langModel,
+  description: langModel,
   createdAt: { type: String, default: new Date().getTime() },
   published: { type: Boolean, default: 1 },
   images: {
@@ -27,10 +20,19 @@ const newsSchema = new Schema({
   },
   floatContent: [
     {
+      name: langModel,
       gallery: [String],
-      contentType: String,      
-      video: String,
-      text: String
+      contentType: String,
+      header: langModel,
+      video: {
+        pastedUrl: String,
+        id: String,
+        api: {
+          thumbnails: String,
+          title: String
+        }
+      },
+      text: langModel
     }
   ]
 });

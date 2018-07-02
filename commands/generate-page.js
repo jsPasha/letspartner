@@ -2,6 +2,9 @@
 // where "news" is type of page
 
 const mongoose = require("mongoose");
+
+require('../app/models/page');
+
 const Page = mongoose.model("pages");
 
 const configDB = require("../config/db.js");

@@ -37,6 +37,7 @@ module.exports = templatePath => {
   router.get("/admin/news/update/:id", [isLoggedIn, isAdmin], (req, res) => {
     const id = req.params.id;
     const { user, url, locale } = req;
+    
     News.findById(id, (err, newsItem) => {
       if (err) res.send(err);
       res.render(templatePath, {

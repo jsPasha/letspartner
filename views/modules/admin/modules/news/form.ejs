@@ -18,7 +18,7 @@
 			<% locales.forEach((lang, i) => { %>
 				<div class="form-group">
 					<label for="description_<%-lang%>"><%- __("Description") %> <%-lang%></label>
-					<textarea class="ckeditor_item" maxlength="200" id="description_<%-lang%>" name="description[<%-lang%>]" rows="6"><%- action === 'update' ? newsItem.description[lang] : '' %></textarea>
+					<textarea class="ckeditor_item" id="description_<%-lang%>" name="description[<%-lang%>]" rows="6"><%- action === 'update' ? newsItem.description[lang] : '' %></textarea>
 				</div>
 			<% }); %>
 			
@@ -27,7 +27,7 @@
 				<div class="image_pick_area<%- (action === 'update' && newsItem.images.mainNewsImage) ? ' active' : '' %>">
 					<input class="image_pick" type="file" accept="image/">
 					<%-(action === 'update' && newsItem.images.mainNewsImage) ? `<img src="/uploads${newsItem.images.mainNewsImage}">` : ''%>
-					<input type="hidden" class="hidden_image_url" value="<%-(action === 'update' && newsItem.images.mainNewsImage) ? newsItem.images.mainNewsImage : ''%>" name="images[mainNewsImage]" />
+					<input type="hidden" class="hidden_image_url" value="<%=(action === 'update' && newsItem.images.mainNewsImage) ? newsItem.images.mainNewsImage : ''%>" name="images[mainNewsImage]" />
 					<a class="upload_new_image" data-del-url="<%-action === 'update' ? newsItem.images.mainNewsImage : ''%>" href="#"><%- __("upload_new_image") %></a>
 					<a class="delete_image" data-url="<%-action === 'update' ? newsItem.images.mainNewsImage : ''%>" href="#"><%- __("delete_image") %></a>				
 				</div>
@@ -38,15 +38,15 @@
 				<div class="image_pick_area<%- (action === 'update' && newsItem.images.thumbNewsImage) ? ' active' : '' %>">
 					<input class="image_pick" type="file" accept="image/">
 					<%-(action === 'update' && newsItem.images.thumbNewsImage) ? `<img src="/uploads${newsItem.images.thumbNewsImage}">` : ''%>
-					<input type="hidden" class="hidden_image_url" value="<%-(action === 'update' && newsItem.images.thumbNewsImage) ? newsItem.images.thumbNewsImage : ''%>" name="images[thumbNewsImage]" />
+					<input type="hidden" class="hidden_image_url" value="<%=(action === 'update' && newsItem.images.thumbNewsImage) ? newsItem.images.thumbNewsImage : ''%>" name="images[thumbNewsImage]" />
 					<a class="upload_new_image" data-del-url="<%-action === 'update' ? newsItem.images.thumbNewsImage : ''%>" href="#"><%- __("upload_new_image") %></a>
 					<a class="delete_image" data-url="<%-action === 'update' ? newsItem.images.thumbNewsImage : ''%>" href="#"><%- __("delete_image") %></a>				
 				</div>
 			</div>
 			
-			<%- include('./constructor') %>
+			<%- include('./constructor/constructor.ejs') %>
 
-			<input type="submit" value="<%- __(action) %>">
+			<input type="submit" value="<%= __(action) %>">
 
 		</form>
 
