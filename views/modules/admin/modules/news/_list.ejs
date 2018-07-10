@@ -9,7 +9,7 @@
                     <div class="control">
                         <p>
                             <label>
-                                <input type="checkbox" class="publish_checkbox" data-model="news" data-id="<%-news[i].id%>" <%- news[i].published ? 'checked=""' : '' %>>
+                                <input type="checkbox" class="state_checkbox" data-state="published" data-model="news" data-id="<%-news[i].id%>" <%- news[i].published ? 'checked=""' : '' %>>
                                 <span><%-__('Publish')%></span>
                             </label>
                         </p>

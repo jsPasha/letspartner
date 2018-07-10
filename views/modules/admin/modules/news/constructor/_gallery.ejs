@@ -14,8 +14,8 @@
 				<div class="gallery_image" data-id="<%-i%>" data-url="<%-el%>">
 					<div class="image" style="background-image: url(/uploads<%-el%>)"></div>
 					<input type="hidden" class="hidden_image_url content_position_index" value="<%=el%>" name="floatContent[<%-index%>][gallery][]" />
-					<a class="update_image" data-url="" href="#">update_image</a>
-					<a class="delete_image" data-url="" href="#">delete_image</a>
+					<a class="update_image" href="#"><%-__('update_image')%></a>
+					<a class="delete_image" data-url="<%=el%>" href="#"><%-__('delete_image')%></a>
 				</div>
 			<% });
 		%>

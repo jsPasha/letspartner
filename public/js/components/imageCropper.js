@@ -18,7 +18,8 @@ let previousImage = null;
 let galleryUpdating = false,
   galleryImageIndex,
   galleryInput,
-  galleryBox;
+  galleryBox,
+  ratio;
 
 const imageCropper = input => {
   galleryUpdating = false;
@@ -29,6 +30,7 @@ const imageCropper = input => {
     loader.show();
 
     reader.onload = e => {
+      ratio = input.dataset.ratio;
       initCropperPopup(e.target.result);
     };
 
@@ -66,16 +68,22 @@ const initCropperPopup = imageSrc => {
 };
 
 const initCropper = () => {
+  let aspectRatio = 16 / 9;
+  if (ratio) {
+    let splitRatio = ratio.split(":");
+    aspectRatio = splitRatio[0] / splitRatio[1];
+  }
   $img.cropper({
-    aspectRatio: 16 / 9,
+    aspectRatio,
     viewMode: 2
   });
 };
 
 $("body").on("click", ".save_cropped", () => {
-  if (previousImage && previousImage.indexOf("/temp/") !== -1) {
+  if (previousImage && previousImage.indexOf("/temp/") === -1) {
     previousImages.push(previousImage);
   } else if (previousImage) {
+    console.log("here");
     deleteImage(previousImage);
   }
   previousImage = null;
@@ -142,8 +150,7 @@ $("body").on("click", ".delete_image", function(e) {
   e.preventDefault();
   let $this = $(this);
 
-  let url =
-    $this.attr("data-url") || $this.closest(".gallery_image").attr("data-url");
+  let url = $this.attr("data-url");
 
   let index = $this.closest(".gallery_image").attr("data-id");
 
@@ -162,6 +169,7 @@ $("body").on("click", ".delete_image", function(e) {
   ) {
     previousImages.push(url);
   } else {
+    console.log("click delete_image");
     deleteImage(url);
   }
 
@@ -183,6 +191,7 @@ $("body").on("click", ".item_delete", function() {
           if (url.indexOf("/temp/") === -1) {
             previousImages.push(url);
           } else {
+            console.log("click item_delete");
             deleteImage(url);
           }
         });
@@ -251,10 +260,12 @@ const uploadImage = (imageData, index, input) => {
     imagesBox = $(input).siblings(".images_box");
   } else {
     imagesBox = galleryBox;
-    fd.append(
-      "url",
-      imagesBox.find(`.gallery_image[data-id="${index}"]`).attr("data-url")
-    );
+    let url = imagesBox
+      .find(`.gallery_image[data-id="${index}"]`)
+      .attr("data-url");
+    if (url.indexOf("/temp/") !== -1) {
+      fd.append("url", url);
+    }
   }
 
   fd.append("image", imageData);
@@ -296,14 +307,12 @@ const uploadImage = (imageData, index, input) => {
 $("body").on("click", ".update_image", function() {
   galleryUpdating = true;
 
-  console.log($(this).closest(".gallery_image"));
-
   const imageBlock = $(this).closest(".gallery_image");
 
   let url = imageBlock.attr("data-url"),
     index = imageBlock.attr("data-id");
 
-  console.log(url);
+  previousImage = url;
 
   galleryBox = $(this).closest(".images_box");
   galleryInput = galleryBox.siblings("input");

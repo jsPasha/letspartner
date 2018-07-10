@@ -78,13 +78,17 @@ const transliterate = {
 
 const generateAlias = (req, res, next) => {
   let name = req.body.name[locales[0]];
-  req.body.alias = name
+  req.body.alias = aliasGenerator(name);
+  next();
+};
+
+const aliasGenerator = name => {
+  return name
     .split("")
     .map(function(char) {
       return transliterate[char] || char;
     })
     .join("");
-  next();
 };
 
-module.exports = { generateAlias };
+module.exports = { generateAlias, aliasGenerator };

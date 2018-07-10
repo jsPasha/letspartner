@@ -1,6 +1,7 @@
 @import '../../node_modules/cropper/dist/cropper'
 @import '../../node_modules/magnific-popup/dist/magnific-popup'
 @import '../../node_modules/jquery-ui/themes/base/sortable'
+@import '../../node_modules/jquery-ui/themes/base/theme'
 
 textarea
 	height: auto
@@ -25,6 +26,8 @@ img
 	display: flex
 .jcsb
 	justify-content: space-between
+.aic
+	align-items: center
 .soc_buttons
 	img
 		width: 40px
@@ -292,5 +295,148 @@ input[type="submit"]
 	border: 0
 	box-shadow: 0 1px 40px green
 	transition: all 1s ease
+	display: none
 	&.active
 		bottom: 20px
+.page_head
+	text-align: center
+	padding: 40px 0
+	color: #fff
+	margin: 40px 0
+	position: relative
+	> *
+		position: relative
+		z-index: 2
+	&:after
+		position: absolute
+		content: ''
+		width: 100%
+		height: 100%
+		left: 0
+		top: 0
+		z-index: 0
+		background-color: rgba(0,0,0,.4)
+#info_popup, #phone_popup, #block_popup
+	position: relative
+	max-width: 700px
+	width: 100%
+	background-color: #fff
+	padding: 30px 2%
+	box-sizing: border-box
+	margin: 0 auto
+.admin_popups_list
+	.item
+		display: flex
+		justify-content: space-between
+		align-items: center
+.form_block
+	background-color: rgba(0,0,0,0.1)
+	padding: 15px 30px
+	margin: 20px 0
+	input[type="text"]
+		width: 100%
+		box-sizing: border-box
+		height: 40px
+.profile_buttons
+	display: flex
+	align-items: center
+	a
+		display: flex
+		align-items: center
+		margin-left: 20px
+		img
+			width: 50px
+			height: 50px
+			margin-right: 10px
+			border-radius: 8px
+.success-message
+	padding: 14px 20px
+	border: 1px solid green
+	border-radius: 8px
+	background-color: lightgreen
+.admin_users_list
+	border-collapse: collapse
+	.item
+		padding: 10px
+		border: 1px solid #000
+		border-bottom: 0
+		&:last-child
+			border-bottom: 1px solid #000
+.ui-helper-hidden-accessible
+	display: none
+.autocomplete_wrap
+	max-width: 500px
+	width: 100%
+	input
+		width: 100%
+		box-sizing: border-box
+		height: 40px
+		padding: 0 10px
+		font-family: roboto
+		font-size: 16px
+.user_autocomplete_result
+	position: relative
+	.ui-menu
+		position: absolute !important
+		box-sizing: border-box
+		left: 0
+		top: 0
+		width: 100% !important
+		box-shadow: 0 5px 5px lightgray
+	.ui-menu-item
+		> div
+			padding: 10px
+			&.ui-state-active
+				background-color: green !important
+				border: 0 !important
+.search_results
+	background-color: rgba(107, 193, 31, .5)
+	padding: 15px
+	margin: 15px 0
+.search_input
+	position: relative
+	.clear_input
+		width: 24px
+		height: 24px
+		background-image: url(/img/delete.svg)
+		appearance: none
+		background-color: transparent
+		border: 0
+		position: absolute
+		right: -40px
+		top: 50%
+		transform: translateY(-50%)
+		cursor: pointer
+.success_fixed
+	position: fixed
+	right: 10px
+	bottom: 10px
+	padding: 20px
+	background-color: green
+	z-index: 100
+	border-radius: 8px
+	color: #fff
+.static_menu, .simple_menu
+	display: flex
+	align-items: center
+	li
+		margin-right: 10px
+	a
+		color: #ee6e73
+		padding: 10px 20px
+		display: block
+		border: 2px solid #ee6e73
+		text-decoration: none
+		font-weight: 700
+		border-radius: 4px
+		&.active
+			background-color: #ee6e73
+			color: #fff
+.simple_menu
+	border-bottom: 2px solid #26a69a
+	padding-bottom: 20px
+	a
+		background-color: #26a69a
+		border: 2px solid #26a69a
+		color: #fff
+

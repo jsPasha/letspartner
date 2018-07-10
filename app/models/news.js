@@ -12,7 +12,7 @@ const newsSchema = new Schema({
   alias: String,
   name: langModel,
   description: langModel,
-  createdAt: { type: String, default: new Date().getTime() },
+  createdAt: { type: Number, default: new Date().getTime() },
   published: { type: Boolean, default: 1 },
   images: {
     thumbNewsImage: String,

@@ -1,31 +1,38 @@
-const { isLoggedIn } = require("../helpers/routes");
+const { isLoggedIn, isBlocked } = require("../helpers/routes");
 const express = require("express");
 const router = express.Router();
 
-const { checkLocal } = require("../helpers/locale");
+const { setInfoPopup } = require("../helpers/popups");
+
+const profileController = require("../controllers/profile");
+const corporationsController = require("../controllers/corporations");
 
 module.exports = templatePath => {
-  router.get("/profile", isLoggedIn, (req, res) => {
-    const { user, url, locale } = req;
+  router.get("/activation-user", isLoggedIn, (req, res) => {
     res.render(templatePath, {
-      isGuest: false,
-      content: "../modules/profile/index",
-      user,
-      url,
-      locale
+      content: "../modules/profile/activation"
     });
   });
 
-  router.get('/activation-user', isLoggedIn, (req, res) => {
-    const { user, url, locale } = req;
-    res.render(templatePath, {
-      isGuest: false,
-      content: "../modules/profile/activation",
-      user,
-      url,
-      locale
-    });
-  });
+  router.get(
+    "/profile",
+    isLoggedIn,
+    setInfoPopup,
+    isBlocked,
+    profileController.view
+  );
+
+  router.get(
+    "/profile/corporations/create",
+    isLoggedIn,
+    corporationsController.createView
+  );
+
+  router.get(
+    "/profile/corporations/update/:createdAt/:alias",
+    isLoggedIn,
+    corporationsController.updateView
+  );
 
   return router;
 };

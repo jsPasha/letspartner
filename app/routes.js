@@ -3,45 +3,33 @@ const express = require("express");
 const router = express.Router();
 const { setLocale } = require("./helpers/locale");
 const locales = require("../data/locales");
-const userActivation = require("./helpers/activation");
+const { userActivation } = require("./helpers/activation");
+
+const { templatePath } = require("../data/settings");
 
 module.exports = function(app, passport) {
-  const templatePath = "layouts/main";
-
   router.get("/", function(req, res) {
-    const { user, url, locale } = req;
     res.render(templatePath, {
-      isGuest: !req.isAuthenticated(),
-      content: "../modules/index",
-      user,
-      url,
-      locale
+      content: "../modules/index"
     });
   });
 
-  let authRouter = require("./routes/auth")(passport, templatePath);
+  let authRouter = require("./routes/auth")(templatePath);
   let postsRouter = require("./routes/posts")(templatePath);
   let profileRouter = require("./routes/profile")(templatePath);
-  let apiRoutes = require("./routes/action")(passport);
+  let actionRoutes = require("./routes/action")(passport);
   let adminRoutes = require("./routes/admin")(templatePath);
   let newsRoutes = require("./routes/news")(templatePath);
 
-  app.use("/", setLocale, [
-    router,
-    // userActivation,
-    authRouter,
-    postsRouter,
-    profileRouter,
-    newsRoutes
-  ]);
+  app.use("/", setLocale);
 
-  app.use("/action", apiRoutes);
+  app.use("/action", actionRoutes);
 
   locales.forEach(lang => {
     app.use(`/${lang}`, setLocale, [
       router,
       authRouter,
-      // userActivation,
+      userActivation,
       postsRouter,
       profileRouter,
       adminRoutes,

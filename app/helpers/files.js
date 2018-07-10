@@ -3,6 +3,9 @@ const mongoose = require("mongoose");
 const News = mongoose.model("news");
 const _ = require("lodash");
 
+const request = require("request");
+const uniqid = require("uniqid");
+
 const removeTempPath = (req, res, next) => {
   let files = req.body.images || { oneImage: req.body.image };
 
@@ -19,7 +22,7 @@ const removeTempPath = (req, res, next) => {
     });
 
   if (req.body.floatContent === null) req.body.floatContent = [];
-  
+
   next();
 };
 
@@ -72,7 +75,7 @@ const deleteAll = (req, res, next) => {
             if (err) console.log(err);
           });
       }
-    news.floatContent.forEach(el => {
+    if (news.floatContent) news.floatContent.forEach(el => {
       if (el.contentType === "gallery") {
         let gallery = el.gallery;
         gallery.forEach((el, index) => {
@@ -86,4 +89,16 @@ const deleteAll = (req, res, next) => {
   });
 };
 
-module.exports = { removeTempPath, deletePrevious, deleteAll };
+const saveGoogleImage = url => {
+  return new Promise((resolve, reject) => {
+    const image = `/${uniqid()}.jpg`;
+    let file = fs.createWriteStream(`public/uploads${image}`);
+
+    let stream = request(url).pipe(file);
+
+    stream.on("finish", () => resolve(image));
+    stream.on("error", err => reject(err));
+  });
+};
+
+module.exports = { removeTempPath, deletePrevious, deleteAll, saveGoogleImage };

@@ -1,0 +1,23 @@
+<div class="container">
+		<h1>Restore password</h1>
+
+		<!-- show any messages that come back with authentication -->
+		<% if (message.length > 0) { %>
+			<div class="alert alert-danger"><%= message %></div>
+		<% } %>
+
+		<% if (error === undefined || error) { %>
+			<form action="/action/restore" method="post">
+				<div class="form-group">
+					<label>Email</label>
+					<input type="text" class="form-control" name="email">
+				</div>
+				
+				<button type="submit" class="btn btn-warning btn-lg">Login</button>
+			</form>
+		<% } %>
+		
+		<p>Need an account? <a href="/signup">Signup</a></p>
+
+		<p>Or go <a href="/">home</a>.</p>		
+</div>

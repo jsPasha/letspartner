@@ -32,6 +32,10 @@ require("./app/models/post");
 require("./app/models/news");
 require("./app/models/page");
 require("./app/models/authHash");
+require("./app/models/popup");
+require("./app/models/corporations");
+
+const { setPhonePopup } = require("./app/helpers/popups");
 
 app.use(express.static(__dirname + "/public"));
 
@@ -69,7 +73,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-app.locals.locales = locales;
+app.use(setPhonePopup, (req, res, next) => {
+  let url = req.url.split("/");
+  url.splice(1, 1);
+  app.locals.locales = locales;
+  app.locals.user = req.user;
+  app.locals.phonePopup = req.phonePopup;
+  app.locals.url = url.join("/");
+  app.locals.locale = req.locale;
+  app.locals.isGuest = !req.isAuthenticated();
+  next();
+});
 
 require("./app/routes.js")(app, passport);
 require("./config/passport")(passport);

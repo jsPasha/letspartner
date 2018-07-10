@@ -17,6 +17,18 @@
 	
 	<%- include('components/footer'); %>
 
+	<% if (typeof infoPopup !== 'undefined') { %>
+		<%- include('components/popups/infoPopup'); %>
+	<% } %>
+
+	<% if (typeof phonePopup !== 'undefined' && url !== "/profile") { %>
+		<%- include('components/popups/phonePopup'); %>
+	<% } %>
+
+	<% if (user && user.blocked) { %>
+		<%- include('components/popups/blockPopup'); %>
+	<% } %>
+
 	<script src="/dist/bundle.js"></script>
 
 </body>

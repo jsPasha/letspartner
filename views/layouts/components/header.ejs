@@ -1,5 +1,5 @@
 <header>
-	<div class="container flx jcsb">
+	<div class="container flx jcsb aic">
 		<a href="/<%- locale  %>/">Logotype</a>
 
 		<a href="/<%- locale  %>/posts">List</a>
@@ -13,8 +13,8 @@
 			<% if (user && user.role === 'admin') { %>
 				<a href="/<%- locale  %>/admin"><%- __('Admin') %></a>
 			<% } %>
-			<div>
-				<a href="/<%- locale  %>/profile"><%- user.email %></a>
+			<div class="profile_buttons">
+				<a href="/<%- locale  %>/profile"><img src="<%= user.image ? `/uploads${user.image}` : '/uploads/default/profile.svg' %>" alt=""><%- user.name %></a>
 				<a href="/action/logout" class="btn btn-default btn-sm">Logout</a>
 			</div>
 		<% } %>

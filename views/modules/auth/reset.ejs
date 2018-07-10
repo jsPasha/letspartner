@@ -1,0 +1,18 @@
+<div class="container">
+
+    <h1>Reset</h1>
+
+	 <% if (message.length > 0) { %>
+        <div class="alert alert-danger"><%= message %></div>
+    <% } %>
+
+    <!-- LOGIN FORM -->
+    <form action="/action/reset" method="post">
+        <div class="form-group">
+            <label>New Password</label>
+            <input type="password" class="form-control" name="password">
+        </div>
+        <button type="submit" class="btn btn-warning btn-lg">Signup</button>
+    </form>
+
+</div>

@@ -29,8 +29,10 @@ module.exports = passport =>
             var newUser = new User();
 
             newUser.email = email;
+            newUser.originalEmail = email;
             newUser.authType = "local";
             newUser.password = newUser.generateHash(password);
+            newUser.createdAt = new Date().getTime();
 
             var hash = new AuthHash({ email });
 

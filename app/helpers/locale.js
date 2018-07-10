@@ -3,13 +3,13 @@ const locales = require("../../data/locales");
 var setLocale = (req, res, next) => {
   let cookieLoc = req.cookies.localization;
   let fd = req.url.split("/")[1];
-  let base = req.baseUrl.substr(1);
+  let base = req.baseUrl.substr(1);  
 
-  if (fd === "action" || fd === "fonts" || cookieLoc === base || locales.includes(fd))
+  if (fd === "action" || cookieLoc === base || locales.includes(fd))
     return next();
-
+  
   if (!cookieLoc) {
-    let url = base || "ru";
+    let url = base || locales[0];
     req.setLocale(url);
     res.cookie("localization", url, {
       maxAge: 30 * 24 * 60 * 60 * 1000,

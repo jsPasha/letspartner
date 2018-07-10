@@ -1,15 +1,20 @@
-let isLoggedIn = (req, res, next) => {
+const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) return next();
   res.redirect("/");
 };
 
-let isNotLoggedIn = (req, res, next) => {
+const isNotLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) return next();
   res.redirect("/");
 };
 
-let isAdmin = (req, res, next) => {
+const isAdmin = (req, res, next) => {
   if (req.user.role === "admin") return next();
 };
 
-module.exports = { isLoggedIn, isNotLoggedIn, isAdmin };
+const isBlocked = (req, res, next) => {
+  if (req.user.blocked) return res.redirect("/");
+  next();
+}
+
+module.exports = { isLoggedIn, isNotLoggedIn, isAdmin, isBlocked };

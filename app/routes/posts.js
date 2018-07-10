@@ -11,14 +11,9 @@ const itemPerPage = require('../../data/settings').itemPerPage;
 module.exports = templatePath => {
   router.route("/posts/create").get(isLoggedIn, (req, res) => {
     const { postTypes } = require("../../data/data");
-    const { user, url, locale } = req;
     res.render(templatePath, {
-      isGuest: false,
       content: "../modules/posts/create",
       postTypes,
-      user,
-      url,
-      locale
     });
   });
 
@@ -36,20 +31,15 @@ module.exports = templatePath => {
       .exec(async function(err, posts) {
         let postsObject = await postObject(posts);
 
-        Posts.count().exec(function(err, count) {
+        Posts.countDocuments().exec(function(err, count) {
           if (err) return next(err);
           const { postTypes } = require("../../data/data");
-          const { user, url, locale } = req;
           res.render(templatePath, {
-            isGuest: !req.isAuthenticated(),
             posts: postsObject,
             content: "../modules/posts/list",
             current: page,
             pages: Math.ceil(count / perPage),
             postTypes,
-            user,
-            url,
-            locale
           });
         });
       });

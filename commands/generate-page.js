@@ -17,7 +17,9 @@ mongoose.connect(
       if (index > 1) {
         Page.find({ type }).exec((err, el) => {
           if (el.length) return console.log("already created");
+
           let page = new Page({ type });
+          
           page.save((err, el) => {
             if (err) return console.log(err);
             console.log(`${type}'s page table was created`);

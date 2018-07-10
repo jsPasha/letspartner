@@ -12,14 +12,14 @@ const generateList = params => {
         .limit(perPage)
         .exec(function(err, objects) {
           if (err) return rej(err);
-          //   let outputObject = await setNewsObject(object);
-          model.count().exec(function(err, count) {
+          model.countDocuments().exec(function(err, count) {
             if (err) return rej(err);
             objects.forEach((el, i) => {
+              let timeMoment = +el.activatedAt || +el.createdAt;
               moment.locale(locale);
-              objects[i].moment = moment(+el.createdAt).format("LLL");
+              objects[i].moment = moment(timeMoment).format("LLL");
             });
-            res({objects, count});
+            res({ objects, count });
           });
         });
     });
@@ -27,26 +27,25 @@ const generateList = params => {
     return new Promise((res, rej) => {
       model
         .find()
-        .where('published').equals(true)
+        .where("published")
+        .equals(true)
         .sort({ createdAt: -1 })
         .skip(perPage * page - perPage)
         .limit(perPage)
         .exec(function(err, objects) {
           if (err) return rej(err);
-         
-          //   let outputObject = await setNewsObject(object);
-          model.count({ published: true }).exec(function(err, count) {
+          model.countDocuments({ published: true }).exec(function(err, count) {
             if (err) return rej(err);
             objects.forEach((el, i) => {
+              let timeMoment = +el.activatedAt || +el.createdAt;
               moment.locale(locale);
-              objects[i].moment = moment(+el.createdAt).format("LLL");
+              objects[i].moment = moment(timeMoment).format("LLL");
             });
-            res({objects, count});
+            res({ objects, count });
           });
         });
     });
   }
-  
 };
 
 module.exports = { generateList };
