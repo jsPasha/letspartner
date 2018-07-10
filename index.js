@@ -33,7 +33,7 @@ require("./app/models/news");
 require("./app/models/page");
 require("./app/models/authHash");
 require("./app/models/popup");
-require("./app/models/corporations");
+require("./app/models/company");
 
 const { setPhonePopup } = require("./app/helpers/popups");
 

@@ -416,11 +416,13 @@ input[type="submit"]
 	z-index: 100
 	border-radius: 8px
 	color: #fff
-.static_menu, .simple_menu
+.static_menu, .simple_menu, .profile_menu
 	display: flex
 	align-items: center
 	li
 		margin-right: 10px
+		&:last-child
+			margin-right: 0
 	a
 		color: #ee6e73
 		padding: 10px 20px
@@ -439,4 +441,71 @@ input[type="submit"]
 		background-color: #26a69a
 		border: 2px solid #26a69a
 		color: #fff
-
+.profile_menu
+	border-bottom: 2px solid #ee6e73
+	padding-bottom: 20px
+.company_item
+	display: inline-block
+	width: 360px
+	vertical-align: top
+	position: relative
+	font-size: 16px
+	margin: 15px
+	img
+		display: block
+		width: 100%
+.company_items
+	font-size: 0
+	margin: 0 -15px
+.company_item_info
+	position: relative
+	border-radius: 4px
+	&:after
+		position: absolute
+		content: ''
+		width: 100%
+		height: 100%
+		left: 0
+		top: 0
+		z-index: 1
+		background-color: rgba(0,0,0,0.7)
+		border-radius: 4px
+	> *
+		z-index: 2
+		position: relative
+	img
+		z-index: 0
+		border-radius: 4px
+	span
+		position: absolute
+		top: 3px
+		display: block
+		padding: 5px 10px
+		border-radius: 4px
+		&.type
+			right: 3px
+		&.status
+			left: 3px
+		&.moderation
+			background-color: yellow
+		&.published
+			background-color: #26a69a
+		&.corporation
+			background-color: #26a69a
+			color: #fff
+	h2
+		color: #fff
+		position: absolute
+		top: 50%
+		left: 50%
+		transform: translate(-50%, -50%)
+		margin: 0
+		font-weight: 400
+		font-size: 20px
+		max-width: 100%
+		padding: 0 15px
+		box-sizing: border-box
+.company_control
+	a
+		font-size: 16px
+		

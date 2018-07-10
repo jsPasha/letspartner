@@ -3,6 +3,7 @@ import { imageCropper, multipleInit } from "./components/imageCropper";
 import initCkeditors from "./components/ckeditor";
 import setState from "./methods/state";
 import getVideo from "./methods/video";
+import axios from "axios";
 
 import React from "react";
 import ReactDOM from "react-dom";
@@ -27,7 +28,7 @@ initCkeditors({
 require("./components/floatContent");
 require("./components/popups");
 require("./components/autocomplete");
-require("./components/corporations");
+require("./components/company");
 
 $(".confirm").click(function(e) {
   if (!confirm("Удалить новость?")) e.preventDefault();
@@ -108,4 +109,13 @@ $(".static_menu a").click(function(e) {
 
   $(items).hide();
   $(this.getAttribute("href")).show();
+});
+
+$(".delete_company").click(function(e) {
+  if (!confirm("Delete?")) {
+    e.preventDefault();
+  } else {
+    let url = this.getAttribute("href");
+    axios.get(url).then(() => location.reload());
+  }
 });

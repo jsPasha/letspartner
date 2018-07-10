@@ -5,9 +5,10 @@ const router = express.Router();
 const { setInfoPopup } = require("../helpers/popups");
 
 const profileController = require("../controllers/profile");
-const corporationsController = require("../controllers/corporations");
+const companyController = require("../controllers/company");
 
 module.exports = templatePath => {
+
   router.get("/activation-user", isLoggedIn, (req, res) => {
     res.render(templatePath, {
       content: "../modules/profile/activation"
@@ -23,15 +24,33 @@ module.exports = templatePath => {
   );
 
   router.get(
-    "/profile/corporations/create",
+    "/profile/company/:type/create",
     isLoggedIn,
-    corporationsController.createView
+    companyController.createView
   );
 
   router.get(
-    "/profile/corporations/update/:createdAt/:alias",
+    "/profile/company/:type/update/:_id",
     isLoggedIn,
-    corporationsController.updateView
+    companyController.updateView
+  );
+
+  router.get(
+    "/profile/company/:type/delete/:_id",
+    isLoggedIn,
+    companyController.delete
+  );
+
+  router.get(
+    "/profile/companies",
+    isLoggedIn,
+    companyController.profileListView
+  );
+
+  router.get(
+    "/profile/companies/:page",
+    isLoggedIn,
+    companyController.profileListView
   );
 
   return router;

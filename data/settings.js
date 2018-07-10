@@ -4,5 +4,9 @@ module.exports = {
   news: {
     adminList: 20,
     pageList: 6
+  },
+  company: {
+    adminList: 9,
+    pageList: 6
   }
 };

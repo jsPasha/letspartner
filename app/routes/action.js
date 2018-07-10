@@ -29,7 +29,7 @@ const Popup = mongoose.model("popups");
 
 const newsController = require("../controllers/news");
 const profileController = require("../controllers/profile");
-const corporaionsController = require("../controllers/corporations");
+const companyController = require("../controllers/company");
 
 module.exports = passport => {
   router.post(
@@ -130,19 +130,19 @@ module.exports = passport => {
     newsController.delete
   );
 
-  router.post("/corporations/create", [
+  router.post("/company/:type/create", [
     isLoggedIn,
     removeTempPath,
     generateAlias,
-    corporaionsController.create
+    companyController.create
   ]);
 
-  router.post("/corporations/update/:createdAt/:alias", [
+  router.post("/company/:type/update/:createdAt/:alias", [
     isLoggedIn,
     isAdmin,
     removeTempPath,
     deletePrevious,
-    corporaionsController.update
+    companyController.update
   ]);
 
   router.post(

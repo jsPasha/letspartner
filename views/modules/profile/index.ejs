@@ -1,20 +1,11 @@
 <div class="container">
 	<h1><%= __('Profile') %></h1>
 
-	<ul class="simple_menu">
-		<li>
-			<a href="/<%-locale%>/profile/corporations/create">Добавить корпорацию</a>
-		</li>
-		<li>
-			<a href="/<%-locale%>/profile/startups/create">Добавить стартап</a>
-		</li>
-	</ul>
+	<%- include('_menu') %>
 
 	<form method="POST" class="update_form" action="/action/profile/update">
 
-		<% if (message) { %>
-			<p class="<%-message.type%>-message"><%-message.text%></p>
-			<% } %>
+		<% if (message) { %><p class="<%-message.type%>-message"><%-message.text%></p><% } %>
 
 			<div class="form_block">
 				<h2><%- __('Photo') %></h2>

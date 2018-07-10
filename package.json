@@ -16,7 +16,15 @@
   "license": "ISC",
   "nodemonConfig": {
     "ignore": [
-      "public/*"
+      "public/css/*",
+      "public/dist/*",
+      "public/fonts/*",
+      "public/img/*",
+      "public/js/components/*",
+      "public/js/methods/*",
+      "public/js/*.js",
+      "public/sass/*",
+      "public/uploads/*"
     ]
   },
   "dependencies": {

@@ -12,9 +12,9 @@ const generateList = params => {
         .limit(perPage)
         .exec(function(err, objects) {
           if (err) return rej(err);
-          model.countDocuments().exec(function(err, count) {
+          model.count().exec(function(err, count) {
             if (err) return rej(err);
-            objects.forEach((el, i) => {
+            if (objects) objects.forEach((el, i) => {
               let timeMoment = +el.activatedAt || +el.createdAt;
               moment.locale(locale);
               objects[i].moment = moment(timeMoment).format("LLL");
@@ -34,7 +34,7 @@ const generateList = params => {
         .limit(perPage)
         .exec(function(err, objects) {
           if (err) return rej(err);
-          model.countDocuments({ published: true }).exec(function(err, count) {
+          model.count({ published: true }).exec(function(err, count) {
             if (err) return rej(err);
             objects.forEach((el, i) => {
               let timeMoment = +el.activatedAt || +el.createdAt;
