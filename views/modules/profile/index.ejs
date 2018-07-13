@@ -1,6 +1,12 @@
 <div class="container">
 	<h1><%= __('Profile') %></h1>
 
+	<% if (companySubmitMessage.length > 0) { %>
+		<div class="<%= companySubmitMessage[0].type %>-message static-message">
+			<p><%- companySubmitMessage[0].text %></p>
+		</div>
+	<%}%>
+
 	<%- include('_menu') %>
 
 	<form method="POST" class="update_form" action="/action/profile/update">
@@ -64,5 +70,4 @@
 
 		</form>
 
-		<a href="/<%- locale %>/posts/create">Create post</a>
 	</div>

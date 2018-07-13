@@ -36,12 +36,6 @@ module.exports = templatePath => {
   );
 
   router.get(
-    "/profile/company/:type/delete/:_id",
-    isLoggedIn,
-    companyController.delete
-  );
-
-  router.get(
     "/profile/companies",
     isLoggedIn,
     companyController.profileListView

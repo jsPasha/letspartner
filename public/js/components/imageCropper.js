@@ -41,7 +41,9 @@ const imageCropper = input => {
 };
 
 const initCropperPopup = imageSrc => {
+  
   let imageTemplate = `<img id="${imgId}" src="${imageSrc}" />`;
+
   if (!document.getElementById(`${popupId}`)) {
     let popupTemplate = `<div id="${popupId}" class="mfp-hide">${imageTemplate}<button class="save_cropped">Обрезать</button></div>`;
     let $popup = $(popupTemplate);
@@ -213,7 +215,7 @@ $("body").on("click", ".item_delete", function() {
   updateConstructor();
 });
 
-$(".upload_new_image").click(function(e) {
+$("body").on('click', ".upload_new_image", function(e) {
   e.preventDefault();
   previousImage = $(this).attr("data-del-url");
   $(this)

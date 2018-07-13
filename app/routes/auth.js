@@ -4,14 +4,25 @@ const router = express.Router();
 
 const mongoose = require("mongoose");
 const User = mongoose.model("users");
+const MemberHash = mongoose.model("memberHash");
 
 module.exports = templatePath => {
-  router.route("/login").get(isNotLoggedIn, function(req, res) {
-    res.render(templatePath, {
-      content: "../modules/auth/login",
-      message: req.flash("loginMessage")
-    });
-  });
+  router.route("/login").get(
+    isNotLoggedIn,
+    (req, res, next) => {
+      MemberHash.findOne({hash: req.query.q}).exec((err, item) => {
+        req.hashItem = item;
+        next();
+      });
+    },
+    function(req, res) {
+      res.render(templatePath, {
+        content: "../modules/auth/login",
+        message: req.flash("loginMessage"),
+        hashItem: req.hashItem
+      });
+    }
+  );
 
   router.route("/signup").get(isNotLoggedIn, function(req, res) {
     res.render(templatePath, {

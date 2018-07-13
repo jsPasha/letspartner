@@ -15,7 +15,6 @@ module.exports = function(app, passport) {
   });
 
   let authRouter = require("./routes/auth")(templatePath);
-  let postsRouter = require("./routes/posts")(templatePath);
   let profileRouter = require("./routes/profile")(templatePath);
   let actionRoutes = require("./routes/action")(passport);
   let adminRoutes = require("./routes/admin")(templatePath);
@@ -30,7 +29,6 @@ module.exports = function(app, passport) {
       router,
       authRouter,
       userActivation,
-      postsRouter,
       profileRouter,
       adminRoutes,
       newsRoutes

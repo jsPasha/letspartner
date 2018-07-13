@@ -51,5 +51,15 @@
 	"Thumb": "Thumb",
 	"Main": "Main",
 	"Corporation_update": "Corporation_update",
-	"My_companies": "My_companies"
+	"My_companies": "My_companies",
+	"Startup_create": "Startup_create",
+	"Startup_update": "Startup_update",
+	"website": "website",
+	"Send_to_moderation": "Send_to_moderation",
+	"Send_as_draft": "Send_as_draft",
+	"Position": "Position",
+	"Short_description_about_me": "Short_description_about_me",
+	"Add": "Add",
+	"Email": "Email",
+	"Admin rights": "Admin rights"
 }

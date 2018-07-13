@@ -1,8 +1,8 @@
 <div class="list_item_wrap admin_users_list">      
  
-        <%- userList({users, user, locale}) %>
+    <%- userList({users, user, locale}) %>
 
-        <% if (pages > 1) { %>
+    <% if (pages > 1) { %>
         <ul class="pagination text-center">
             <% if (current == 1) { %>
                 <li class="disabled"><a>First</a></li>
@@ -30,6 +30,6 @@
             <li><a href="/<%- locale  %>/admin/users/<%= pages %>">Last</a></li>
             <% } %>
       </ul>
-      <% } %>
+    <% } %>
 
-   </div>
+</div>

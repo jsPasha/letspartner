@@ -1,18 +1,23 @@
 <header>
-	<div class="container flx jcsb aic">
-		<a href="/<%- locale  %>/">Logotype</a>
+	<% if (user && user.role === 'admin') { %>
+		<div class="container">
+			<a class="admin_panel" href="/<%- locale  %>/admin"><%- __('Admin') %></a>
+		</div>
+	<% } %>
 
-		<a href="/<%- locale  %>/posts">List</a>
-		<a href="/<%- locale  %>/news">news</a>
-		
+	<div class="container flx jcsb aic">
+
+		<a class="logo" href="/<%- locale  %>/"><img src="/img/logo.svg"></a>
+
+		<div class="header_menu">
+			<a href="/<%- locale  %>/news">news</a>
+		</div>
+
 		<%- include('lang_selector'); %>
 
 		<% if (isGuest) { %>
 			<a href="/<%- locale  %>/login">Login</a>
 		<% } else { %>
-			<% if (user && user.role === 'admin') { %>
-				<a href="/<%- locale  %>/admin"><%- __('Admin') %></a>
-			<% } %>
 			<div class="profile_buttons">
 				<a href="/<%- locale  %>/profile"><img src="<%= user.image ? `/uploads${user.image}` : '/uploads/default/profile.svg' %>" alt=""><%- user.name %></a>
 				<a href="/action/logout" class="btn btn-default btn-sm">Logout</a>

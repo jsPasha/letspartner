@@ -23,9 +23,10 @@ const userSchema = new Schema({
   role: { type: String, default: "user" },
   resetPasswordToken: { type: String, default: undefined },
   resetPasswordExpires: Date,
-  createdAt: Number,
-  activatedAt: Number,
-  blocked: { type: Boolean, default: false }
+  createdAt: Date,
+  activatedAt: Date,
+  blocked: { type: Boolean, default: false },
+  companies: [String]
 });
 
 // methods ======================

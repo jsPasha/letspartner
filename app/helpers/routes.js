@@ -10,6 +10,7 @@ const isNotLoggedIn = (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
   if (req.user.role === "admin") return next();
+  res.send("You don`t have admin permition!");
 };
 
 const isBlocked = (req, res, next) => {

@@ -39,7 +39,8 @@ const profileController = {
       content: "../modules/profile/index",
       infoPopup: req.infoPopup,
       timezoneJson,
-      message: req.flash("profileMessage")[0]
+      message: req.flash("profileMessage")[0],
+      companySubmitMessage: req.flash('submitMember')
     });
   }
 };

@@ -1,9 +1,5 @@
 const { isLoggedIn, isAdmin } = require("../helpers/routes");
-const {
-  removeTempPath,
-  deletePrevious,
-  deleteAll
-} = require("../helpers/files");
+const { removeTempPath, deletePrevious } = require("../helpers/files");
 
 const { generateAlias } = require("../helpers/alias");
 const axios = require("axios");
@@ -22,8 +18,7 @@ const fs = require("fs");
 const uniqid = require("uniqid");
 
 const mongoose = require("mongoose");
-const Posts = mongoose.model("posts");
-
+const User = mongoose.model("users");
 const Page = mongoose.model("pages");
 const Popup = mongoose.model("popups");
 
@@ -32,23 +27,23 @@ const profileController = require("../controllers/profile");
 const companyController = require("../controllers/company");
 
 module.exports = passport => {
-  router.post(
-    "/login",
+  router.post("/login", (req, res, next) => {
+    let hash = "";
+    if (req.body.hash) hash = `?q=${req.body.hash}`;
     passport.authenticate("local-login", {
-      successRedirect: "/profile", // redirect to the secure profile section
-      failureRedirect: "/login", // redirect back to the signup page if there is an error
+      successRedirect: `/${req.locale}/profile`, // redirect to the secure profile section
+      failureRedirect: `/${req.locale}/login${hash}`, // redirect back to the signup page if there is an error
       failureFlash: true // allow flash messages
-    })
-  );
+    })(req, res, next);
+  });
 
-  router.post(
-    "/signup",
+  router.post("/signup", (req, res, next) => {
     passport.authenticate("local-signup", {
-      successRedirect: "/action/send-activation", // redirect to the secure profile section
-      failureRedirect: "/signup", // redirect back to the signup page if there is an error
+      successRedirect: `/action/send-activation`, // redirect to the secure profile section
+      failureRedirect: `/${req.locale}/signup`, // redirect back to the signup p/action/confirmage if there is an error
       failureFlash: true // allow flash messages
-    })
-  );
+    })(req, res, next);
+  });
 
   router.get("/logout", function(req, res) {
     req.logout();
@@ -73,35 +68,19 @@ module.exports = passport => {
       .catch(err => res.redirect(req.url));
   });
 
-  router.get(
-    "/auth/google",
+  router.get("/auth/google", (req, res, next) => {
+    if (req.query.q) req.session.hash = req.query.q;
     passport.authenticate("google", {
       scope: ["profile", "email"],
       prompt: "select_account"
-    })
-  );
+    })(req, res, next);
+  });
 
-  router.get(
-    "/auth/google/callback",
+  router.get("/auth/google/callback", (req, res, next) => {
     passport.authenticate("google", {
-      successRedirect: "/profile",
+      successRedirect: `/${req.locale}/profile`,
       failureRedirect: "/"
-    })
-  );
-
-  router.post("/posts/create", isLoggedIn, (req, res) => {
-    let params = {
-      owner: req.user.id,
-      head: req.body.head,
-      content: req.body.content,
-      createdAt: new Date().getTime(),
-      type: req.body.type
-    };
-    let post = new Posts(params);
-    post.save(err => {
-      if (err) return res.send(err);
-      res.redirect(`/${req.locale}/posts/1`);
-    });
+    })(req, res, next);
   });
 
   router.post(
@@ -122,13 +101,7 @@ module.exports = passport => {
     newsController.update
   );
 
-  router.get(
-    "/news/delete/:id",
-    isLoggedIn,
-    isAdmin,
-    deleteAll,
-    newsController.delete
-  );
+  router.get("/news/delete/:id", isLoggedIn, isAdmin, newsController.delete);
 
   router.post("/company/:type/create", [
     isLoggedIn,
@@ -137,20 +110,26 @@ module.exports = passport => {
     companyController.create
   ]);
 
-  router.post("/company/:type/update/:createdAt/:alias", [
+  router.post("/company/:type/update/:id", [
     isLoggedIn,
-    isAdmin,
     removeTempPath,
     deletePrevious,
     companyController.update
   ]);
 
   router.post(
+    "/company/:type/delete/:id",
+    isLoggedIn,
+    companyController.delete
+  );
+
+  router.post("/deleteMember", isLoggedIn, companyController.deleteMember);
+
+  router.post(
     "/popup/update/:id",
     [isLoggedIn, isAdmin, removeTempPath, deletePrevious],
     (req, res, next) => {
       let { content } = req.body;
-      console.log(content);
       let _id = req.params.id;
       Popup.update({ _id }, { $set: { content } }, err => {
         if (err) return res.send(err);
@@ -175,6 +154,14 @@ module.exports = passport => {
     deletePrevious,
     profileController.update
   );
+
+  router.post(
+    "/add-member/:companyId",
+    isLoggedIn,
+    companyController.addMember
+  );
+
+  router.get("/confirm", companyController.confirmUser);
 
   router.post("/upload/cropped-image", isLoggedIn, (req, res, err) => {
     const fileName = `/temp/${uniqid()}.png`;

@@ -10,6 +10,7 @@ const smtpSettings = require("../../data/smtp");
 const userActivation = (req, res, next) => {
   if (
     req.user &&
+    req.url.indexOf("/profile") !== -1 &&
     req.url.indexOf("/activation-user") === -1 &&
     req.url.indexOf("/action/") === -1 &&
     !req.user.active

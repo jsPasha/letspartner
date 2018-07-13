@@ -6,11 +6,37 @@
 textarea
 	height: auto
 	min-height: 100px
-
+.admin_panel
+	text-decoration: underline
+	margin-bottom: 20px
+	display: inline-block
+#content
+	min-height: 100vh
+	position: relative
+	overflow: hidden
+	padding-bottom: 100px
+	box-sizing: border-box
 header, footer
-	background-color: rgba(0,0,0,.2)
+	background-color: #222
 	padding: 20px 15px
-
+	color: #fff
+	a
+		color: #fff
+		text-decoration: none
+footer
+	position: absolute
+	bottom: 0
+	width: 100%
+	left: 0
+	box-sizing: border-box
+	p
+		margin: 0
+.logo
+	img
+		height: 60px
+.header_menu
+	a
+		margin-right: 10px
 body
 	font-family: 'Roboto', sans-serif
 	font-size: 16px
@@ -94,8 +120,6 @@ ul, li
 				color: #fff
 			&.disabled
 				opacity: 0.4
-footer
-	margin-top: 20px !important
 .lang_selector
 	list-style-type: none
 	padding: 0
@@ -106,12 +130,13 @@ footer
 		&.active
 			a
 				color: red
-				background-color: #fff
+				text-decoration: underline
 		a
 			text-decoration: none
-			color: #000
+			color: #fff
 			display: block
 			padding: 2px
+			font-size: 18px
 			border-radius: 4px
 .admin_menu, .admin_menu ul
 	padding: 0
@@ -280,14 +305,12 @@ input
 	&.error
 		border-color: #ff0000
 input[type="submit"]
-	position: fixed
-	width: 220px
-	height: 60px
+	height: 40px
+	padding: 0 50px
 	bottom: 30%
 	left: 50%
-	transform: translateX(-50%)
 	background-color: green
-	font-size: 20px
+	font-size: 16px
 	text-transform: uppercase
 	color: #fff
 	font-weight: 700
@@ -295,15 +318,17 @@ input[type="submit"]
 	border: 0
 	box-shadow: 0 1px 40px green
 	transition: all 1s ease
-	display: none
-	&.active
-		bottom: 20px
+	margin-top: 10px
+.center
+	text-align: center
 .page_head
 	text-align: center
 	padding: 40px 0
 	color: #fff
 	margin: 40px 0
 	position: relative
+	background-position: 50% 50%
+	background-size: cover
 	> *
 		position: relative
 		z-index: 2
@@ -315,7 +340,7 @@ input[type="submit"]
 		left: 0
 		top: 0
 		z-index: 0
-		background-color: rgba(0,0,0,.4)
+		background-color: rgba(0,0,0,.6)
 #info_popup, #phone_popup, #block_popup
 	position: relative
 	max-width: 700px
@@ -349,11 +374,14 @@ input[type="submit"]
 			height: 50px
 			margin-right: 10px
 			border-radius: 8px
-.success-message
+.success-message, .error-message
 	padding: 14px 20px
-	border: 1px solid green
 	border-radius: 8px
-	background-color: lightgreen
+	color: #fff
+.success-message
+	background-color: #26a69a
+.error-message
+	background-color: #ff3369
 .admin_users_list
 	border-collapse: collapse
 	.item
@@ -457,6 +485,9 @@ input[type="submit"]
 .company_items
 	font-size: 0
 	margin: 0 -15px
+.company_item
+	border-bottom: 1px solid #000
+	padding-bottom: 10px
 .company_item_info
 	position: relative
 	border-radius: 4px
@@ -476,6 +507,7 @@ input[type="submit"]
 	img
 		z-index: 0
 		border-radius: 4px
+		min-height: 100px
 	span
 		position: absolute
 		top: 3px
@@ -488,10 +520,16 @@ input[type="submit"]
 			left: 3px
 		&.moderation
 			background-color: yellow
+		&.draft
+			background-color: #ff3369
+			color: #fff
 		&.published
 			background-color: #26a69a
 		&.corporation
 			background-color: #26a69a
+			color: #fff
+		&.startup
+			background-color: #03a9f4
 			color: #fff
 	h2
 		color: #fff
@@ -502,10 +540,124 @@ input[type="submit"]
 		margin: 0
 		font-weight: 400
 		font-size: 20px
-		max-width: 100%
+		width: 100%
 		padding: 0 15px
 		box-sizing: border-box
+		text-align: center
 .company_control
 	a
 		font-size: 16px
-		
+.no_results
+	font-size: 16px
+	padding: 15px
+.button_checkbox
+	text-align: right
+	font-size: 0
+	position: sticky
+	label		
+		cursor: pointer
+		padding: 14px 30px
+		display: inline-block
+		font-size: 16px
+		margin-left: 10px
+		border-radius: 4px
+		box-shadow: 0 2px 20px rgba(0,0,0,.2)
+		font-weight: 700
+		color: #000
+		&.moderation
+			background-color: #fbc02d
+		&.draft
+			background-color: #ff3369
+			color: #fff
+		input
+			position: absolute
+			visibility: hidden
+#company_form
+	opacity: 0
+.static-message
+	margin: 30px 0
+	text-align: center
+	box-shadow: 0 2px 30px rgba(0,0,0,.2)
+	p
+		font-size: 20px
+		a
+			display: inline-block
+.company_control
+	display: flex
+	justify-content: space-between
+	padding-top: 10px
+	a
+		width: 48%
+		text-align: center
+		display: block
+		padding: 8px 0
+		background-color: #17BDFF
+		border-radius: 4px
+		color: #fff
+		text-decoration: none
+		&.delete_company
+			background-color: #FF477D
+.company_form_body
+	display: flex
+	align-items: flex-start
+	.static_menu
+		display: block
+		padding-right: 30px
+		padding-top: 70px
+		width: 240px
+		li
+			width: 100%
+			margin-bottom: 10px
+.meet_team
+	background-color: rgba(0,0,0,.1)
+	padding: 15px 20px
+.meet_me
+	background-color: #fff
+	padding: 15px
+.company_form_right
+	flex-grow: 1
+.company_form_menu
+	width: 240px
+	margin-right: 30px
+	box-sizing: border-box
+	flex-shrink: 0
+	a
+		display: block
+		text-decoration: none
+		padding: 12px 20px
+		color: #03a9f4
+		font-weight: 700		
+		&.active
+			color: #fff
+			background-color: #03a9f4
+			border-radius: 4px
+.add_team_head
+	display: flex
+	align-items: center
+	margin-bottom: 15px
+	img
+		width: 70px
+		border-radius: 4px
+	> *
+		margin-right: 15px
+.add_team_about
+	textarea
+		width: 100%
+		box-sizing: border-box
+		resize: none
+.axios-message
+	position: fixed
+	left: 50%
+	transform: translateX(-50%)
+	font-weight: 700
+	text-align: center
+	top: 10px
+	width: 100%
+	letter-spacing: 0.05em
+	max-width: 1170px
+	z-index: 100
+	button
+		position: absolute
+		right: 10px
+		top: 10px
+	

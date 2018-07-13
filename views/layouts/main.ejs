@@ -11,11 +11,13 @@
 </head>
 <body>
 
-	<%- include('components/header'); %>
+	<div id="content">
+		<%- include('components/header'); %>
 
-	<%- include(content); %>
-	
-	<%- include('components/footer'); %>
+		<%- include(content); %>
+		
+		<%- include('components/footer'); %>
+	</div>
 
 	<% if (typeof infoPopup !== 'undefined') { %>
 		<%- include('components/popups/infoPopup'); %>

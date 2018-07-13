@@ -1,6 +1,8 @@
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const User = mongoose.model("users");
+const MemberHash = mongoose.model("memberHash");
+const Team = require("../../app/helpers/members");
 
 module.exports = passport =>
   passport.use(
@@ -13,7 +15,8 @@ module.exports = passport =>
         passReqToCallback: true // allows us to pass back the entire request to the callback
       },
       function(req, email, password, done) {
-        
+        const { hash } = req.body;
+
         User.findOne({ email }, function(err, user) {
           if (err) return done(err);
           if (!user)
@@ -43,8 +46,25 @@ module.exports = passport =>
               req.flash("loginMessage", "Oops! Wrong password.")
             );
 
+          if (hash) {
+            MemberHash.findOne({ hash }, (err, item) => {
+              if (item && item.email === email) {
+                Team.confirmParticipation({ item, req, user })
+                  .then(message => {
+                    if (!err) MemberHash.deleteOne({ hash });
+                    return done(err, user, req.flash("submitMember", message));
+                  })
+                  .catch(err => {
+                    console.log("LocalLogin error");
+                    return done(err);
+                  });
+              }
+            });
+          } else {
+            return done(null, user);
+          }
+
           // all is well, return successful user
-          return done(null, user);
         });
       }
     )

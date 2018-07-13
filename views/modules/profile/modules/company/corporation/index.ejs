@@ -1,0 +1,23 @@
+<%
+const update = action === 'update';
+%>
+
+<div id="company_form" class="container">
+
+	<h1><%- __(`Corporation_${action}`) %></h1>
+
+	<div class="company_form_body">
+		
+		<%- update ? include('../components/menu') : '' %>
+
+		<div class="company_form_right">
+
+			<%- include('../components/_info') %>
+			
+			<%- update ? include('../components/_team') : '' %>
+
+		</div>
+
+	</div>
+
+</div>

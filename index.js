@@ -28,12 +28,12 @@ mongoose.connect(
 );
 
 require("./app/models/user");
-require("./app/models/post");
 require("./app/models/news");
 require("./app/models/page");
 require("./app/models/authHash");
 require("./app/models/popup");
 require("./app/models/company");
+require("./app/models/memberHash");
 
 const { setPhonePopup } = require("./app/helpers/popups");
 

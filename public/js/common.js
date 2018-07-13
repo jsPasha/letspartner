@@ -112,10 +112,9 @@ $(".static_menu a").click(function(e) {
 });
 
 $(".delete_company").click(function(e) {
-  if (!confirm("Delete?")) {
-    e.preventDefault();
-  } else {
+  e.preventDefault();
+  if (confirm("Delete?")) {
     let url = this.getAttribute("href");
-    axios.get(url).then(() => location.reload());
+    axios.post(url).then(() => location.reload());
   }
 });

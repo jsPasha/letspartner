@@ -1,12 +1,14 @@
 const moment = require("moment");
 
 const generateList = params => {
-  let { model, page, perPage, locale, published } = params;
+  let { model, page, perPage, locale, published, query } = params;
+
+  if (!query) query = {};
 
   if (!published) {
     return new Promise((res, rej) => {
       model
-        .find()
+        .find(query)
         .sort({ createdAt: -1 })
         .skip(perPage * page - perPage)
         .limit(perPage)
@@ -26,7 +28,7 @@ const generateList = params => {
   } else {
     return new Promise((res, rej) => {
       model
-        .find()
+        .find(query)
         .where("published")
         .equals(true)
         .sort({ createdAt: -1 })

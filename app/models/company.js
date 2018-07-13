@@ -12,15 +12,14 @@ const companySchema = new Schema({
   alias: String,
   type: {
     type: String,
-    enum: ['startup', 'corporation']
+    enum: ["startup", "corporation"]
   },
   status: {
     type: String,
-    enum: ['moderation', 'published', 'draft'],
-    default: 'moderation'
+    enum: ["moderation", "published", "draft"],
+    default: "moderation"
   },
   creator: String,
-  admin: [String],
   name: langModel,
   description: langModel,
   images: {
@@ -44,7 +43,29 @@ const companySchema = new Schema({
   activity: String,
   stages: [String],
   tags: [String],
-  members: [String],
+  members: [
+    {
+      userId: String,
+      email: String,
+      phone: String,
+      position: String,
+      name: String,
+      surname: String,
+      confirmed: {
+        type: Boolean,
+        default: false
+      },
+      companyRole: {
+        type: String,
+        enum: ["member", "founder"]
+      },
+      about: String,
+      adminRole: {
+        type: String,
+        enum: ["admin", "user"]
+      }
+    }
+  ],
   createdAt: {
     type: Number,
     default: new Date().getTime()

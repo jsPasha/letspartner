@@ -63,29 +63,35 @@ function replaceContents(file, replacement, cb) {
   });
 }
 
-const deleteAll = (req, res, next) => {
+const deleteAll = ({ req, Model }) => {
   let _id = req.params.id;
 
-  News.findById(_id, (err, news) => {
-    let images = news.images;
-    if (images)
-      for (let key in images) {
-        if (typeof images[key] === "string" && images[key] !== "")
-          fs.unlink(`public/uploads${images[key]}`, err => {
-            if (err) console.log(err);
-          });
-      }
-    if (news.floatContent) news.floatContent.forEach(el => {
-      if (el.contentType === "gallery") {
-        let gallery = el.gallery;
-        gallery.forEach((el, index) => {
-          fs.unlink(`public/uploads${gallery[index]}`, err => {
-            if (err) console.log(err);
-          });
+  return new Promise((resolve, reject) => {
+    Model.findById(_id, (err, obj) => {
+      let images = obj ? obj.images : null;
+
+      if (images)
+        for (let key in images) {
+          if (typeof images[key] === "string" && images[key] !== "")
+            fs.unlink(`public/uploads${images[key]}`, err => {
+              if (err) console.log(err);
+            });
+        }
+
+      if (obj.floatContent)
+        obj.floatContent.forEach(el => {
+          if (el.contentType === "gallery") {
+            let gallery = el.gallery;
+            gallery.forEach((el, index) => {
+              fs.unlink(`public/uploads${gallery[index]}`, err => {
+                if (err) console.log(err);
+              });
+            });
+          }
         });
-      }
+
+      resolve();
     });
-    next();
   });
 };
 
