@@ -172,7 +172,7 @@ const companyController = {
                   <p>Пароль: ${password}</p>`;
 
                 transporter.sendMail(mailOptions, (err, info) => {
-                  if (err) console.log("error on sending");
+                  if (err) console.log("error on sending", err);
                   console.log("Email sending success!");
                 });
               });
