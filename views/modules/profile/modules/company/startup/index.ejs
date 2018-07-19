@@ -1,9 +1,26 @@
-<div class="container">
+<%
+const update = action === 'update';
+%>
 
-	<h1><%- __(`Startup_${action}`) %></h1>
+<div id="company_form" class="container profile_section">
 
-	<%- include('../components/menu') %>
+	<h1><%- (admin && action === 'update') ? __(`Startup_moderation`) : __(`Startup_${action}`) %></h1>
 
-	<%- include('../components/form') %>
+	<div class="company_form_body">
+		
+		<%- update ? include('./menu') : '' %>
+
+		<div class="company_form_right">
+
+			<%- action === 'update' ? `${__("Status")}: <b>${obj.status}</b>` : '' %>
+
+			<%- include('./form') %>
+			
+			<%- update ? include('../components/_team') : `<div v-show="activePart == 'team'" class="company_form_items">Функционал добавления членов команды доступен после отправки компании на модерацию или в черновик.</div>` %>
+
+		</div>
+
+	</div>
 
 </div>
+

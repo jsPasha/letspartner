@@ -1,4 +1,3 @@
-import $ from "jquery";
 import axios from "axios";
 
 require("jquery-ui/ui/widgets/autocomplete");

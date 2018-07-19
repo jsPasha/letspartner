@@ -1,73 +1,82 @@
-<div class="container">
+<div class="container profile_section">
 	<h1><%= __('Profile') %></h1>
 
-	<% if (companySubmitMessage.length > 0) { %>
-		<div class="<%= companySubmitMessage[0].type %>-message static-message">
-			<p><%- companySubmitMessage[0].text %></p>
-		</div>
-	<%}%>
+	<div class="admin_block">
 
-	<%- include('_menu') %>
+		<%- include('./_profile_menu') %>
 
-	<form method="POST" class="update_form" action="/action/profile/update">
+		<div>
 
-		<% if (message) { %><p class="<%-message.type%>-message"><%-message.text%></p><% } %>
+			<% if (companySubmitMessage.length > 0) { %>
+				<div class="<%= companySubmitMessage[0].type %>-message static-message">
+					<p><%- companySubmitMessage[0].text %></p>
+				</div>
+			<%}%>
 
-			<div class="form_block">
-				<h2><%- __('Photo') %></h2>
-				<div class="form-group form-group-image-pick">
-					<label><%- __("Avatar") %></label>
-					<div class="image_pick_area active">
-						<input class="image_pick" data-ratio="1:1" type="file" accept="image/">
-						<img src="<%= user.image ? `/uploads${user.image}` : '/uploads/default/profile.svg' %>">
-						<input type="hidden" class="hidden_image_url" value="<%=user.image%>" name="image" />
-						<a class="upload_new_image" data-del-url="<%=user.image%>" href="#"><%- __("upload_new_image") %></a>
+			<%- include('_menu') %>
+
+			<form method="POST" class="update_form" action="/action/profile/update">
+
+				<% if (message) { %><p class="<%-message.type%>-message"><%-message.text%></p><% } %>
+
+					<div class="form_block">
+						<h2><%- __('Photo') %></h2>
+						<div class="form-group form-group-image-pick">
+							<div class="image_pick_area active">
+								<input class="image_pick" data-ratio="1:1" type="file" accept="image/">
+								<div class="cropped_image_view">
+									<img src="<%= user.image ? `/uploads${user.image}` : '/uploads/default/profile.svg' %>">
+								</div>
+								<input type="hidden" class="hidden_image_url" value="<%=user.image%>" name="image" />
+								<a class="upload_new_image" data-del-url="<%=user.image%>" href="#"><%- __("upload_new_image") %></a>
+							</div>
+						</div>
 					</div>
-				</div>
+
+					<div class="form_block">
+
+						<h2><%- __('Contacts_information') %></h2>
+
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label><%- __("Name") %></label>
+								<input type="text" name="name" value="<%= user.name %>"/>
+							</div>
+							<div class="form-group col-md-6">
+								<label><%- __("Surname") %></label>
+								<input type="text" name="surname" value="<%= user.surname %>"/>
+							</div>
+							<div class="form-group col-md-6">
+								<label>Skype</label>
+								<input type="text" name="skype" value="<%= user.skype %>"/>
+							</div>
+							<div class="form-group col-md-6">
+								<label>Email</label>
+								<p><%= user.email %></p>
+							</div>
+							<div class="form-group col-md-6">
+								<label><%- __("Phone") %></label>
+								<div id="phone" data-phone="<%= user.phone %>"></div>
+							</div>
+							<div class="form-group col-md-6">
+								<label><%- __("Timezone") %></label>
+								<select name="timezone" value="<%= user.timezone %>">
+									<%
+									timezoneJson.map((el) => {
+										%>
+										<option value="<%= el.value %>" <%- el.value === user.timezone ? 'selected' : '' %>><%- el.text %></option>
+										<%
+									});
+									%>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+					<div class="center">
+						<input type="submit" value="<%= __('update') %>">
+					</div>
+				</form>
 			</div>
-
-			<div class="form_block">
-				<h2><%- __('Contacts_information') %></h2>
-				<div class="form-group">
-					<label><%- __("Name") %></label>
-					<input type="text" name="name" value="<%= user.name %>"/>
-				</div>
-				<div class="form-group">
-					<label><%- __("Surname") %></label>
-					<input type="text" name="surname" value="<%= user.surname %>"/>
-				</div>
-				<div class="form-group">
-					<label>Skype</label>
-					<input type="text" name="skype" value="<%= user.skype %>"/>
-				</div>
-				<div class="form-group">
-					<label>Email</label>
-					<p><%= user.email %></p>
-				</div>
-				<div class="form-group">
-					<label>Original Email</label>
-					<p><%= user.originalEmail %></p>
-				</div>
-				<div class="form-group">
-					<label><%- __("Phone") %></label>
-					<div id="phone" data-phone="<%= user.phone %>"></div>
-				</div>
-				<div class="form-group">
-					<label><%- __("Timezone") %></label>
-					<select name="timezone" value="<%= user.timezone %>">
-						<%
-						timezoneJson.map((el) => {
-							%>
-							<option value="<%= el.value %>" <%- el.value === user.timezone ? 'selected' : '' %>><%- el.text %></option>
-							<%
-						});
-						%>
-					</select>
-				</div>
-			</div>
-
-			<input type="submit" value="<%= __('update') %>">
-
-		</form>
-
+		</div>
 	</div>

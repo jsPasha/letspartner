@@ -1,4 +1,10 @@
-import $ from "jquery";
+window.$ = window.jQuery = require("jquery");
+
+require("chosen-js");
+require("selectize");
+require("jquery-validation");
+require("owl.carousel");
+
 import { imageCropper, multipleInit } from "./components/imageCropper";
 import initCkeditors from "./components/ckeditor";
 import setState from "./methods/state";
@@ -8,6 +14,8 @@ import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom";
 import ReactPhoneInput from "react-phone-input-2";
+
+import submitAjaxForm from "./methods/ajaxForm";
 
 if (document.getElementById("phone")) {
   ReactDOM.render(
@@ -29,6 +37,8 @@ require("./components/floatContent");
 require("./components/popups");
 require("./components/autocomplete");
 require("./components/company");
+require("./components/languages");
+require("./components/lists");
 
 $(".confirm").click(function(e) {
   if (!confirm("Удалить новость?")) e.preventDefault();
@@ -57,27 +67,8 @@ $("body").on("click", ".state_checkbox", function() {
 
 $(".ajax_form").submit(function(e) {
   e.preventDefault();
-  $(this)
-    .find('[type="submit"]')
-    .hide();
-  const method = $(this).attr("method"),
-    url = $(this).attr("action"),
-    data = $(this).serialize();
-  $.ajax({
-    method,
-    url,
-    data,
-    success: data => {
-      $.magnificPopup.close();
-      $("body").append(`
-        <div class="success_fixed">
-          ${data.text}
-        </div>
-      `);
-      setTimeout(() => {
-        $(".success_fixed").remove();
-      }, 2000);
-    }
+  submitAjaxForm(this).then(() => {
+    $.magnificPopup.close();
   });
 });
 
@@ -118,3 +109,49 @@ $(".delete_company").click(function(e) {
     axios.post(url).then(() => location.reload());
   }
 });
+
+setTimeout(() => {
+  $(".axios-message").remove();
+}, 5000);
+
+$(window).scroll(function() {
+  if ($(this).scrollTop() > 500) {
+    $(".to_top").css("opacity", "1");
+  } else {
+    $(".to_top").css("opacity", "0");
+  }
+});
+
+$(".to_top").click(() => {
+  $("html, body")
+    .stop()
+    .animate(
+      {
+        scrollTop: 0
+      },
+      500
+    );
+});
+
+$(".news_carousel").each(function() {
+  $(this).owlCarousel({
+    items: 1,
+    nav: true,
+    navText: [
+      '<i class="fa fa-arrow-left" aria-hidden="true"></i>',
+      '<i class="fa fa-arrow-right" aria-hidden="true"></i>'
+    ]
+  });
+});
+
+const setIframeHeight = () => {
+  $(".auto_iframe").each(function() {
+    $(this).css("height", 0.56 * $(this).width() + "px");
+  });
+};
+
+setIframeHeight();
+
+$(window).resize(setIframeHeight)
+
+$(".validation").validate();

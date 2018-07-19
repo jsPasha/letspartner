@@ -2,19 +2,25 @@
 const update = action === 'update';
 %>
 
-<div id="company_form" class="container">
+<div id="company_form" class="container profile_section">
 
-	<h1><%- __(`Corporation_${action}`) %></h1>
+	<h1><%- (admin && action === 'update') ? __(`Corporation_moderation`) : __(`Corporation_${action}`) %></h1>
 
-	<div class="company_form_body">
-		
-		<%- update ? include('../components/menu') : '' %>
+	<div class="admin_block">
 
-		<div class="company_form_right">
+	<%- include('./menu') %>
 
-			<%- include('../components/_info') %>
-			
-			<%- update ? include('../components/_team') : '' %>
+		<div class="company_form_body">		
+
+			<div class="company_form_right">
+
+				<%- action === 'update' ? `<p class="company_status">${__("Status")}: <b>${obj.status}</b></p>` : '' %>
+
+				<%- include('./form') %>
+				
+				<%- update ? include('../components/_team') : `<div v-show="activePart == 'team'" class="company_form_items">Функционал добавления членов команды доступен после отправки компании на модерацию или в черновик.</div>` %>
+
+			</div>
 
 		</div>
 

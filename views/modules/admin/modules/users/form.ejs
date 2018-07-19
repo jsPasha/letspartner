@@ -1,111 +1,149 @@
-<div class="container">
+<div class="container profile_section">
 
 	<h1><%- __(`User_edit`) %></h1>
 
-	<%- include('../../menu'); %>
-	
-	<ul class="static_menu">
-		<li>
-			<a class="active" href="#block1" data-items=".profile_item">Роли пользователя</a>
-		</li>
-		<li>
-			<a href="#block2" data-items=".profile_item">Профиль пользователя</a>
-		</li>
-		<li>
-			<a href="#block3" data-items=".profile_item">Заявки пользователя</a>
-		</li>
-	</ul>
+	<div class="admin_block">
 
-	<div>
+		<%- include('../../menu'); %>
+		
+		<div>
+			<ul class="static_menu">
+				<li>
+					<a class="active" href="#block1" data-items=".profile_item">Роли пользователя</a>
+				</li>
+				<li>
+					<a href="#block2" data-items=".profile_item">Профиль пользователя</a>
+				</li>
+				<li>
+					<a href="#block3" data-items=".profile_item">Заявки пользователя</a>
+				</li>
+			</ul>
 
-	<form id="block1" method="POST" class="update_form ajax_form profile_item" action="/action/profile/update/<%=user.id%>">
+			<div>
+			<p><%- __(`User`) %>: <b><%= userProfile.email %></b></p>
+			<form id="block1" method="POST" class="update_form ajax_form profile_item" action="/action/profile/update/<%=userProfile.id%>">
 
-		<div class="form_block">
-			
-			<div class="form-group">
-				<label>Email</label>
-				<p><%= user.email %></p>
-			</div>
-			<div class="form-group">
-				<label>Original Email</label>
-				<p><%= user.originalEmail %></p>
-			</div>
+				<div class="form_block">
+					
+					<div class="form-group">
+						<label>Email</label>
+						<p><%= userProfile.email %></p>
+					</div>
+					<div class="form-group">
+						<label>Original Email</label>
+						<p><%= userProfile.originalEmail %></p>
+					</div>
 
-			<h2>Роли</h2>
-			<h3>Управление порталом</h3>
-			
-			<div class="radiobuttons">
-				<label>
-					<input type="radio" name="role" value="admin" <%- user.role === 'admin' ? 'checked=""' : "" %>>
-					<span>Administrator</span>
-				</label>
-				<label>
-					<input type="radio" name="role" value="user" <%- user.role === 'user' ? 'checked=""' : "" %>>
-					<span>User</span>
-				</label>
+					<h2>Роли</h2>
+					<h3>Управление порталом</h3>
+					
+					<div class="radiobuttons">
+						<label>
+							<input type="radio" name="role" value="admin" <%- userProfile.role === 'admin' ? 'checked=""' : "" %>>
+							<span>Administrator</span>
+						</label>
+						<label>
+							<input type="radio" name="role" value="user" <%- userProfile.role === 'user' ? 'checked=""' : "" %>>
+							<span>User</span>
+						</label>
+					</div>
+
+				</div>
+<div class="center">
+				<input type="submit" value="<%= __('update') %>">
+</div>
+			</form>
+
+				<form id="block2" style="display: none" method="POST" class="update_form ajax_form profile_item" action="/action/profile/update/<%=userProfile.id%>">
+
+					<div class="form_block">
+						<h2><%- __('Photo') %></h2>
+						<div class="form-group form-group-image-pick">
+							<label><%- __("Avatar") %></label>
+							<div class="image_pick_area active">
+								<input class="image_pick" data-ratio="1:1" type="file" accept="image/">
+								<div class="cropped_image_view">
+									<img src="<%= userProfile.image ? `/uploads${userProfile.image}` : '/uploads/default/profile.svg' %>">
+								</div>
+								<input type="hidden" class="hidden_image_url" value="<%=userProfile.image%>" name="image" />
+								<a class="upload_new_image" data-del-url="<%=userProfile.image%>" href="#"><%- __("upload_new_image") %></a>
+							</div>
+						</div>
+					</div>
+
+					<div class="form_block">
+
+						<h2><%- __('Contacts_information') %></h2>
+
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label><%- __("Name") %></label>
+								<input type="text" name="name" value="<%= userProfile.name %>"/>
+							</div>
+							<div class="form-group col-md-6">
+								<label><%- __("Surname") %></label>
+								<input type="text" name="surname" value="<%= userProfile.surname %>"/>
+							</div>
+							<div class="form-group col-md-6">
+								<label>Skype</label>
+								<input type="text" name="skype" value="<%= userProfile.skype %>"/>
+							</div>
+							<div class="form-group col-md-6">
+								<label>Email</label>
+								<p><%= userProfile.email %></p>
+							</div>
+							<div class="form-group col-md-6">
+								<label><%- __("Phone") %></label>
+								<div id="phone" data-phone="<%= userProfile.phone %>"></div>
+							</div>
+							<div class="form-group col-md-6">
+								<label><%- __("Timezone") %></label>
+								<select name="timezone" value="<%= userProfile.timezone %>">
+									<%
+									timezoneJson.map((el) => {
+										%>
+										<option value="<%= el.value %>" <%- el.value === userProfile.timezone ? 'selected' : '' %>><%- el.text %></option>
+										<%
+									});
+									%>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="center">
+						<input type="submit" value="<%= __('update') %>">
+					</div>
+				</form>
+
+				<div id="block3" style="display: none" class="profile_item">
+					<table class="table">
+						<tr>
+							<td>id</td>
+							<td>Тип завки</td>
+							<td>Название компании</td>
+							<td>Статус</td>
+							<td>Created Date</td>
+							<td>Дата публикации / отклонения / ответа партнеру</td>
+							<td>Действие</td>
+						</tr>	
+						<% companies.forEach((el) => { %>
+							<tr>
+								<td><%- el.id %></td>
+								<td><%- el.type %></td>
+								<td><%- el.name[locale] %></td>
+								<td><%- el.status %></td>
+								<td><%- moment(+el.createdAt).format("LLL"); %></td>
+								<td><%- el.submitedAt ? moment(+el.submitedAt).format("LLL") : '' %></td>
+								<td><a href="/<%-locale%>/admin/company/<%- el.type %>/update/<%- el.id %>"><img width="24" src="/img/pencil.svg" /></a></td>
+							</td>
+						<% }); %>
+					</table>
+					
+				</div>
+
 			</div>
 
 		</div>
-
-		<input type="submit" value="<%= __('update') %>">
-
-	</form>
-
-		<form id="block2" style="display: none" method="POST" class="update_form ajax_form profile_item" action="/action/profile/update/<%=user.id%>">
-
-			<div class="form_block">
-				<h2><%- __('Photo') %></h2>
-				<div class="form-group form-group-image-pick">
-					<label><%- __("Avatar") %></label>
-					<div class="image_pick_area active">
-						<input class="image_pick" data-ratio="1:1" type="file" accept="image/">
-						<img src="<%= user.image ? `/uploads${user.image}` : '/uploads/default/profile.svg' %>">
-						<input type="hidden" class="hidden_image_url" value="<%=user.image%>" name="image" />
-						<a class="upload_new_image" data-del-url="<%=user.image%>" href="#"><%- __("upload_new_image") %></a>
-					</div>
-				</div>
-			</div>
-
-			<div class="form_block">
-				<h2><%- __('Contacts_information') %></h2>
-				<div class="form-group">
-					<label><%- __("Name") %></label>
-					<input type="text" name="name" value="<%= user.name %>"/>
-				</div>
-				<div class="form-group">
-					<label><%- __("Surname") %></label>
-					<input type="text" name="surname" value="<%= user.surname %>"/>
-				</div>
-				<div class="form-group">
-					<label>Skype</label>
-					<input type="text" name="skype" value="<%= user.skype %>"/>
-				</div>
-				<div class="form-group">
-					<label>Email</label>
-					<input type="text" name="email" autocomplete="off" value="<%= user.email %>"/>
-				</div>
-				<div class="form-group">
-					<label>Original Email</label>
-					<p><%= user.originalEmail %></p>
-				</div>
-				<div class="form-group">
-					<label><%- __("Phone") %></label>
-					<div id="phone" data-phone="<%= user.phone %>"></div>
-				</div>
-				<div class="form-group">
-					<label><%- __("Timezone") %></label>
-					<select name="timezone" value="<%= user.timezone %>">
-						<% timezoneJson.map((el) => { %>
-							<option value="<%= el.value %>" <%- el.value === user.timezone ? 'selected' : '' %>><%- el.text %></option>
-						<% }); %>
-					</select>
-				</div>
-			</div>
-
-			<input type="submit" value="<%= __('update') %>">
-
-		</form>
-
-	</div>
 
 </div>

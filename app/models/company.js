@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const locales = require("../../data/locales");
 
+const targetAudienceTypes = require('../../data/settings').company.targetAudienceTypes;
+
 let langModel = {};
 
 locales.forEach((el, i) => (langModel[el] = { type: String }));
@@ -16,7 +18,7 @@ const companySchema = new Schema({
   },
   status: {
     type: String,
-    enum: ["moderation", "published", "draft"],
+    enum: ["moderation", "published", "draft", "reject"],
     default: "moderation"
   },
   creator: String,
@@ -26,6 +28,9 @@ const companySchema = new Schema({
     logo: String,
     thumb: String,
     main: String
+  },
+  admin_message: {
+    reject: String
   },
   phones: [String],
   social: {
@@ -42,6 +47,19 @@ const companySchema = new Schema({
   directions: [String],
   activity: String,
   stages: [String],
+  idea: String,
+  problems: String,
+  projects: String,
+  results: String,
+  break_even: String,
+  targetAudience: {
+    type: {
+      type: 'String',
+      enum: targetAudienceTypes
+    },
+    problems: langModel,
+    solving: langModel
+  },
   tags: [String],
   members: [
     {
@@ -59,6 +77,7 @@ const companySchema = new Schema({
         type: String,
         enum: ["member", "founder"]
       },
+      image: String,
       about: String,
       adminRole: {
         type: String,
@@ -70,6 +89,7 @@ const companySchema = new Schema({
     type: Number,
     default: new Date().getTime()
   },
+  submitedAt: Number,
   description_lang: [String]
 });
 

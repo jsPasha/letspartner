@@ -1,7 +1,16 @@
-<div class="container">
-	<h1><%= __('My_companies') %></h1>
+	<div class="container profile_section">
+		<h1><%= __('My_companies') %></h1>
 
-	<%- include('../../_menu') %>
+		<div class="admin_block">
 
-	<%- include('_list') %>
-</div>
+			<%- include('../../_profile_menu') %>
+
+			<div>
+
+				<%- include('../../_menu') %>
+
+				<%- include('_list') %>
+
+			</div>
+		</div>
+	</div>

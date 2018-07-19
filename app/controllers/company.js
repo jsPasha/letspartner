@@ -9,6 +9,7 @@ const { deleteAll } = require("../helpers/files");
 
 const User = mongoose.model("users");
 const MemberHash = mongoose.model("memberHash");
+const Lists = mongoose.model("lists");
 
 const Team = require("../helpers/members");
 const { waterfall } = require("async");
@@ -18,6 +19,8 @@ const generator = require("generate-password");
 const nodemailer = require("nodemailer");
 const smtpSettings = require("../../data/smtp");
 
+const saveTags = require("../helpers/tags");
+
 const companyController = {
   create: (req, res) => {
     let data = req.body;
@@ -26,35 +29,68 @@ const companyController = {
     data.type = req.params.type;
     data.creator = user;
 
+    data.tags = data.tags ? data.tags.split(",") : null;
+
+    saveTags(data.tags);
+
     new Company(data).save(err => {
       if (err) return res.send(err);
       res.redirect(`/${req.locale}/profile/companies/`);
     });
   },
   update: (req, res, next) => {
+    if (req.body.status === "published" || req.body.status === "published")
+      req.body.status = "moderation";
+
+    req.body.tags = req.body.tags ? req.body.tags.split(",") : null;
+
+    saveTags(req.body.tags);
+
     Company.update({ _id: req.params.id }, { $set: req.body }, err => {
       if (err) return res.send(err);
       res.redirect(`/${req.locale}/profile/companies/`);
     });
   },
+  adminUpdate: (req, res) => {
+    req.body.submitedAt = new Date().getTime();
+
+    req.body.tags = req.body.tags ? req.body.tags.split(",") : null;
+    saveTags(req.body.tags);
+
+    Company.update({ _id: req.params.id }, { $set: req.body }, err => {
+      if (err) return res.send(err);
+      res.send({
+        type: "success",
+        text: "ok"
+      });
+    });
+  },
   createView: (req, res) => {
     const { type } = req.params;
-    res.render(templatePath, {
-      content: `../modules/profile/modules/company/${type}/index`,
-      action: "create",
-      type
+    Lists.find((err, lists) => {
+      res.render(templatePath, {
+        content: `../modules/profile/modules/company/${type}/index`,
+        action: "create",
+        lists,
+        admin: false,
+        type
+      });
     });
   },
   updateView: (req, res) => {
     const { type } = req.params;
     Company.findOne(req.params).exec((err, obj) => {
-      res.render(templatePath, {
-        content: `../modules/profile/modules/company/${type}/index`,
-        action: "update",
-        obj,
-        type,
-        teamList: Team.profileList,
-        message: req.flash("companyMessage")
+      Lists.find((err, lists) => {
+        res.render(templatePath, {
+          content: `../modules/profile/modules/company/${type}/index`,
+          action: "update",
+          admin: false,
+          lists,
+          obj,
+          type,
+          teamList: Team.profileList,
+          message: req.flash("companyMessage")
+        });
       });
     });
   },
@@ -131,6 +167,7 @@ const companyController = {
             phone: user.phone,
             userId: user.id,
             name: user.name,
+            image: user.image,
             surname: user.surname,
             position: req.body.position,
             companyRole: req.body.companyRole,
@@ -140,7 +177,6 @@ const companyController = {
           };
 
           if (!me) {
-            
             let companyName =
               company.name.ru || company.name.en || company.name.ua;
 
@@ -172,7 +208,7 @@ const companyController = {
                   <p>Пароль: ${password}</p>`;
 
                 transporter.sendMail(mailOptions, (err, info) => {
-                  if (err) console.log("error on sending", err);
+                  if (err) return console.log("error on sending", err);
                   console.log("Email sending success!");
                 });
               });
@@ -180,18 +216,20 @@ const companyController = {
           }
 
           company.update({ $push: { members: member } }, err => {
-            done(err, company);
+            done(err, company, me);
           });
         }
       ],
-      (err, company) => {
+      (err, company, me) => {
         if (err) {
           req.flash("companyMessage", err);
         } else {
+          const text = me
+            ? "Вы добавлены в команду!"
+            : "Добавлен новый учасник команды! Ему на email была отправлена ссылка с подтвеждением.";
           req.flash("companyMessage", {
             type: "success",
-            text:
-              "Добавлен новый учасник команды! Ему на email была отправлена ссылка с подтвеждением."
+            text
           });
         }
         res.redirect(
@@ -203,7 +241,7 @@ const companyController = {
     );
   },
   deleteMember: (req, res) => {
-    const { companyId, memberId } = req.body.params;
+    const { companyId, memberId } = req.query;
     Company.update(
       { _id: companyId },
       { $pull: { members: { _id: memberId } } },
@@ -213,12 +251,13 @@ const companyController = {
             type: "error",
             text: "Can`t delete member from company!"
           });
-        req.flash("companyMessage", {
+        res.send({
           type: "success",
           text: "Member was deleted from company"
         });
       }
     );
+
   },
 
   confirmUser: (req, res) => {
@@ -254,7 +293,7 @@ const companyController = {
 };
 
 const generateListPage = (req, res, query) => {
-  const perPage = company.adminList;
+  const perPage = company.profileList;
   const page = req.params.page || 1;
   const { locale } = req;
   return generateList({

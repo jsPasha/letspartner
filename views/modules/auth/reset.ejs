@@ -1,18 +1,29 @@
-<div class="container">
+<div class="auth_form form_block">
+		
+        <h1>Reset</h1>
+        
+		<div class="row flx">
 
-    <h1>Reset</h1>
+			<div class="col-md-6 col-md-offset-3">
 
-	 <% if (message.length > 0) { %>
-        <div class="alert alert-danger"><%= message %></div>
-    <% } %>
+				<form class="validation" action="/action/reset/<%-token%>" method="post">
 
-    <!-- LOGIN FORM -->
-    <form action="/action/reset" method="post">
-        <div class="form-group">
-            <label>New Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
-        <button type="submit" class="btn btn-warning btn-lg">Signup</button>
-    </form>
+					<% if (message.length > 0) { %>
+						<div class="alert alert-danger"><%= message %></div>
+					<% } %>
 
+					<div class="form-group">
+                        <label>New Password</label>
+                        <input required type="password" data-rule-minlength="6" class="form-control" name="password">
+                    </div>
+					
+					<div class="center">
+						<input type="submit" value="Login" />
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<h3 class="center">Or go <a href="/">home</a>.</p>
+		
 </div>

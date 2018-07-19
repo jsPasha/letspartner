@@ -2,155 +2,40 @@ const { isLoggedIn, isAdmin } = require("../helpers/routes");
 const express = require("express");
 const router = express.Router();
 
-const mongoose = require("mongoose");
-const News = mongoose.model("news");
-const Page = mongoose.model("pages");
-const Popup = mongoose.model("popups");
-const Users = mongoose.model("users");
+const Admin = require("../controllers/admin");
 
-const settings = require("../../data/settings.js");
+router.get("/admin", [isLoggedIn, isAdmin], Admin.view);
 
-const { generateList } = require("../helpers/list");
-const userList = require("../../public/js/templates/users");
+router.get("/admin/news/create", [isLoggedIn, isAdmin], Admin.news.create);
 
-const timezoneJson = require("timezones.json");
+router.get("/admin/news/update/:id", [isLoggedIn, isAdmin], Admin.news.update);
 
-module.exports = templatePath => {
-  router.get("/admin", [isLoggedIn, isAdmin], (req, res) => {
-    res.render(templatePath, {
-      content: "../modules/admin/index"
-    });
-  });
+router.get("/admin/news", [isLoggedIn, isAdmin], Admin.news.list);
 
-  router.get("/admin/news/create", [isLoggedIn, isAdmin], (req, res) => {
-    res.render(templatePath, {
-      content: "../modules/admin/modules/news/form",
-      action: "create"
-    });
-  });
+router.get("/admin/users", [isLoggedIn, isAdmin], Admin.users.list);
 
-  router.get("/admin/news/update/:id", [isLoggedIn, isAdmin], (req, res) => {
-    const id = req.params.id;
+router.get("/admin/companies", [isLoggedIn, isAdmin], Admin.companies.list);
 
-    News.findById(id, (err, newsItem) => {
-      if (err) return res.send(err);
-      res.render(templatePath, {
-        content: "../modules/admin/modules/news/form",
-        action: "update",
-        newsItem
-      });
-    });
-  });
+router.get("/admin/popups", [isLoggedIn, isAdmin], Admin.popups.list);
 
-  router.get("/admin/news", [isLoggedIn, isAdmin], (req, res) => {
-    generateNewsPage(req, res, templatePath);
-  });
+router.get("/admin/lists/:type", [isLoggedIn, isAdmin], Admin.lists.view);
 
-  router.get("/admin/news/:page", [isLoggedIn, isAdmin], (req, res) => {
-    generateNewsPage(req, res, templatePath);
-  });
+router.get("/admin/news/:page", [isLoggedIn, isAdmin], Admin.news.list);
 
-  router.get("/admin/users", [isLoggedIn, isAdmin], (req, res) => {
-    generateUsersPage(req, res, templatePath);
-  });
+router.get("/admin/users/:page", [isLoggedIn, isAdmin], Admin.users.list);
 
-  router.get("/admin/users/:page", [isLoggedIn, isAdmin], (req, res) => {
-    generateUsersPage(req, res, templatePath);
-  });
+router.get("/admin/companies/:page", [isLoggedIn, isAdmin], Admin.companies.list);
 
-  router.get("/admin/users/update/:id", [isLoggedIn, isAdmin], (req, res) => {
-    const id = req.params.id;
+router.get("/admin/users/update/:id", [isLoggedIn, isAdmin], Admin.users.update);
 
-    Users.findById(id, (err, user) => {
-      if (err) return res.send(err);
-      res.render(templatePath, {
-        user,
-        content: "../modules/admin/modules/users/form",
-        timezoneJson,
-        message: req.flash("profileMessage")[0]
-      });
-    });
-  });
+router.get("/admin/popups/update/:id", [isLoggedIn, isAdmin], Admin.popups.update);
 
-  router.get("/admin/popups", [isLoggedIn, isAdmin], (req, res) => {
-    Popup.find().exec((err, popups) => {
-      res.render(templatePath, {
-        popups,
-        content: `../modules/admin/modules/popups/index`
-      });
-    });
-  });
+router.get("/admin/company/:type/update/:id", [isLoggedIn, isAdmin], Admin.companies.update);
 
-  router.get("/admin/popups/update/:id", [isLoggedIn, isAdmin], (req, res) => {
-    const id = req.params.id;
+router.get("/admin/company/:type/update/:id", [isLoggedIn, isAdmin], Admin.companies.update);
 
-    Popup.findById(id, (err, popup) => {
-      if (err) return res.send(err);
-      res.render(templatePath, {
-        content: "../modules/admin/modules/popups/form",
-        popup: popup.content,
-        id: popup.id
-      });
-    });
-  });
+router.get("/admin/page-settings/:type", [isLoggedIn, isAdmin], Admin.pages.settings);
 
-  router.get(
-    "/admin/page-settings/:type",
-    [isLoggedIn, isAdmin],
-    (req, res) => {
-      const { type } = req.params;
-      Page.findOne({ type }).exec((err, page) => {
-        res.render(templatePath, {
-          page: page.content,
-          type,
-          content: `../modules/admin/modules/${type}/settings`
-        });
-      });
-    }
-  );
+router.get("/admin/languages", [isLoggedIn, isAdmin], Admin.languages.view);
 
-  return router;
-};
-
-const generateNewsPage = (req, res, templatePath) => {
-  const perPage = settings.news.adminList;
-  const page = req.params.page || 1;
-  const { locale } = req;
-  generateList({
-    model: News,
-    page,
-    perPage,
-    locale
-  })
-    .then(({ objects, count }) => {
-      res.render(templatePath, {
-        news: objects,
-        content: "../modules/admin/modules/news/index",
-        current: page,
-        pages: Math.ceil(count / perPage)
-      });
-    })
-    .catch(err => res.send("error: /admin/news/:page" + err));
-};
-
-const generateUsersPage = (req, res, templatePath) => {
-  const perPage = settings.news.adminList;
-  const page = req.params.page || 1;
-  const { locale } = req;
-  generateList({
-    model: Users,
-    page,
-    perPage,
-    locale
-  })
-    .then(({ objects, count }) => {
-      res.render(templatePath, {
-        users: objects,
-        content: "../modules/admin/modules/users/index",
-        current: page,
-        pages: Math.ceil(count / perPage),
-        userList
-      });
-    })
-    .catch(err => res.send("error: /admin/users/:page" + err));
-};
+module.exports = router;

@@ -1,23 +1,30 @@
-<div class="container">
-		<h1>Restore password</h1>
-
-		<!-- show any messages that come back with authentication -->
-		<% if (message.length > 0) { %>
-			<div class="alert alert-danger"><%= message %></div>
-		<% } %>
-
-		<% if (error === undefined || error) { %>
-			<form action="/action/restore" method="post">
-				<div class="form-group">
-					<label>Email</label>
-					<input type="text" class="form-control" name="email">
-				</div>
-				
-				<button type="submit" class="btn btn-warning btn-lg">Login</button>
-			</form>
-		<% } %>
+<div class="auth_form form_block">
 		
-		<p>Need an account? <a href="/signup">Signup</a></p>
+		<h1>Restore password</h1>
+		<h3 class="center">Need an account? <a href="/signup">Signup</a></h3>
 
-		<p>Or go <a href="/">home</a>.</p>		
+		<div class="row flx">
+
+			<div class="col-md-6 col-md-offset-3">
+
+				<form class="validation" action="/action/restore" method="post">
+
+					<% if (message.length > 0) { %>
+						<div class="alert alert-danger"><%= message %></div>
+					<% } %>
+
+					<div class="form-group">
+						<label>Email</label>
+						<input required data-rule-email="1" type="text" class="form-control" name="email">
+					</div>
+					
+					<div class="center">
+						<input type="submit" value="Login" />
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<h3 class="center">Or go <a href="/">home</a>.</p>
+		
 </div>

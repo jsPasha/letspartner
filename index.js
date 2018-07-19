@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const flash = require("connect-flash");
 const fileUpload = require("express-fileupload");
+const moment = require("moment");
 
 const locales = require("./data/locales");
 
@@ -34,6 +35,8 @@ require("./app/models/authHash");
 require("./app/models/popup");
 require("./app/models/company");
 require("./app/models/memberHash");
+require("./app/models/lists");
+require("./app/models/tags");
 
 const { setPhonePopup } = require("./app/helpers/popups");
 
@@ -81,7 +84,10 @@ app.use(setPhonePopup, (req, res, next) => {
   app.locals.phonePopup = req.phonePopup;
   app.locals.url = url.join("/");
   app.locals.locale = req.locale;
+  app.locals.moment = moment;
   app.locals.isGuest = !req.isAuthenticated();
+  app.locals.generateSelect = require("./app/helpers/generateSelect");
+  app.locals.targetAudienceTypes = require("./data/settings").company.targetAudienceTypes;
   next();
 });
 

@@ -1,21 +1,39 @@
-<ul class="admin_menu">
-	<li class="submenu">
-		<p><%- __("Users") %></p>
-		<ul>
-			<li><a href="/<%- locale %>/admin/users">Управление пользователями</a></li>
-		</ul>
-	</li>
-	<li class="submenu">
-		<p><%- __("News") %></p>
-		<ul>
-			<li><a href="/<%- locale %>/admin/news">Управление новостями</a></li>
-			<li><a href="/<%- locale %>/admin/page-settings/news">Управление разделом</a></li>
-		</ul>
-	</li>
-	<li class="submenu">
-		<p><%- __("Popups") %></p>
-		<ul>
-			<li><a href="/<%- locale %>/admin/popups">Управление попапами</a></li>
-		</ul>
-	</li>
-</ul>
+<div class="sidebar admin_menu">
+	<div class="sidebar-row">
+		<div class="widget widget_recent_entries">
+
+			<h5 class="widgettitle"><%- __("Companies") %></h5>
+			<ul>
+				<li><a href="/<%- locale %>/admin/companies">Заявки</a></li>
+			</ul>
+
+			<h5 class="widgettitle"><%- __("Users") %></h5>
+			<ul>
+				<li><a href="/<%- locale %>/admin/users">Управление пользователями</a></li>
+			</ul>
+
+			<h5 class="widgettitle"><%- __("News") %></h5>
+			<ul>
+				<li><a href="/<%- locale %>/admin/news">Управление новостями</a></li>
+				<li><a href="/<%- locale %>/admin/page-settings/news">Управление разделом</a></li>
+			</ul>
+
+			<h5 class="widgettitle"><%- __("Popups") %></h5>
+			<ul>
+				<li><a href="/<%- locale %>/admin/popups">Управление попапами</a></li>
+			</ul>
+
+			<h5 class="widgettitle"><%- __("Language_constants") %></h5>
+			<ul>
+				<li><a href="/<%- locale %>/admin/languages"><%- __("Settings") %></a></li>
+			</ul>
+
+			<h5 class="widgettitle"><%- __("Lists") %></h5>
+			<ul>
+				<li><a href="/<%- locale %>/admin/lists/directions"><%- __("directions") %></a></li>
+				<li><a href="/<%- locale %>/admin/lists/stages"><%- __("stages") %></a></li>
+				<li><a href="/<%- locale %>/admin/lists/activities"><%- __("activities") %></a></li>
+			</ul>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,28 @@
+<div class="container profile_section">
+
+	<h1><%- __("Languages_settings") %></h1>
+
+	<div class="admin_block">
+
+		<%- include('../../menu') %>
+
+		<div id="languages_page">
+			<div class="constants_wrap">
+				<div class="const_block">
+					<div class="const_label const_item" v-for="(value, key) in constants['ru']">				
+						<p>{{key}}</p>	
+					</div>
+				</div>	
+				<div v-for="(item, key) in constants" class="const_block">				
+					<div class="const_item" v-for="(value, i) in constants['ru']">
+						<label>{{key}}</label>
+						<textarea v-model="constants[key][i]">{{value}}</textarea>
+					</div>
+				</div>
+			</div>
+			<div class="center">
+				<button type="button" v-on:click="submit" class="button blue_button fixed_button"><%- __("Submit") %></button>
+			</div>
+		</div>
+	</div>
+</div>

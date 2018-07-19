@@ -4,17 +4,26 @@ const companyProfileList = ({ objects, user, locale }) => {
   if (!objects.length) {
     return `
       <div class="no_results">No companies</div>
-    `
+    `;
   }
 
   for (let key in objects) {
     let item = objects[key];
-    result += generateItem(item, locale);
+    result += generateItem(item, locale, user);
   }
   return result;
 };
 
-const generateItem = (item, locale) => {
+const generateItem = (item, locale, user) => {
+  let admin = false;
+
+  if (item.members)
+    item.members.forEach(el => {
+      if (el.userId === user.id && el.adminRole === "admin") admin = true;
+    });
+
+  if (item.creator === user.id) admin = true;
+
   return `
     <div class="company_item">
       <div class="company_item_info">
@@ -24,8 +33,14 @@ const generateItem = (item, locale) => {
         <h2>${item.name[locale]}</h2>
       </div>
       <div class="company_control">
-        <a href="/${locale}/profile/company/${item.type}/update/${item.id}">Update</a>
-        <a class="delete_company" href="/action/company/${item.type}/delete/${item.id}">Delete</a>
+        <a href="/${locale}/profile/company/${item.type}/update/${item.id}"> ${
+    admin ? "Updade" : "View"
+  }</a>
+        ${
+          admin
+            ? '<a class="delete_company" href="/action/company/${item.type}/delete/${item.id}">Delete</a>'
+            : ""
+        }
       </div>
     </div>
   `;

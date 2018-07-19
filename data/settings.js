@@ -6,7 +6,9 @@ module.exports = {
     pageList: 6
   },
   company: {
-    adminList: 9,
-    pageList: 6
+    adminList: 20,
+    profileList: 9,
+    pageList: 6,
+    targetAudienceTypes: ["B2B", "B2C", "B2B2C"]
   }
 };

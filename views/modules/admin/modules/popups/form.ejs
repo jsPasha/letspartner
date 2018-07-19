@@ -1,57 +1,62 @@
-<div class="container">
+<div class="container profile_section">
 
 	<h1><%- __(`Popup_update`) %></h1>
 
-	<%- include('../../menu'); %>
+	<div class="admin_block">
 
-	<div>
-		<form method="POST" class="update_form" action="/action/popup/update/<%-id%>">
+		<%- include('../../menu'); %>
 
-			<% let headerCount = 0, blockCount = 0;
-				popup.forEach((el, index) => {
-				switch (el.type) {
-					case "top_header": %>
-						<div class="form_block">
-							<input type="hidden" name="content[<%- index %>][type]" value="top_header">
-							<% locales.forEach((lang) => { %>	
-								<div class="form-group">
-									<label><%-__('Main_header')%> <%-lang%></label>
-									<input type="text" name="content[<%- index %>][text][<%- lang %>]" value="<%= el.text[lang] %>">
-								</div>
-							<% }); %>
-						</div>
-					<% break;
-					case "header": %>
-						<h3><%- el.text[locale] %></h3>
-						<div class="form_block">
-							<input type="hidden" name="content[<%- index %>][type]" value="header">
-							<% headerCount++; locales.forEach((lang, i) => { %>	
-								<div class="form-group">
-									<label><%-__('Header')%> <%-headerCount%> <%-lang%></label>
-									<input type="text" name="content[<%- index %>][text][<%-lang%>]" value="<%= el.text[lang] %>">
-								</div>
-							<% }); %>
-						</div>
-					<% break;
-					case "block": %>						
-						<div class="form_block">
-							<input type="hidden" name="content[<%- index %>][type]" value="block">
-							<% blockCount++; locales.forEach((lang, i) => { %>	
-								<div class="form-group">
-									<label><%-__('Block')%> <%-blockCount%> <%-lang%></label>
-									<textarea class="ckeditor_item" name="content[<%- index %>][text][<%-lang%>]" rows="6"><%- el.text[lang] %></textarea>
-								</div>
-							<% }); %>
-						</div>
-					<% break;
-					default:
-						break;
-				}
-			}) %>
+		<div>
+			<form method="POST" class="update_form" action="/action/popup/update/<%-id%>">
 
-			<input type="submit" value="<%= __('update') %>">
+				<% let headerCount = 0, blockCount = 0;
+					popup.forEach((el, index) => {
+					switch (el.type) {
+						case "top_header": %>
+							<div class="form_block">
+								<input type="hidden" name="content[<%- index %>][type]" value="top_header">
+								<% locales.forEach((lang) => { %>	
+									<div class="form-group">
+										<label><%-__('Main_header')%> <%-lang%></label>
+										<input type="text" name="content[<%- index %>][text][<%- lang %>]" value="<%= el.text[lang] %>">
+									</div>
+								<% }); %>
+							</div>
+						<% break;
+						case "header": %>
+							<div class="form_block">
+								<input type="hidden" name="content[<%- index %>][type]" value="header">
+								<% headerCount++; locales.forEach((lang, i) => { %>	
+									<div class="form-group">
+										<label><%-__('Header')%> <%-headerCount%> <%-lang%></label>
+										<input type="text" name="content[<%- index %>][text][<%-lang%>]" value="<%= el.text[lang] %>">
+									</div>
+								<% }); %>
+							</div>
+						<% break;
+						case "block": %>						
+							<div class="form_block">
+								<input type="hidden" name="content[<%- index %>][type]" value="block">
+								<% blockCount++; locales.forEach((lang, i) => { %>	
+									<div class="form-group">
+										<label><%-__('Block')%> <%-blockCount%> <%-lang%></label>
+										<textarea class="ckeditor_item" name="content[<%- index %>][text][<%-lang%>]" rows="6"><%- el.text[lang] %></textarea>
+									</div>
+								<% }); %>
+							</div>
+						<% break;
+						default:
+							break;
+					}
+				}) %>
 
-		</form>
+				<div class="center">
+					<input type="submit" value="<%= __('update') %>">
+				</div>
+				
+			</form>
+
+		</div>
 
 	</div>
 

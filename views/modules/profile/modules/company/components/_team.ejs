@@ -11,12 +11,12 @@
 	</div>
 <% } %>
 
-<div v-if="activePart == 'team'" class="company_form_items">
+<div v-show="activePart == 'team'" class="company_form_items">
 	<h2>Команда</h2>
 
 	<%- teamList({ obj, locale }) %>
 
-	<div class="meet_team">
+	<div class="meet_team form_block">
 		<h2>Пригласить</h2>
 
 		<input type="hidden" v-model="userInTeam" value="<%- userInTeam %>">
@@ -119,6 +119,28 @@
 				<input type="submit" value="<%- __('Add') %>" />
 			</div>
 		</form>
+
+		<% if (admin) { %>
+			<form method="POST" class="<%-action%>_form ajax_form" action="/action/admin/company/<%- type %>/update/<%- obj.id %>">
+				<div class="form_block">
+					<div class="form-group">
+						<label>Что не так, что нужно изменить чтобы пройти модерацию, или рекомендуем улучшить</label>
+						<textarea name="admin_message[reject]"><%- (obj.admin_message && obj.admin_message.reject) ? obj.admin_message.reject : '' %></textarea>
+					</div>
+							
+					<div class="button_checkbox admin_button_checkbox">
+						<label class="published">
+							<span><%- __("Confirm") %></span>
+							<input type="radio" v-on:click="ajaxSubmit" name="status" value="published">
+						</label>
+						<label class="reject">
+							<span><%- __("Reject") %></span>
+							<input type="radio" v-on:click="ajaxSubmit" name="status" value="reject">
+						</label>
+					</div>
+				</div>
+			</form>
+		<% } %>
 
 	</div>
 

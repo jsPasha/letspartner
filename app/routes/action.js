@@ -21,10 +21,13 @@ const mongoose = require("mongoose");
 const User = mongoose.model("users");
 const Page = mongoose.model("pages");
 const Popup = mongoose.model("popups");
+const News = mongoose.model("news");
 
 const newsController = require("../controllers/news");
 const profileController = require("../controllers/profile");
 const companyController = require("../controllers/company");
+
+const Admin = require('../controllers/admin');
 
 module.exports = passport => {
   router.post("/login", (req, res, next) => {
@@ -123,7 +126,11 @@ module.exports = passport => {
     companyController.delete
   );
 
-  router.post("/deleteMember", isLoggedIn, companyController.deleteMember);
+  router.get("/deleteMember", isLoggedIn, companyController.deleteMember);
+
+  router.post('/admin/lists/directions', [isLoggedIn, isAdmin, generateAlias], Admin.lists.add);
+
+  router.get('/admin/lists/directions/:id', [isLoggedIn, isAdmin], Admin.lists.remove);
 
   router.post(
     "/popup/update/:id",
@@ -187,6 +194,8 @@ module.exports = passport => {
       res.send(id);
     });
   });
+
+  router.post('/admin/company/:type/update/:id', [isLoggedIn, isAdmin], companyController.adminUpdate);
 
   router.post("/set-state/", [isLoggedIn, isAdmin], (req, res) => {
     let { model, id, value, state } = req.body;

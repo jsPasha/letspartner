@@ -58,6 +58,7 @@ module.exports = templatePath => {
         }
         res.render(templatePath, {
           content: "../modules/auth/reset",
+          token: req.params.token,
           message: req.flash("resetMessage")
         });
       }

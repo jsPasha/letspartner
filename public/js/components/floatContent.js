@@ -57,10 +57,20 @@ $(".add_item").click(function() {
   if (callback) callback(params);
 });
 
+if ($(".constructor_menu").length) {
+  $(window).scroll(function() {
+    let offset =
+      Math.floor($(this).scrollTop()) - Math.floor($(constrBody).offset().top);
+    if (offset < 0) offset = 0;
+    $(".constructor_menu").css("top", offset + "px");
+  });
+}
+
 try {
   Sortable.create(document.querySelector(constrBody), {
     handle: ".item_handle",
     animation: 400,
+    filter: ".add_gallery_image",
     onSort: () => {
       updateConstructor();
     }
@@ -71,6 +81,7 @@ const initSortableGallery = () => {
   document.querySelectorAll(".images_box").forEach(function(el) {
     Sortable.create(el, {
       group: "omega",
+      filter: ".add_gallery_image",
       animation: 500,
       onSort: () => {
         updateConstructor();

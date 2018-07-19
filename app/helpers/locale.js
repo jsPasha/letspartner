@@ -5,7 +5,7 @@ var setLocale = (req, res, next) => {
   let fd = req.url.split("/")[1];
   let base = req.baseUrl.substr(1);  
 
-  if (fd === "action" || cookieLoc === base || locales.includes(fd))
+  if (fd === "action" || fd === "api" || cookieLoc === base || locales.includes(fd))
     return next();
   
   if (!cookieLoc) {

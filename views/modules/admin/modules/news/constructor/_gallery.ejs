@@ -8,7 +8,7 @@
 <div class="form-group form-group-image-pick">
 	<label><%-__('Gallery_image')%></label>
 	<input class="image_pick_multiple" data-id="<%-index%>" type="file" accept="image/" multiple>
-	<div class="images_box">
+	<div class="images_box">		
 		<% 
 			gallery.forEach((el, i) => { %>
 				<div class="gallery_image" data-id="<%-i%>" data-url="<%-el%>">
@@ -19,5 +19,6 @@
 				</div>
 			<% });
 		%>
+		<div class="add_gallery_image"></div>
 	</div>
 </div>

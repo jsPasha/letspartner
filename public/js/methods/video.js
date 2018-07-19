@@ -55,8 +55,8 @@ const appendVideoInfo = (youtubeInfo, input) => {
   let $videoBlock = $(input).siblings(".video_block");
   if (!$videoBlock.length) {
     $(input).closest(".form-group").append(`<div class="video_block">
-      <h2>${title}</h2>
       <img src="${thumbUrl}" alt="">
+      <h2>${title}</h2>      
     </div>`);
   } else {
     $videoBlock.find("h2").text(title);

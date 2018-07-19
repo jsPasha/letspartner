@@ -41,11 +41,10 @@ const imageCropper = input => {
 };
 
 const initCropperPopup = imageSrc => {
-  
   let imageTemplate = `<img id="${imgId}" src="${imageSrc}" />`;
 
   if (!document.getElementById(`${popupId}`)) {
-    let popupTemplate = `<div id="${popupId}" class="mfp-hide">${imageTemplate}<button class="save_cropped">Обрезать</button></div>`;
+    let popupTemplate = `<div id="${popupId}" class="mfp-hide">${imageTemplate}<div class="center"><button class="save_cropped button blue_button">Обрезать</button></div></div>`;
     let $popup = $(popupTemplate);
     $popup.appendTo("body");
   } else {
@@ -56,6 +55,7 @@ const initCropperPopup = imageSrc => {
     items: {
       src: `#${popupId}`
     },
+    closeOnBgClick: false,
     callbacks: {
       open: () => {
         loader.hide();
@@ -135,18 +135,22 @@ const destroyCropper = () => {
 
 const insertCroppedImage = path => {
   let $input = $(currentPicker);
-  let img = $input.siblings("img");
+  let img = $input.siblings(".cropped_image_view").find("img");
 
   $input.closest(".image_pick_area").addClass("active");
   $input.siblings(".delete_image").attr("data-url", path);
   $input.siblings(".hidden_image_url").val(path);
   $input.siblings(".upload_new_image").attr("data-del-url", path);
   if (!img.length) {
-    $(`<img src="/uploads${path}">`).insertAfter(currentPicker);
+    $(`<img src="/uploads${path}">`).appendTo($input.siblings('.cropped_image_view'));
   } else {
     img.attr("src", `/uploads${path}`);
   }
 };
+
+$("body").on("click", ".cropped_image_view", function(e) {
+  $(this).siblings('.image_pick').click();
+});
 
 $("body").on("click", ".delete_image", function(e) {
   e.preventDefault();
@@ -177,7 +181,7 @@ $("body").on("click", ".delete_image", function(e) {
 
   $this.closest(".image_pick_area").removeClass("active");
   $this.siblings(".hidden_image_url").val("");
-  $this.siblings("img").remove();
+  $this.siblings('.cropped_image_view').find("img").remove();
   $this.parent(".gallery_image").remove();
 });
 
@@ -215,7 +219,7 @@ $("body").on("click", ".item_delete", function() {
   updateConstructor();
 });
 
-$("body").on('click', ".upload_new_image", function(e) {
+$("body").on("click", ".upload_new_image", function(e) {
   e.preventDefault();
   previousImage = $(this).attr("data-del-url");
   $(this)
@@ -254,6 +258,10 @@ const multipleInit = input => {
   });
 };
 
+$('body').on('click', '.add_gallery_image', function() {
+  $(this).closest('.form-group').find('.image_pick_multiple').click();
+});
+
 const uploadImage = (imageData, index, input) => {
   let fd = new FormData();
   let imagesBox;
@@ -274,12 +282,13 @@ const uploadImage = (imageData, index, input) => {
   fd.append("index", index);
 
   if (!galleryUpdating) {
-    imagesBox.append(`<div class="gallery_image" data-id="${index}" data-url="">
+    let addButton = imagesBox.find('.add_gallery_image')
+    $(`<div class="gallery_image" data-id="${index}" data-url="">
       <div class="image loading" style="background-image: url(/img/loader.svg)"></div>
       <input type="hidden" class="hidden_image_url content_position_index" value="" name="floatContent[${globalIndex}][gallery][]" />
       <a class="update_image" data-url="" href="#">update_image</a>
       <a class="delete_image" data-url="" href="#">delete_image</a>
-    </div>`);
+    </div>`).insertBefore(addButton);
   }
 
   $.ajax({
