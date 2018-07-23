@@ -13,11 +13,12 @@ const profileController = {
 
     User.update({ _id }, { $set: req.body }, err => {
       if (err) return res.send(err);
-      if (req.xhr) return res.send(true);
-      req.flash("profileMessage", {
+      const text = {
         type: "success",
         text: "Data was saved"
-      });
+      };
+      if (req.xhr) return res.send(text);
+      req.flash("profileMessage", text);
       res.redirect(`/${req.locale}/profile`);
     });
   },
@@ -40,7 +41,7 @@ const profileController = {
       infoPopup: req.infoPopup,
       timezoneJson,
       message: req.flash("profileMessage")[0],
-      companySubmitMessage: req.flash('submitMember')
+      companySubmitMessage: req.flash("submitMember")
     });
   }
 };

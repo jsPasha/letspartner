@@ -35,11 +35,11 @@ if (document.getElementById("company_form")) {
         submitAjaxForm(event.target.form);
       },
       deleteMember: (companyId, memberId) => {
-        let $block = $(event.target).closest('.item');
+        let $block = $(event.target).closest(".item");
         deleteAjax(
           `/action/deleteMember?companyId=${companyId}&memberId=${memberId}`
         ).then(() => {
-          $block.remove()
+          $block.remove();
         });
       }
     },

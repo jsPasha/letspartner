@@ -6,6 +6,8 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const Tags = mongoose.model("tags");
 
+const companyController = require("../controllers/company");
+
 router.get("/languages", [isLoggedIn, isAdmin], Languages.list);
 
 router.post("/languages", [isLoggedIn, isAdmin], Languages.save);
@@ -15,5 +17,7 @@ router.get("/tags", isLoggedIn, (req, res, next) => {
     res.send(items);
   });
 });
+
+router.get("/member", isLoggedIn, companyController.updateMember);
 
 module.exports = router;

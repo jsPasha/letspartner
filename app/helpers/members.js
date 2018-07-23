@@ -26,7 +26,7 @@ const Team = {
 
   pushCompanyToUser: user => {},
 
-  profileList: ({ obj, locale }) => teamList(obj),
+  profileList: teamList,
 
   confirmParticipation: ({ item, req, user }) => {
     return new Promise((resolve, reject) => {

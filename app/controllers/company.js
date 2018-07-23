@@ -21,6 +21,8 @@ const smtpSettings = require("../../data/smtp");
 
 const saveTags = require("../helpers/tags");
 
+const timezoneJson = require("timezones.json");
+
 const companyController = {
   create: (req, res) => {
     let data = req.body;
@@ -240,6 +242,24 @@ const companyController = {
       }
     );
   },
+
+  updateMember: (req, res) => {
+    const { companyId, memberId } = req.params;
+    Company.findById(companyId, (err, company) => {
+      company.members.forEach(member => {
+        if (member.id === memberId) {
+          res.render(templatePath, {
+            content:
+              "../modules/profile/modules/company/components/_member_form",
+            member,
+            timezoneJson
+          });
+          return;
+        }
+      });
+    });
+  },
+
   deleteMember: (req, res) => {
     const { companyId, memberId } = req.query;
     Company.update(
@@ -257,7 +277,6 @@ const companyController = {
         });
       }
     );
-
   },
 
   confirmUser: (req, res) => {

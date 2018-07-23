@@ -130,11 +130,23 @@ const Admin = {
   pages: {
     settings: (req, res) => {
       const { type } = req.params;
-      Page.findOne({ type }).exec((err, page) => {
+      Page.findOne({ type }).exec(async (err, page) => {
+        if (!page) {
+          page = await Admin.pages.create(type);
+        }
         res.render(templatePath, {
           page: page.content,
           type,
           content: `../modules/admin/modules/${type}/settings`
+        });
+      });
+    },
+    create: type => {
+      return new Promise((res, rej) => {
+        let page = new Page({ type });
+        page.save((err, el) => {
+          if (err) return rej(err);
+          res(el);
         });
       });
     }
