@@ -21,7 +21,7 @@ const smtpSettings = require("../../data/smtp");
 
 const saveTags = require("../helpers/tags");
 
-// const timezoneJson = require("timezones.json");
+const timezoneJson = require("timezones.json");
 
 const companyController = {
   create: (req, res) => {

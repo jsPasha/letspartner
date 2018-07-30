@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const User = mongoose.model("users");
 
-// const timezoneJson = require("timezones.json");
+const timezoneJson = require("timezones.json");
 const { templatePath } = require("../../data/settings");
 
 

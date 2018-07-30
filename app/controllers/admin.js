@@ -17,7 +17,7 @@ const companiesList = require("../../public/js/templates/companies");
 
 const Team = require("../helpers/members");
 
-// const timezoneJson = require("timezones.json");
+const timezoneJson = require("timezones.json");
 
 const Admin = {
   view: (req, res) => {
