@@ -4,15 +4,6 @@ const User = mongoose.model("users");
 // const timezoneJson = require("timezones.json");
 const { templatePath } = require("../../data/settings");
 
-const momentTimezone = require("moment-timezone");
-const moment = require("moment");
-console.log(
-  momentTimezone.tz.names()
-);
-console.log(
-  moment()
-    .tz("Africa/Maseru")
-);
 
 const profileController = {
   updateMe: (req, res, next) => {
