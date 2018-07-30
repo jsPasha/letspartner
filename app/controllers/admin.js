@@ -17,7 +17,7 @@ const companiesList = require("../../public/js/templates/companies");
 
 const Team = require("../helpers/members");
 
-const timezoneJson = require("timezones.json");
+// const timezoneJson = require("timezones.json");
 
 const Admin = {
   view: (req, res) => {
@@ -131,13 +131,11 @@ const Admin = {
     settings: (req, res) => {
       const { type } = req.params;
       Page.findOne({ type }).exec(async (err, page) => {
-        if (!page) {
-          page = await Admin.pages.create(type);
-        }
+        if (!page) page = await Admin.pages.create(type);
         res.render(templatePath, {
           page: page.content,
           type,
-          content: `../modules/admin/modules/${type}/settings`
+          content: `../modules/admin/modules/sections/settings`
         });
       });
     },
@@ -193,6 +191,7 @@ const generateNewsPage = (req, res, templatePath) => {
   const perPage = settings.news.adminList;
   const page = req.params.page || 1;
   const { locale } = req;
+ 
   generateList({
     model: News,
     page,
@@ -235,12 +234,13 @@ const generateUsersPage = (req, res, templatePath) => {
 const generateCompaniesPage = (req, res, templatePath) => {
   const perPage = settings.company.adminList;
   const page = req.params.page || 1;
-  const { locale } = req;
+  const { locale, query } = req;
   generateList({
     model: Company,
     page,
     perPage,
-    locale
+    locale,
+    query
   })
     .then(async ({ objects, count }) => {
       let users = {};
@@ -255,6 +255,7 @@ const generateCompaniesPage = (req, res, templatePath) => {
         }
 
       res.render(templatePath, {
+        query,
         objects,
         content: "../modules/admin/modules/company/index",
         current: page,

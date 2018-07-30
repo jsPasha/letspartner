@@ -4,6 +4,7 @@ const generateList = params => {
   let { model, page, perPage, locale, published, query } = params;
 
   if (!query) query = {};
+  else for (let key in query) if (!query[key]) delete query[key];
 
   if (!published) {
     return new Promise((res, rej) => {
@@ -16,11 +17,12 @@ const generateList = params => {
           if (err) return rej(err);
           model.count().exec(function(err, count) {
             if (err) return rej(err);
-            if (objects) objects.forEach((el, i) => {
-              let timeMoment = +el.activatedAt || +el.createdAt;
-              moment.locale(locale);
-              objects[i].moment = moment(timeMoment).format("LLL");
-            });
+            if (objects)
+              objects.forEach((el, i) => {
+                let timeMoment = +el.activatedAt || +el.createdAt;
+                moment.locale(locale);
+                objects[i].moment = moment(timeMoment).format("LLL");
+              });
             res({ objects, count });
           });
         });

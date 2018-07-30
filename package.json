@@ -17,15 +17,7 @@
   "nodemonConfig": {
     "ignore": [
       "locales/*",
-      "public/css/*",
-      "public/dist/*",
-      "public/fonts/*",
-      "public/img/*",
-      "public/js/components/*",
-      "public/js/methods/*",
-      "public/js/*.js",
-      "public/sass/*",
-      "public/uploads/*"
+      "public/*"
     ]
   },
   "dependencies": {
@@ -48,6 +40,7 @@
     "generate-password": "^1.4.0",
     "i18n": "^0.8.3",
     "jquery": "^3.3.1",
+    "jquery-lazyload": "^1.9.7",
     "jquery-ui": "^1.12.1",
     "jquery-validation": "^1.17.0",
     "lodash": "^4.17.10",
@@ -55,6 +48,7 @@
     "materialize-css": "^0.100.2",
     "method-override": "^2.3.10",
     "moment": "^2.22.2",
+    "moment-timezone": "^0.5.21",
     "mongoose": "^5.2.0",
     "morgan": "^1.9.0",
     "multer": "^1.3.0",
@@ -70,12 +64,20 @@
     "request": "^2.87.0",
     "selectize": "^0.12.6",
     "sortablejs": "^1.7.0",
-    "timezones.json": "^1.4.3",
+    "timezones.json": "^1.4.5",
     "uniqid": "^5.0.3",
     "unique-string": "^1.0.0",
-    "vue": "^2.5.16"
+    "vue": "^2.5.16",
+    "vue2-datepicker": "^2.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.54",
+    "@babel/preset-env": "^7.0.0-beta.54",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-loader": "^7.1.5",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "browser-sync": "^2.24.4",
     "concurrently": "^3.6.0",
     "expect": "^23.1.0",
@@ -86,10 +88,11 @@
     "gulp-rename": "^1.3.0",
     "gulp-sass": "^4.0.1",
     "jest": "^23.1.0",
-    "npm-run-all": "^4.1.3",
+    "jshint": "^2.9.5",
+    "jshint-loader": "^0.8.4",
     "uglifyjs-webpack-plugin": "^1.2.6",
-    "webpack": "^4.12.0",
-    "webpack-cli": "^3.0.8"
+    "webpack": "^4.16.2",
+    "webpack-cli": "^3.1.0"
   },
   "main": "index.js",
   "keywords": [],

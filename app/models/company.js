@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const locales = require("../../data/locales");
 
-const targetAudienceTypes = require('../../data/settings').company.targetAudienceTypes;
+const targetAudienceTypes = require("../../data/settings").company
+  .targetAudienceTypes;
 
 let langModel = {};
 
@@ -35,7 +36,7 @@ const companySchema = new Schema({
   phones: [String],
   social: {
     website: String,
-    fasebook: String,
+    facebook: String,
     linkedin: String
   },
   locations: [
@@ -54,7 +55,7 @@ const companySchema = new Schema({
   break_even: String,
   targetAudience: {
     type: {
-      type: 'String',
+      type: "String",
       enum: targetAudienceTypes
     },
     problems: langModel,
@@ -88,6 +89,18 @@ const companySchema = new Schema({
   createdAt: {
     type: Number,
     default: new Date().getTime()
+  },
+  createdDate: {
+    type: String,
+    default: () => {
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth() + 1;
+      var yyyy = today.getFullYear();
+      if (dd < 10) dd = "0" + dd;
+      if (mm < 10) mm = "0" + mm;
+      return mm + "/" + dd + "/" + yyyy;
+    }
   },
   submitedAt: Number,
   description_lang: [String]

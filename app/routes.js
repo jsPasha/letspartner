@@ -7,12 +7,10 @@ const { userActivation } = require("./helpers/activation");
 
 const { templatePath } = require("../data/settings");
 
+const Site = require("../app/controllers/site");
+
 module.exports = function(app, passport) {
-  router.get("/", function(req, res) {
-    res.render(templatePath, {
-      content: "../modules/index"
-    });
-  });
+  router.get("/", Site.main.view);
 
   let authRouter = require("./routes/auth")(templatePath);
   let profileRouter = require("./routes/profile")(templatePath);

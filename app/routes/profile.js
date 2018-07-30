@@ -38,7 +38,7 @@ module.exports = templatePath => {
   router.get(
     "/profile/company/:type/update/:companyId/member/:memberId",
     isLoggedIn,
-    companyController.updateMember
+    companyController.updateMember.get
   );
 
   router.get(

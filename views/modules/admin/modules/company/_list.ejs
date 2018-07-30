@@ -1,6 +1,6 @@
 <div class="list_item_wrap admin_users_list">      
  
-    <%- companiesList({objects, locale}) %>
+    <%- companiesList({objects, locale}) || 'hello' %>
 
     <% if (pages > 1) { %>
         <ul class="pagination text-center">

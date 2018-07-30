@@ -37,8 +37,10 @@ require("./app/models/company");
 require("./app/models/memberHash");
 require("./app/models/lists");
 require("./app/models/tags");
+require("./app/models/constants");
 
 const { setPhonePopup } = require("./app/helpers/popups");
+const LangConstants = require("./app/helpers/constants");
 
 app.use(express.static(__dirname + "/public"));
 
@@ -71,6 +73,8 @@ app.use(
     }
   })
 );
+
+app.use(LangConstants);
 
 app.use(passport.initialize());
 app.use(passport.session());

@@ -1,6 +1,7 @@
 @import '../../node_modules/cropper/dist/cropper'
 @import '../../node_modules/magnific-popup/dist/magnific-popup'
 @import '../../node_modules/jquery-ui/themes/base/sortable'
+@import '../../node_modules/jquery-ui/themes/base/datepicker'
 @import '../../node_modules/jquery-ui/themes/base/theme'
 @import '../../node_modules/chosen-js/chosen'
 @import '../../node_modules/selectize/dist/css/selectize'
@@ -8,10 +9,13 @@
 @import '../../node_modules/font-awesome/css/font-awesome'
 @import '../../node_modules/owl.carousel/dist/assets/owl.carousel'
 
+p
+	color: #6b7c93
 .fixed_plain
 	position: absolute
 	top: 100%
-	background-color: rgba(0,0,0,0.7)
+	background-color: rgba(0,0,0,0.15)
+	border-bottom: 1px solid rgba(255,255,255,.5)
 	width: 100%
 	left: 0
 	padding-top: 15px
@@ -22,6 +26,29 @@
 	z-index: 100
 	&:before, &:after
 		display: none
+	&.no_image
+		background-color: rgba(0,0,0,0.6)
+.main_page_body
+	img
+		display: block
+		max-width: 100%
+		margin: 40px auto 0
+	h2
+		margin: 50px 0 20px
+	h3
+		display: inline-block
+		border-bottom: 2px solid #03a9f4
+.main_page_block
+	&.gray
+		background-color: #f5fafd
+	&.team
+		margin-top: 50px
+		padding-top: 0
+		padding-bottom: 50px
+	padding-top: 40px
+	text-align: center
+	h3
+		margin-bottom: 0
 .head_plain, .fixed_plain
 	padding-left: 8%
 	padding-right: 8%
@@ -65,13 +92,13 @@ footer
 		font-weight: 700
 		color: #fff
 body
-	font-family: 'Open Sans', sans-serif
+	font-family: 'roboto', sans-serif
 	font-size: 16px
 	padding: 0
 	margin: 0
 	overflow-y: scroll
 h1, h2, h3, h4, h5, h6, textarea, input, button
-	font-family: 'Open Sans', sans-serif
+	font-family: 'roboto', sans-serif
 img
 	max-width: 100%
 .container
@@ -86,7 +113,8 @@ img
 	justify-content: space-between
 .aic
 	align-items: center
-
+.aife
+	align-items: flex-end
 .soc_buttons
 	display: flex
 	align-items: center
@@ -146,6 +174,9 @@ ul, li
 	.control
 		label
 			white-space: nowrap
+			span
+				font-size: 14px
+				margin-left: 0
 .sidebar
 	box-shadow: 0 1px 15px 0 rgba(0,0,0,.3)
 .radiobuttons
@@ -362,7 +393,8 @@ ul, li
 .item_flex
 	display: flex
 	flex-wrap: wrap
-
+	&:before, &.after
+		display: none
 .images_box
 	font-size: 0
 	background-color: #fff
@@ -517,6 +549,11 @@ input[type="submit"]
 	margin-top: 10px
 .center
 	text-align: center
+.main_page
+	.page_head
+		p, h1
+			max-width: 1170px
+			margin: 20px auto
 .page_head
 	text-align: center
 	padding: 120px 0 60px
@@ -524,12 +561,15 @@ input[type="submit"]
 	position: relative
 	background-position: 50% 50%
 	background-size: cover
+	&.company_page_head
+		padding-bottom: 0
 	h1
 		max-width: 1170px
 		margin: 0 auto
+		color: #fff
 	> *
 		position: relative
-		z-index: 2
+		z-index: 10
 		color: #fff
 	&:after
 		position: absolute
@@ -539,8 +579,39 @@ input[type="submit"]
 		height: 100%
 		left: 0
 		top: 0
-		z-index: 0
-		background-color: rgba(0,0,0,.6)
+		z-index: 1
+		background-color: #0c0070
+		opacity: .5
+.page_head_info
+	display: flex
+	align-items: flex-start
+	text-align: left
+	padding-top: 50px
+	img
+		width: 300px
+		flex-shrink: 0
+		margin-right: 40px
+	p
+		margin: 0
+		background-color: rgba(0,0,0,.5)
+		color: #fff
+		padding: 20px
+		font-size: 14px
+		border-radius: 8px
+.page_head_bottom_info
+	text-align: left
+	padding-top: 60px
+	display: flex
+	justify-content: space-between
+	align-items: flex-end
+	&:before, &:after
+		display: none
+	.contacts, .general_info
+		background-color: rgba(255,255,255,.75)
+		padding: 20px
+		color: #000
+		max-width: 30%
+		border-radius: 8px 8px 0 0
 #info_popup, #phone_popup, #block_popup
 	position: relative
 	max-width: 700px
@@ -594,6 +665,10 @@ input, select, textarea
 	border-radius: 4px
 	color: #fff
 	margin: 20px 0
+	&:first:child
+		margin-top: 0
+	p
+		margin: 0
 .success-message
 	background-color: #26a69a
 .error-message
@@ -610,6 +685,12 @@ input, select, textarea
 		padding: 0 10px
 		font-family: roboto
 		font-size: 16px
+.autocomplete-form-wrap
+	border-bottom: 1px solid rgba(0,0,0,.2)
+	margin-bottom: 20px
+	padding-bottom: 20px
+.autocomplete-form
+	padding-right: 50px
 .user_autocomplete_result
 	position: relative
 	.ui-menu
@@ -669,8 +750,12 @@ input, select, textarea
 		margin-right: 10px
 		&:last-child
 			margin-right: 0
+.simple_menu.center
+	justify-content: center
+	margin-top: 50px
 .sidebar .widget, .space-bottom-small, .v-spacing
 	margin-bottom: 0
+	
 .button
 	height: 46px
 	line-height: 46px
@@ -689,6 +774,10 @@ input, select, textarea
 	background-color: #03a9f4
 .red_button
 	background-color: #FF477D
+	transition: all .2s ease
+	&:hover
+		background-color: #FF477D
+		box-shadow: 0 1px 15px 0 #FF477D
 .company_item
 	display: inline-block
 	width: 31%
@@ -913,7 +1002,6 @@ p
 		margin: 0
 .constants_wrap
 	display: flex
-	margin-bottom: 30px
 .list_members
 	.ava
 		width: 60px
@@ -925,8 +1013,8 @@ p
 .const_item
 	font-size: 0
 	padding: 20px 10px
+	width: 25%
 	border-bottom: 1px solid #26a69a
-	height: 120px
 	position: relative
 	p
 		font-size: 16px
@@ -950,7 +1038,7 @@ p
 		width: 100%
 		resize: none
 		font-size: 16px
-		font-family: "Open Sans",sans-serif
+		font-family: "roboto",sans-serif
 		padding: 10px 15px
 		box-sizing: border-box
 		min-height: 0
@@ -961,8 +1049,9 @@ p
 .table
 	border-spacing: 0
 	border-collapse: collapse
-	margin: 30px 0
+	margin: 10px 0 30px
 	vertical-align: middle
+	background-color: rgba(0,0,0,.05)
 	tr
 		vertical-align: middle
 	td
@@ -1023,6 +1112,12 @@ hr
 		margin: 20px 0
 		a
 			color: #03a9f4
+h1
+	font-family: Muli,Helvetica,Arial,sans-serif !important
+	font-size: 3.5rem
+	font-weight: 300
+	line-height: 114%
+	letter-spacing: .9px
 .alert-danger
 	color: red
 	border: 1px solid red
@@ -1090,6 +1185,9 @@ hr
 		display: none
 	h2
 		text-align: center
+.company_body
+	color: #6B7C93
+
 .auto_iframe
 	width: 100%
 	max-width: 700px
@@ -1128,3 +1226,170 @@ hr
 			left: -50px
 		.owl-next
 			right: -50px
+.page_corporation_list
+	.item
+		img
+			max-width: 200px
+			flex-shrink: 0
+			margin-right: 20px
+		.name
+			text-decoration: none
+			font-weight: 700
+			font-size: 20px
+			margin-bottom: 8px
+			display: inline-block
+.more_info, .to_chat
+	border: 2px solid #03a9f4
+	text-decoration: none
+	padding: 8px 20px
+	border-radius: 50px
+	font-weight: 700
+	&:hover
+		background-color: #03a9f4
+		color: #fff
+.to_chat
+	color: #fbc02d
+	border: 2px solid #fbc02d
+	margin-top: 10px
+	&:hover
+		background-color: #fbc02d
+		color: #000
+.comp_control
+	a
+		display: block
+		text-align: center
+.company_body_wrap
+	h2
+		padding: 50px 0
+		margin: 0
+.company_body
+	box-shadow: 0 0 100px rgba(0,0,0,.2)
+	border-radius: 8px
+	overflow: hidden
+	h3
+		background-color: rgba(0,0,0,.2)
+		padding: 20px 50px
+		margin: 0
+	p
+		padding: 30px 50px
+		margin: 0
+.team_list
+	display: flex
+	flex-wrap: wrap
+	padding: 25px
+.team_item
+	box-shadow: 0 0 15px 0 rgba(0,0,0,.2)
+	margin: 25px
+	display: flex
+	align-items: flex-start
+	width: 510px
+	padding: 20px
+	box-sizing: border-box
+	p
+		padding: 0
+		margin-bottom: 10px
+		text-transform: capitalize
+	img
+		width: 240px
+		margin-right: 20px
+		flex-shrink: 0
+.page_startup_list
+	display: flex
+	padding: 15px
+	flex-wrap: wrap
+	a		
+		display: block
+		border-radius: 8px
+		color: #fff
+		padding: 15px
+		box-sizing: border-box
+		text-decoration: none
+		position: relative
+		overflow: hidden
+		margin: 15px
+		box-shadow: 0 1px 15px 0 rgba(0,0,0,.3)
+		width: 350px
+		background-size: cover
+		background-position: 50% 50%
+		display: flex
+		flex-direction: column
+		justify-content: space-between
+		b
+			font-size: 16px
+		&:hover
+			&:after
+				background-color: rgba(0,0,0,0.8)
+		img
+			width: 140px
+		&:before, &:after
+			position: absolute
+			content: ''
+			width: 100%
+			height: 100%
+			left: 0
+			top: 0
+			background-color: rgba(3,169,244,.5)
+			z-index: 1
+		&:after
+			background-color: rgba(0,0,0,0.6)
+		> *
+			position: relative
+			z-index: 2
+			color: #fff
+		p
+			margin: 0
+			color: #fff
+			margin-bottom: 15px
+			font-size: 14px
+.cta_block
+	display: flex
+	justify-content: space-around
+	text-align: center
+	padding-top: 20px
+	h4
+		padding-top: 50px
+	.button
+		width: 100%
+	> div
+		width: 30%
+.main_news_list
+	padding-top: 50px
+	.button
+		min-width: 200px
+.filter_form
+	box-shadow: 0 0 40px rgba(0,0,0,.2)
+	padding: 30px
+	margin-top: 30px
+	margin-bottom: 0
+	border-radius: 8px 8px 0 0
+	form
+		margin-bottom: 0
+	.form-group
+		width: 200px
+		margin-right: 25px
+		margin-bottom: 0
+		margin-top: 0
+	button
+		appearance: none
+		background-color: transparent
+		border: 0
+		cursor: pointer
+		height: 40px
+		font-size: 0
+.date
+	input
+		background-image: url(/img/calendar.svg)
+		background-repeat: no-repeat
+		background-size: 26px
+		background-position: calc(100% - 10px) 50%
+.page_filter
+	background-color: rgba(0,0,0,.1)
+	padding: 50px 0 30px
+#map
+	height: 400px
+	margin: 20px 0
+.location_form
+	.form-group
+		margin: 0 0 20px
+	button
+		margin: 10px 0

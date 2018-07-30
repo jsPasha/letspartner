@@ -1,6 +1,6 @@
 <div id="list_add_form" class="container profile_section">
 
-	<h1><%- `${__(type + "_list")} ${__('Settings')}` %></h1>
+	<h1><%- `${__tr(type + "_list")} ${__tr('Settings')}` %></h1>
 
 	<div class="admin_block">
 
@@ -10,20 +10,20 @@
 
 			<form action="/action/admin/lists/directions" class="list_add_form" method="post">				
 				<div class="form_block">				
-					<h2><%- __('Add_new_'+type) %></h2>
+					<h2><%- __tr('Add_new_'+type) %></h2>
 					<input type="hidden" name="type" value="<%- type %>" />
 
 					<div class="flx list_add_item jcsb">
 						<% locales.forEach((lang, i) => { %>	
 							<div class="form-group">
-								<label><%-__('Name')%> <%-lang%></label>
+								<label><%-__tr('Name')%> <%-lang%></label>
 								<input required type="text" class="content_position_index" name="name[<%-lang%>]">
 							</div>
 						<% }); %>
 					</div>
 					
 					<div class="center">
-						<input type="submit" class="add_list" value="<%- __('Add') %>" />
+						<input type="submit" class="add_list" value="<%- __tr('Add') %>" />
 					</div>
 				</div>
 			</form>

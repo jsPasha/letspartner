@@ -39,7 +39,7 @@
 					<span><%- user.name %> <%- user.surname %></span>
 					<div class="form-group">
 						<label>
-							<span><%- __("Position") %></span>
+							<span><%- __tr("Position") %></span>
 							<input type="text" required name="position" value="">
 						</label>
 					</div>
@@ -55,10 +55,10 @@
 					</div>
 				</div>
 				<div class="add_team_about">
-					<textarea placeholder="<%- __('Short_description_about_me') %>" name="about"></textarea>
+					<textarea placeholder="<%- __tr('Short_description_about_me') %>" name="about"></textarea>
 				</div>
 				<div class="center">
-					<input type="submit" value="<%- __('Add') %>" />
+					<input type="submit" value="<%- __tr('Add') %>" />
 				</div>
 			</form>
 
@@ -84,7 +84,7 @@
 				</div>				
 				<div class="form-group">
 					<label>
-						<span><%- __("Position") %></span>
+						<span><%- __tr("Position") %></span>
 						<input type="text" required name="position" value="">
 					</label>
 				</div>				
@@ -92,19 +92,19 @@
 
 			<div class="add_team_head">
 				<label>
-					<span><%- __("Name") %></span>
+					<span><%- __tr("Name") %></span>
 					<input type="text" required name="name" value="">
 				</label>
 				<label>
-					<span><%- __("Email") %></span>
+					<span><%- __tr("Email") %></span>
 					<input type="text" required name="email" value="">
 				</label>
 				<label>
-					<span><%- __("Phone") %></span>
+					<span><%- __tr("Phone") %></span>
 					<input type="text" required name="phone" value="">
 				</label>
 				<label>
-					<span><%- __("Admin rights") %></span>
+					<span><%- __tr("Admin rights") %></span>
 					<select required name="adminRole">
 						<option value="admin">Администратор компании</option>
 						<option value="user">Представитель компании</option>
@@ -113,10 +113,10 @@
 			</div>
 
 			<div class="add_team_about">
-				<textarea placeholder="<%- __('Short_description_about_me') %>" name="about"></textarea>
+				<textarea placeholder="<%- __tr('Short_description_about_me') %>" name="about"></textarea>
 			</div>
 			<div class="center">
-				<input type="submit" value="<%- __('Add') %>" />
+				<input type="submit" value="<%- __tr('Add') %>" />
 			</div>
 		</form>
 
@@ -130,11 +130,11 @@
 							
 					<div class="button_checkbox admin_button_checkbox">
 						<label class="published">
-							<span><%- __("Confirm") %></span>
+							<span><%- __tr("Confirm") %></span>
 							<input type="radio" v-on:click="ajaxSubmit" name="status" value="published">
 						</label>
 						<label class="reject">
-							<span><%- __("Reject") %></span>
+							<span><%- __tr("Reject") %></span>
 							<input type="radio" v-on:click="ajaxSubmit" name="status" value="reject">
 						</label>
 					</div>

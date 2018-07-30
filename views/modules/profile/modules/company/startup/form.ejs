@@ -9,11 +9,11 @@ const update = action === 'update';
 		<% if (!admin) { %>
 			<div class="button_checkbox">
 				<label class="draft">
-					<span><%- __("Send_as_draft") %></span>
+					<span><%- __tr("Send_as_draft") %></span>
 					<input type="radio" v-on:change="submit" name="status" value="draft">
 				</label>
 				<label class="moderation">
-					<span><%- __("Send_to_moderation") %></span>
+					<span><%- __tr("Send_to_moderation") %></span>
 					<input type="radio" checked v-on:click="submit" name="status" value="moderation">
 				</label>
 			</div>
@@ -21,44 +21,44 @@ const update = action === 'update';
 
 		<div class="form_block">
 
-			<h2><%- __("Images") %></h2>
+			<h2><%- __tr("Images") %></h2>
 
 			<div class="form-group form-group-image-pick">
-				<label><%- __("Logo") %></label>
+				<label><%- __tr("Logo") %></label>
 				<div class="image_pick_area<%- (update && obj.images.logo) ? ' active' : '' %>">
 					<input class="image_pick" type="file" accept="image/">
 					<div class="cropped_image_view">
 						<%-(update && obj.images.logo) ? `<img src="/uploads${obj.images.logo}">` : ''%>
 					</div>
 					<input type="hidden" class="hidden_image_url" value="<%=(update && obj.images.logo) ? obj.images.logo : ''%>" name="images[logo]" />
-					<a class="upload_new_image" data-del-url="<%-update ? obj.images.logo : ''%>" href="#"><%- __("upload_new_image") %></a>
-					<a class="delete_image" data-url="<%-update ? obj.images.logo : ''%>" href="#"><%- __("delete_image") %></a>
+					<a class="upload_new_image" data-del-url="<%-update ? obj.images.logo : ''%>" href="#"><%- __tr("upload_new_image") %></a>
+					<a class="delete_image" data-url="<%-update ? obj.images.logo : ''%>" href="#"><%- __tr("delete_image") %></a>
 				</div>
 			</div>
 
 			<div class="form-group form-group-image-pick">
-				<label><%- __("Thumb") %></label>
+				<label><%- __tr("Thumb") %></label>
 				<div class="image_pick_area<%- (update && obj.images.thumb) ? ' active' : '' %>">
-					<input class="image_pick" type="file" accept="image/">
+					<input class="image_pick" data-ratio="16:9" type="file" accept="image/">
 					<div class="cropped_image_view">
 						<%-(update && obj.images.thumb) ? `<img src="/uploads${obj.images.thumb}">` : ''%>
 					</div>
 					<input type="hidden" class="hidden_image_url" value="<%=(update && obj.images.thumb) ? obj.images.thumb : ''%>" name="images[thumb]" />
-					<a class="upload_new_image" data-del-url="<%-update ? obj.images.thumb : ''%>" href="#"><%- __("upload_new_image") %></a>
-					<a class="delete_image" data-url="<%-update ? obj.images.thumb : ''%>" href="#"><%- __("delete_image") %></a>
+					<a class="upload_new_image" data-del-url="<%-update ? obj.images.thumb : ''%>" href="#"><%- __tr("upload_new_image") %></a>
+					<a class="delete_image" data-url="<%-update ? obj.images.thumb : ''%>" href="#"><%- __tr("delete_image") %></a>
 				</div>
 			</div>
 
 			<div class="form-group form-group-image-pick">
-				<label><%- __("Main") %></label>
+				<label><%- __tr("Main") %></label>
 				<div class="image_pick_area<%- (action === 'update' && obj.images.main) ? ' active' : '' %>">
-					<input class="image_pick" type="file" accept="image/">
+					<input class="image_pick" data-ratio="16:9" type="file" accept="image/">
 					<div class="cropped_image_view">
 						<%-(action === 'update' && obj.images.main) ? `<img src="/uploads${obj.images.main}">` : ''%>
 					</div>
 					<input type="hidden" class="hidden_image_url" value="<%=(action === 'update' && obj.images.main) ? obj.images.main : ''%>" name="images[main]" />
-					<a class="upload_new_image" data-del-url="<%-action === 'update' ? obj.images.main : ''%>" href="#"><%- __("upload_new_image") %></a>
-					<a class="delete_image" data-url="<%-action === 'update' ? obj.images.main : ''%>" href="#"><%- __("delete_image") %></a>
+					<a class="upload_new_image" data-del-url="<%-action === 'update' ? obj.images.main : ''%>" href="#"><%- __tr("upload_new_image") %></a>
+					<a class="delete_image" data-url="<%-action === 'update' ? obj.images.main : ''%>" href="#"><%- __tr("delete_image") %></a>
 				</div>
 			</div>
 		</div>
@@ -83,29 +83,29 @@ const update = action === 'update';
 				<div v-show="description_lang.length > 0">
 
 					<div class="form_block">
-						<h2><%- __("Name") %></h2>
+						<h2><%- __tr("Name") %></h2>
 						<% locales.forEach((lang, i) => { %>
 							<div class="form-group">
-								<label for="name_<%-lang%>"><%- __("Name") %> <%-lang%> <b style="color: #ee6e73" v-if="description_lang.includes('<%-lang%>')">*</b></label>
+								<label for="name_<%-lang%>"><%- __tr("Name") %> <%-lang%> <b style="color: #ee6e73" v-if="description_lang.includes('<%-lang%>')">*</b></label>
 								<textarea maxlength="200" :required="description_lang.includes('<%-lang%>') ? true : false" id="name_<%-lang%>" name="name[<%-lang%>]" rows="2"><%- update ? obj.name[lang] : '' %></textarea>
 							</div>
 						<% }); %>
 					</div>
 
 					<div class="form_block">
-						<h2><%- __("Contacts") %></h2>
+						<h2><%- __tr("Contacts") %></h2>
 						<div class="form-group">
-							<label for="phone"><%- __("Phone") %></label>
+							<label for="phone"><%- __tr("Phone") %></label>
 							<input id="phone" name="phones[]" type="tel" value="<%- update ? obj.phones[0] : '' %>" />
 						</div>
 						<div class="form-group">
-							<label for="website"><%- __("website") %></label>
+							<label for="website"><%- __tr("website") %></label>
 							<input id="website" name="social[website]" type="text" value="<%- update ? obj.social.website : '' %>"/>
 						</div>
 
 						<div class="form-group">
-							<label for="fasebook">Facebook</label>
-							<input id="fasebook" name="social[fasebook]" type="text" value="<%- update ? obj.social.fasebook : '' %>"/>
+							<label for="facebook">Facebook</label>
+							<input id="facebook" name="social[facebook]" type="text" value="<%- update ? obj.social.facebook : '' %>"/>
 						</div>
 
 						<div class="form-group">
@@ -225,18 +225,18 @@ const update = action === 'update';
 							
 							<div class="button_checkbox admin_button_checkbox">
 								<label class="published">
-									<span><%- __("Confirm") %></span>
+									<span><%- __tr("Confirm") %></span>
 									<input type="radio" v-on:click="ajaxSubmit" name="status" value="published">
 								</label>
 								<label class="reject">
-									<span><%- __("Reject") %></span>
+									<span><%- __tr("Reject") %></span>
 									<input type="radio" v-on:click="ajaxSubmit" name="status" value="reject">
 								</label>
 							</div>
 						</div>
 					<% } else { %>
 					<div class="center">
-						<input type="submit" value="<%- __('Send_to_moderation') %>">
+						<input type="submit" value="<%- __tr('Send_to_moderation') %>">
 						</div>
 					<% } %>
 

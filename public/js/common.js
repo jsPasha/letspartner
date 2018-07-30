@@ -4,6 +4,8 @@ require("chosen-js");
 require("selectize");
 require("jquery-validation");
 require("owl.carousel");
+require("jquery-ui/ui/widgets/datepicker");
+require("jquery-lazyload");
 
 import { imageCropper, multipleInit } from "./components/imageCropper";
 import initCkeditors from "./components/ckeditor";
@@ -16,6 +18,9 @@ import ReactDOM from "react-dom";
 import ReactPhoneInput from "react-phone-input-2";
 
 import submitAjaxForm from "./methods/ajaxForm";
+import setIframeHeight from "./methods/setIframeHeight";
+import newsList from "./templates/news_list";
+import Vue from "vue/dist/vue.js";
 
 if (document.getElementById("phone")) {
   ReactDOM.render(
@@ -144,14 +149,80 @@ $(".news_carousel").each(function() {
   });
 });
 
-const setIframeHeight = () => {
-  $(".auto_iframe").each(function() {
-    $(this).css("height", 0.56 * $(this).width() + "px");
-  });
-};
-
 setIframeHeight();
 
-$(window).resize(setIframeHeight)
+$(window).resize(setIframeHeight);
 
 $(".validation").validate();
+
+if (document.getElementById("main_page_news")) {
+  $.ajax({
+    menthod: "GET",
+    url: "/api/main-news",
+    cache: false,
+    success: data => {
+      let { news, locale } = data;
+      $("#main_page_news .item_flex").append(newsList({ news, locale }));
+    }
+  });
+}
+
+if (document.getElementById("filter_form")) {
+  new Vue({
+    el: "#filter_form",
+    data: {},
+    methods: {
+      setName(event, datepick) {
+        var el;
+        event ? (el = event.target) : (el = datepick.elem);
+        if (el.value && !el.hasAttribute("name")) {
+          el.setAttribute("name", el.dataset.name);
+        } else if (!el.value) {
+          el.removeAttribute("name");
+        }
+        el.form.submit();
+      },
+      clearForm() {
+        $("#filter_form select, #filter_form input")
+          .val("")
+          .removeAttr("name");
+        $("#filter_form").submit();
+      }
+    },
+    mounted() {
+      $(".datepicker").datepicker({
+        onSelect: (value, event) => {
+          this.setName(null, { elem: event.input[0] });
+        }
+      });
+    }
+  });
+}
+
+if (document.getElementById("company_page_filter")) {
+  new Vue({
+    el: "#company_page_filter",
+    data: {},
+    methods: {
+      setName(event, elem) {
+        var el = event ? event.target : elem;
+        if (el.value && !el.hasAttribute("name")) {
+          el.setAttribute("name", el.dataset.name);
+        } else if (!el.value) {
+          el.removeAttribute("name");
+        }
+        el.form.submit();
+      }
+    },
+    mounted() {
+      let self = this;
+      $(".choosen_select")
+        .chosen()
+        .change(function() {
+          self.setName(null, this)
+        });
+    }
+  });
+}
+
+$(".lazyload").lazyload();

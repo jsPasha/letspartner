@@ -21,7 +21,7 @@ const smtpSettings = require("../../data/smtp");
 
 const saveTags = require("../helpers/tags");
 
-const timezoneJson = require("timezones.json");
+// const timezoneJson = require("timezones.json");
 
 const companyController = {
   create: (req, res) => {
@@ -33,7 +33,7 @@ const companyController = {
 
     data.tags = data.tags ? data.tags.split(",") : null;
 
-    saveTags(data.tags);
+    saveTags({tags: data.tags, type: data.type});
 
     new Company(data).save(err => {
       if (err) return res.send(err);
@@ -46,7 +46,7 @@ const companyController = {
 
     req.body.tags = req.body.tags ? req.body.tags.split(",") : null;
 
-    saveTags(req.body.tags);
+    saveTags({tags: req.body.tags, type: req.params.type});
 
     Company.update({ _id: req.params.id }, { $set: req.body }, err => {
       if (err) return res.send(err);
@@ -57,7 +57,7 @@ const companyController = {
     req.body.submitedAt = new Date().getTime();
 
     req.body.tags = req.body.tags ? req.body.tags.split(",") : null;
-    saveTags(req.body.tags);
+    saveTags({tags: req.body.tags, type: req.params.type});
 
     Company.update({ _id: req.params.id }, { $set: req.body }, err => {
       if (err) return res.send(err);
@@ -243,21 +243,35 @@ const companyController = {
     );
   },
 
-  updateMember: (req, res) => {
-    const { companyId, memberId } = req.params;
-    Company.findById(companyId, (err, company) => {
-      company.members.forEach(member => {
-        if (member.id === memberId) {
-          res.render(templatePath, {
-            content:
-              "../modules/profile/modules/company/components/_member_form",
-            member,
-            timezoneJson
-          });
-          return;
-        }
+  updateMember: {
+    get: (req, res) => {
+      const { companyId, memberId } = req.params;
+      Company.findById(companyId, (err, company) => {
+        company.members.forEach(member => {
+          if (member.id === memberId) {
+            res.render(templatePath, {
+              company,
+              content:
+                "../modules/profile/modules/company/components/_member_form",
+              member,
+              timezoneJson
+            });
+            return;
+          }
+        });
       });
-    });
+    },
+    post: (req, res) => {
+      const redirectUrl = req.body.back;
+      const { companyId, memberId } = req.params;
+      Company.update(
+        { _id: companyId, "members._id": memberId },
+        { $set: { "members.$": req.body } },
+        (err) => {
+          res.redirect(redirectUrl);
+        }
+      );
+    }
   },
 
   deleteMember: (req, res) => {

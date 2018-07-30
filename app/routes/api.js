@@ -6,7 +6,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const Tags = mongoose.model("tags");
 
-const companyController = require("../controllers/company");
+const Site = require("../controllers/site");
 
 router.get("/languages", [isLoggedIn, isAdmin], Languages.list);
 
@@ -18,6 +18,6 @@ router.get("/tags", isLoggedIn, (req, res, next) => {
   });
 });
 
-router.get("/member", isLoggedIn, companyController.updateMember);
+router.get("/main-news", Site.main.getNews);
 
 module.exports = router;

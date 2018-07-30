@@ -10,7 +10,7 @@
                         <p>
                             <label>
                                 <input type="checkbox" class="state_checkbox" data-state="published" data-model="news" data-id="<%-news[i].id%>" <%- news[i].published ? 'checked=""' : '' %>>
-                                <span><%-__('Publish')%></span>
+                                <span><%-__tr('Publish')%></span>
                             </label>
                         </p>
                         <a href="/<%-locale%>/admin/news/update/<%- news[i].id %>"><img src="/img/pencil.svg" alt=""></a>

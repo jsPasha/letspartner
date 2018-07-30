@@ -154,12 +154,19 @@ module.exports = passport => {
   );
 
   router.post(
+    
     "/profile/update/:id",
     isLoggedIn,
     isAdmin,
     removeTempPath,
     deletePrevious,
     profileController.update
+  );
+
+  router.post(
+    "/profile/company/:type/update/:companyId/member/:memberId",
+    isLoggedIn,
+    companyController.updateMember.post
   );
 
   router.post(

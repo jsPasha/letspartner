@@ -70,12 +70,13 @@ const initCropperPopup = imageSrc => {
 };
 
 const initCropper = () => {
-  let aspectRatio = 16 / 9;
+  let aspectRatio = false;
   if (ratio) {
     let splitRatio = ratio.split(":");
     aspectRatio = splitRatio[0] / splitRatio[1];
   }
   $img.cropper({
+    autoCropArea: 1,
     aspectRatio,
     viewMode: 2
   });

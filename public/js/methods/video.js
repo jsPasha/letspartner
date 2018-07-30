@@ -1,7 +1,7 @@
 import $ from "jquery";
 import axios from "axios";
 
-const getVideo = async input => {
+const getVideo = input => {
   let url = input.value;
   const currentVideoId = $(input).attr("data-id");
   const videoId = checkYoutube(url, input);
@@ -12,8 +12,9 @@ const getVideo = async input => {
       .val(videoId)
       .siblings(".video_pasted_url")
       .val(url);
-    let youtubeInfo = await getYoutubeInfo(videoId);
-    appendVideoInfo(youtubeInfo, input);
+    getYoutubeInfo(videoId).then(youtubeInfo => {
+      appendVideoInfo(youtubeInfo, input);
+    });
   }
 };
 
@@ -26,7 +27,7 @@ const checkYoutube = (url, input) => {
       return match[2];
     } else {
       $(input).addClass("error");
-      console.log('no-youtube')
+      console.log("no-youtube");
       return false;
     }
   }
@@ -45,10 +46,10 @@ const appendVideoInfo = (youtubeInfo, input) => {
   const { title, thumbnails } = youtubeInfo;
 
   $(input)
-      .siblings(".video_api_title")
-      .val(title)
-      .siblings(".video_api_thumbnails")
-      .val(JSON.stringify(thumbnails));
+    .siblings(".video_api_title")
+    .val(title)
+    .siblings(".video_api_thumbnails")
+    .val(JSON.stringify(thumbnails));
 
   const thumb = thumbnails.standard || thumbnails.high || thumbnails.medium;
   const thumbUrl = thumb ? thumb.url : "";

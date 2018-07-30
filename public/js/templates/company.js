@@ -38,7 +38,7 @@ const generateItem = (item, locale, user) => {
   }</a>
         ${
           admin
-            ? '<a class="delete_company" href="/action/company/${item.type}/delete/${item.id}">Delete</a>'
+            ? `<a class="delete_company" href="/action/company/${item.type}/delete/${item.id}">Delete</a>`
             : ""
         }
       </div>

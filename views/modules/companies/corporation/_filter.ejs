@@ -1,0 +1,15 @@
+<% 
+    let directions = lists.filter((el) => el.type === 'directions')
+%>
+
+<div class="page_filter">
+    <form id="company_page_filter" method="GET" action="/<%- locale + url %>" class="container">
+        <div class="form-group">
+            <label><%- __tr('direction') %></label>
+            <select <%- !query["directions"] ? `data-` : '' %>name="directions" class="choosen_select" multiple>
+                <%- directions.map((el) => `<option value="${el.alias}">${el.name[locale]}</option>`) %>
+            </select>
+        </div>
+        <button type="submit">asda</button>
+    </form>
+</div>

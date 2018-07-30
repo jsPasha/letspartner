@@ -4,7 +4,7 @@
 		<div class="header-top-bar-inner row middle-xs start-xs ">
 			<div class="header-top-bar-area  col-xs area-left">
 				<% if (user && user.role === 'admin') { %>
-					<a class="admin_panel" href="/<%- locale  %>/admin"><%- __('Admin') %> <i class="fa fa-wrench" aria-hidden="true"></i></a>
+					<a class="admin_panel" href="/<%- locale  %>/admin"><%- __tr('Admin') %> <i class="fa fa-wrench" aria-hidden="true"></i></a>
 				<% } %>
 			</div>
 			<div class="header-top-bar-area  col-xs-fit area-right">
@@ -24,13 +24,13 @@
 		</div>
 	</div>
 
-	<div class="fixed_plain">
+	<div class="fixed_plain<%- url.includes('profile') || url.includes('admin') ? ' no_image' : ''%>">
 		<a class="text-logo" data-type="group" data-dynamic-mod="true" href="/<%- locale %>">Let's<span style="font-weight: 300;" class="span12"> Partner:</span> Финтех<span style="font-weight: 300;" class="span12"> Маркетплейс</span><br> &amp;<span style="font-weight: 300;" class="span12"> Каталог</span></a>
 
 		<div class="header_menu">
-			<a href="/<%- locale  %>/news"><%- __("News") %></a>
-			<a href="/<%- locale  %>/companies/startup"><%- __("Startups") %></a>
-			<a href="/<%- locale  %>/companies/corporation"><%- __("Corporations") %></a>
+			<a href="/<%- locale  %>/news"><%- __tr("News") %></a>
+			<a href="/<%- locale  %>/companies/startup"><%- __tr("Startups") %></a>
+			<a href="/<%- locale  %>/companies/corporation"><%- __tr("Corporations") %></a>
 		</div>
 
 		<div class="header_right">
