@@ -4,7 +4,6 @@ const User = mongoose.model("users");
 const timezoneJson = require("timezones.json");
 const { templatePath } = require("../../data/settings");
 
-
 const profileController = {
   updateMe: (req, res, next) => {
     let _id = req.user.id;

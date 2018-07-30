@@ -155,6 +155,8 @@ $(window).resize(setIframeHeight);
 
 $(".validation").validate();
 
+console.log('git work!')
+
 if (document.getElementById("main_page_news")) {
   $.ajax({
     menthod: "GET",
